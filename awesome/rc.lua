@@ -76,6 +76,8 @@ vicious.register(mpdwidget, vicious.widgets.mpd,
 			return '<span foreground=\'#FF6600\'>MPD: </span><span foreground=\'white\'>'..args["{Artist}"]..' - '..args["{Title}"]..'</span>'
 		end
 	end)
+local clockwidget= widget({ type = "textbox" })
+vicious.register(clockwidget, vicious.widgets.date, "%d/%m/%g %R")
 -- }}}
 
 
@@ -110,7 +112,7 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 
 -- {{{ Wibox
 -- Create a textclock widget
-mytextclock = awful.widget.textclock({ align = "right" })
+--mytextclock = awful.widget.textclock({ align = "right" })
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
@@ -187,7 +189,8 @@ for s = 1, screen.count() do
             layout = awful.widget.layout.horizontal.leftright
         },
         mylayoutbox[s],
-        mytextclock,
+        --mytextclock,
+		clockwidget,
         s == 1 and mysystray or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
