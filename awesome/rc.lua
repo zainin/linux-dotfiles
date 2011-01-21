@@ -55,7 +55,7 @@ local separator = widget({ type = "textbox", name = "separator" })
 separator.text = "<span foreground='red'> | </span>"
 
 local uptimewidget = widget({ type = "textbox" })
-vicious.register(uptimewidget, vicious.widgets.uptime, "<span foreground='#FF6600'> uptime: </span><span foreground='white'>$1:$2:$3</span>")
+vicious.register(uptimewidget, vicious.widgets.uptime, "<span foreground='#FF6600'> uptime: </span><span foreground='white'>$1d$2h$3m</span>")
 local cpuwidget = widget({ type = "textbox" })
 vicious.register(cpuwidget, vicious.widgets.cpu, "<span foreground='#FF6600'>CPU: </span><span foreground='white'>$2%</span><span foreground='#FF6600'> / </span><span foreground='white'>$3%</span><span foreground='#FF6600'> / </span><span foreground='white'>$4%</span><span foreground='#FF6600'> / </span><span foreground='white'>$5%</span>")
 local memwidget = widget({ type = "textbox" })
@@ -286,7 +286,7 @@ globalkeys = awful.util.table.join(
 	awful.key({}, "XF86AudioRaiseVolume",	function () awful.util.spawn_with_shell(commands.volup) end),
 	awful.key({}, "XF86AudioLowerVolume",	function () awful.util.spawn_with_shell(commands.voldown) end),
 	awful.key({}, "XF86AudioMute",	function () awful.util.spawn_with_shell(commands.voltoggle) end),
-	awful.key({ modkey, "Control" }, "l",	function () awful.util.spawn_with_shell("exec xlock -mode -blank") end),
+	awful.key({ modkey, "Control" }, "l",	function () awful.util.spawn_with_shell("exec xlock -mode blank") end),
 	awful.key({ modkey, "Control" }, "h",	function () awful.util.spawn_with_shell("exec thunar") end)
 
 )
