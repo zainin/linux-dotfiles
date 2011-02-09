@@ -73,7 +73,11 @@ vicious.register(mpdwidget, vicious.widgets.mpd,
 		if args["{state}"] == "Stop" then
 			return '<span foreground=\'gray\'>MPD stopped</span>'
 		else
-			return '<span foreground=\'#FF6600\'>MPD: </span><span foreground=\'white\'>'..args["{Artist}"]..' - '..args["{Title}"]..'</span>'
+			if args["{state}"] == "Pause" then
+				return '<span foreground=\'#FF6600\'>MPD: </span><span foreground=\'white\'>^'..args["{Artist}"]..' - '..args["{Title}"]..'</span>'
+			else
+				return '<span foreground=\'#FF6600\'>MPD: </span><span foreground=\'white\'>'..args["{Artist}"]..' - '..args["{Title}"]..'</span>'
+			end
 		end
 	end)
 local clockwidget= widget({ type = "textbox" })
@@ -88,7 +92,7 @@ vicious.register(clockwidget, vicious.widgets.date, "%d/%m/%g %R")
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ "net", "terminal", "work", "chat", 5, 6, 7, 8, "ncmpcpp" }, s, layouts[1])
+    tags[s] = awful.tag({ "1:net", "2:terminal", "3:work", "4:chat", "5:else", "6:ncmpcpp" }, s, layouts[1])
 end
 -- }}}
 
@@ -370,9 +374,15 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },
+	{ rule = { class = "Go!" },
+	  properties = { floating = true } },
+	{ rule = { class = "Pidgin" },
+	  properties = { tag = tags[1][4] } },
     -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
+    { rule = { class = "Minefield" },
+       properties = { tag = tags[1][1] } },
+	{ rule = { class = "Thunar" },
+	   properties = { tag = tags[1][5] } },
 }
 -- }}}
 
