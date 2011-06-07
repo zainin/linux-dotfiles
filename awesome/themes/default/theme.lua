@@ -76,7 +76,7 @@ theme.titlebar_maximized_button_focus_active  = "/usr/share/awesome/themes/defau
 
 -- You can use your own command to set your wallpaper
 -- theme.wallpaper_cmd = { "awsetbg /usr/share/awesome/themes/default/background.png" }
-theme.wallpaper_cmd = { "awsetbg /home/zainin/Obrazy/sunrise_from_space_1680x1050.jpg" }
+theme.wallpaper_cmd = { "awsetbg -c /home/zainin/Obrazy/sunrise_from_space_1680x1050.jpg" }
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = "/usr/share/awesome/themes/default/layouts/fairhw.png"

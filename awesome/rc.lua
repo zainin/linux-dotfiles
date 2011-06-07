@@ -32,21 +32,21 @@ layouts =
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
+--    awful.layout.suit.fair,
+--    awful.layout.suit.fair.horizontal,
+--    awful.layout.suit.spiral,
+--    awful.layout.suit.spiral.dwindle,
     awful.layout.suit.max,
     awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier
+--    awful.layout.suit.magnifier
 }
 -- }}}
 
 --- {{{ COMMANDS
 local commands = {}
-commands.volup = "amixer -q set Master 2+ unmute; notify-send ' +5 '`amixer get Master | awk \'{ print $4 }\' | grep \\%` -i /usr/share/pixmaps/sonata-stock_volume-max.png -t 1500"
-commands.voldown = "amixer -q set Master 2- unmute; notify-send ' +5 '`amixer get Master | awk \'{ print $4 }\' | grep \\%` -i /usr/share/pixmaps/sonata-stock_volume-max.png -t 1500"
-commands.voltoggle = "amixer -q set Master toggle; notify-send Volume `amixer get Master | awk \'{ print $6 }\' |grep o` -i /usr/share/pixmaps/sonata-stock_volume-max.png -t 1500"
+commands.volup = "amixer -q set Master 2+ unmute; notify-send ' +5 '`amixer get Master | awk \'{ print $4 }\' | grep \\%` -i /usr/share/pixmaps/volume.png -t 1500"
+commands.voldown = "amixer -q set Master 2- unmute; notify-send ' -5 '`amixer get Master | awk \'{ print $4 }\' | grep \\%` -i /usr/share/pixmaps/volume.png -t 1500"
+commands.voltoggle = "amixer -q set Master toggle; notify-send Volume `amixer get Master | awk \'{ print $6 }\' |grep o` -i /usr/share/pixmaps/volume.png -t 1500"
 -- }}}
 
 
@@ -80,8 +80,17 @@ vicious.register(mpdwidget, vicious.widgets.mpd,
 			end
 		end
 	end)
-local clockwidget= widget({ type = "textbox" })
+local clockwidget = widget({ type = "textbox" })
 vicious.register(clockwidget, vicious.widgets.date, "%d/%m/%g %R")
+
+--local netspeedwidget = widget({ type = "textbox" })
+--vicious.register(netspeedwidget, vicious.widgets.net, 
+--	function (widget, args)
+--		return args["{eth0 down_kb}"]..'<span foreground=\'#FF6600\'>↓</span>'
+--	end)
+
+--local wifiwidget = widget({ type = "textbox" })
+--vicious.register(wifiwidget, vicious.widgets.wifi, "${link}", 5, "wlan0")
 -- }}}
 
 
@@ -92,7 +101,7 @@ vicious.register(clockwidget, vicious.widgets.date, "%d/%m/%g %R")
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ "1:net", "2:terminal", "3:work", "4:chat", "5:else", "6:ncmpcpp" }, s, layouts[1])
+    tags[s] = awful.tag({ "1:net", "2:terminal", "3:work", "4:chat", "5:eve", "6:ncmpcpp" }, s, layouts[1])
 end
 -- }}}
 
@@ -207,6 +216,7 @@ for s = 1, screen.count() do
 			separator, memwidget,
 			separator, batwidget,
 			separator, fswidget,
+			--separator, netspeedwidget, separator, wifiwidget,
 			layout = awful.widget.layout.horizontal.leftright,
 		},
 		mpdwidget,
@@ -283,7 +293,7 @@ globalkeys = awful.util.table.join(
               end),
 
 	-- CUSTOM KEYS
-	awful.key({}, "XF86HomePage",	function () awful.util.spawn_with_shell("exec firefox") end),
+	awful.key({}, "XF86HomePage",	function () awful.util.spawn_with_shell("exec opera") end),
 	awful.key({ modkey,			}, "a",	function () awful.util.spawn_with_shell("exec ncmpcpp toggle") end),
 	awful.key({ modkey,			}, "z",	function () awful.util.spawn_with_shell("exec ncmpcpp stop") end),
 	awful.key({ modkey,			}, "c",	function () awful.util.spawn_with_shell("exec ncmpcpp next") end),
@@ -372,16 +382,23 @@ awful.rules.rules = {
       properties = { floating = true } },
     { rule = { class = "pinentry" },
       properties = { floating = true } },
-    { rule = { class = "gimp" },
-      properties = { floating = true } },
+    --{ rule = { class = "gimp" },
+      --properties = { --floating = true
+	 -- } },
 	{ rule = { class = "Go!" },
 	  properties = { floating = true } },
 	{ rule = { class = "Pidgin" },
 	  properties = { tag = tags[1][4] } },
     -- Set Firefox to always map on tags number 2 of screen 1.
-    { rule = { class = "Minefield" },
+    { rule = { class = "Firefox" },
        properties = { tag = tags[1][1] } },
+	{ rule = { class = "Opera" },
+	   properties = { tag = tags[1][1] } },
 	{ rule = { class = "Thunar" },
+	   properties = { tag = tags[1][5] } },
+	{ rule = { class = "Blender" },
+	   properties = { tag = tags[1][3] } },
+	{ rule = { class = "Wine" },
 	   properties = { tag = tags[1][5] } },
 }
 -- }}}
