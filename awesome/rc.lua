@@ -42,6 +42,25 @@ layouts =
 }
 -- }}}
 
+-- {{{ SEPARATORS
+
+-- }}}
+
+-- {{{ ICONS
+upicon = widget({ type = "imagebox" })
+upicon.image = image("/home/zainin/.icons/xbm8x8/arch_10x10.png")
+cpuicon = widget({ type = "imagebox" })
+cpuicon.image = image("/home/zainin/.icons/xbm8x8/cpu.png")
+memicon = widget({ type = "imagebox" })
+memicon.image = image("/home/zainin/.icons/xbm8x8/mem.png")
+--batFicon = widget({ type = "imagebox" })
+--batFicon.image = image("/home/zainin/.icons/xbm8x8/bat_full_02.png")
+fsicon = widget({ type = "imagebox" })
+fsicon.image = image("/home/zainin/.icons/xbm8x8/fs_02.png")
+mpdicon = widget({ type = "imagebox" })
+mpdicon.image = image("/home/zainin/.icons/xbm8x8/phones.png")
+-- }}}
+
 --- {{{ COMMANDS
 local commands = {}
 commands.volup = "amixer -q set Master 2+ unmute; notify-send ' +5 '`amixer get Master | awk \'{ print $4 }\' | grep \\%` -i /usr/share/pixmaps/volume.png -t 1500"
@@ -52,20 +71,20 @@ commands.voltoggle = "amixer -q set Master toggle; notify-send Volume `amixer ge
 
 -- {{{ WIDGETS
 local separator = widget({ type = "textbox", name = "separator" })
-separator.text = "<span foreground='red'> | </span>"
+separator.text = "<span foreground='red'> |</span>"
 
 local uptimewidget = widget({ type = "textbox" })
-vicious.register(uptimewidget, vicious.widgets.uptime, "<span foreground='#FF6600'> uptime: </span><span foreground='white'>$1d$2h$3m</span>")
+vicious.register(uptimewidget, vicious.widgets.uptime, "<span foreground='white'>$1d$2h$3m</span>")
 local cpuwidget = widget({ type = "textbox" })
-vicious.register(cpuwidget, vicious.widgets.cpu, "<span foreground='#FF6600'>CPU: </span><span foreground='white'>$2%</span><span foreground='#FF6600'> / </span><span foreground='white'>$3%</span><span foreground='#FF6600'> / </span><span foreground='white'>$4%</span><span foreground='#FF6600'> / </span><span foreground='white'>$5%</span>")
+vicious.register(cpuwidget, vicious.widgets.cpu, "<span foreground='white'>$2%</span> / <span foreground='white'>$3%</span>")
 local memwidget = widget({ type = "textbox" })
-vicious.register(memwidget, vicious.widgets.mem, "<span foreground='#FF6600'>memory: </span><span foreground='white'>$1% $2/$3</span><span foreground='red'> | </span><span foreground='#FF6600'>swap: </span><span foreground='white'>$5% $6/$7</span>")
-local batwidget = widget({ type = "textbox" })
-vicious.register(batwidget, vicious.widgets.bat, "<span foreground='#FF6600'>bat: </span><span foreground='white'>$1$2% </span><span foreground='gray'>left: </span><span foreground='white'>$3</span>", 60, "BAT0")
+vicious.register(memwidget, vicious.widgets.mem, "<span foreground='white'>$1% $2/$3</span><span foreground='red'>/</span><span foreground='white'>$5% $6/$7</span>")
+--local batwidget = widget({ type = "textbox" })
+--vicious.register(batwidget, vicious.widgets.bat, "<span foreground='#FF6600'>bat: </span><span foreground='white'>$1$2% </span><span foreground='gray'>left: </span><span foreground='white'>$3</span>", 60, "BAT0")
 local fswidget = widget({ type = "textbox" })
 vicious.register(fswidget, vicious.widgets.fs,
 	function (widget, args)
-		return '<span foreground=\'#FF6600\'>hdd: </span><span foreground=\'gray\'>/ </span><span foreground=\'white\'>'..args["{/ used_p}"]..'%['..args["{/ avail_gb}"]..'GB]</span><span foreground=\'gray\'> /home </span><span foreground=\'white\'>'..args["{/home used_p}"]..'%['..args["{/home avail_gb}"]..'GB]</span>'
+		return '<span foreground=\'gray\'>/ </span><span foreground=\'white\'>'..args["{/ used_p}"]..'%['..args["{/ avail_gb}"]..'GB]</span><span foreground=\'gray\'> /home </span><span foreground=\'white\'>'..args["{/home used_p}"]..'%['..args["{/home avail_gb}"]..'GB]</span>'
 	end)
 local mpdwidget = widget({ type = "textbox" })
 vicious.register(mpdwidget, vicious.widgets.mpd,
@@ -74,14 +93,19 @@ vicious.register(mpdwidget, vicious.widgets.mpd,
 			return '<span foreground=\'gray\'>MPD stopped</span>'
 		else
 			if args["{state}"] == "Pause" then
-				return '<span foreground=\'#FF6600\'>MPD: </span><span foreground=\'white\'>^'..args["{Artist}"]..' - '..args["{Title}"]..'</span>'
+				return '<span foreground=\'white\'>^'..args["{Artist}"]..' - '..args["{Title}"]..'</span>'
 			else
-				return '<span foreground=\'#FF6600\'>MPD: </span><span foreground=\'white\'>'..args["{Artist}"]..' - '..args["{Title}"]..'</span>'
+				--return '<span foreground=\'white\'>'..args[\"{Artist}\"]..' - '..args[\"{Title}\"]..'</span>'
+				return args["{Artist}"]..' - '.. args["{Title}"]
 			end
 		end
 	end)
 local clockwidget = widget({ type = "textbox" })
 vicious.register(clockwidget, vicious.widgets.date, "%d/%m/%g %R")
+--local volwidget = widget({ type = "textbox" })
+--vicious.register(volwidget, vicious.widgets.volume, "Master", "Master")
+--local gmailwidget = widget({ type = "textbox" })
+--vicious.register(gmailwidget, vicious.widgets.gmail, "GMail: ${count}| ")
 
 --local netspeedwidget = widget({ type = "textbox" })
 --vicious.register(netspeedwidget, vicious.widgets.net, 
@@ -101,7 +125,7 @@ vicious.register(clockwidget, vicious.widgets.date, "%d/%m/%g %R")
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ "1:net", "2:terminal", "3:work", "4:chat", "5:eve", "6:ncmpcpp" }, s, layouts[1])
+    tags[s] = awful.tag({ "⌘", "♐", "⌥", "ℵ", "⋌", "♬" }, s, layouts[1])
 end
 -- }}}
 
@@ -204,6 +228,8 @@ for s = 1, screen.count() do
         mylayoutbox[s],
         --mytextclock,
 		clockwidget,
+		volwidget,
+		--gmailwidget,
         s == 1 and mysystray or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
@@ -211,15 +237,15 @@ for s = 1, screen.count() do
 
 	bottombar[s].widgets = {
 		{
-			uptimewidget,
-			separator, cpuwidget,
-			separator, memwidget,
-			separator, batwidget,
-			separator, fswidget,
+			upicon, uptimewidget,
+			separator, cpuicon, cpuwidget,
+			separator, memicon, memwidget,
+			--separator, batwidget,
+			separator, fsicon, fswidget,
 			--separator, netspeedwidget, separator, wifiwidget,
 			layout = awful.widget.layout.horizontal.leftright,
 		},
-		mpdwidget,
+		mpdwidget, mpdicon,
 		layout = awful.widget.layout.horizontal.rightleft
 	}
 end
@@ -297,9 +323,9 @@ globalkeys = awful.util.table.join(
 	awful.key({ modkey,			}, "a",	function () awful.util.spawn_with_shell("exec ncmpcpp toggle") end),
 	awful.key({ modkey,			}, "z",	function () awful.util.spawn_with_shell("exec ncmpcpp stop") end),
 	awful.key({ modkey,			}, "c",	function () awful.util.spawn_with_shell("exec ncmpcpp next") end),
-	awful.key({}, "XF86AudioRaiseVolume",	function () awful.util.spawn_with_shell(commands.volup) end),
-	awful.key({}, "XF86AudioLowerVolume",	function () awful.util.spawn_with_shell(commands.voldown) end),
-	awful.key({}, "XF86AudioMute",	function () awful.util.spawn_with_shell(commands.voltoggle) end),
+	awful.key({ modkey }, "F3",function () awful.util.spawn_with_shell(commands.volup) end),
+	awful.key({ modkey }, "F2",function () awful.util.spawn_with_shell(commands.voldown) end),
+	awful.key({ modkey }, "F4",function () awful.util.spawn_with_shell(commands.voltoggle) end),
 	awful.key({ modkey, "Control" }, "l",	function () awful.util.spawn_with_shell("exec xlock -mode blank") end),
 	awful.key({ modkey, "Control" }, "h",	function () awful.util.spawn_with_shell("exec thunar") end)
 
