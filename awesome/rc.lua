@@ -268,7 +268,7 @@ for s = 1, screen.count() do
 	local left_statusbar = wibox.layout.fixed.horizontal()
 	left_statusbar:add(upicon) left_statusbar:add(uptimewidget) left_statusbar:add(separator)
 	left_statusbar:add(cpuicon) left_statusbar:add(cpuwidget) left_statusbar:add(separator)
-	left_statusbar:add(memwidget) left_statusbar:add(separator)
+	left_statusbar:add(memicon) left_statusbar:add(memwidget) left_statusbar:add(separator)
 	left_statusbar:add(batwidget) left_statusbar:add(separator)
 	left_statusbar:add(fsicon) left_statusbar:add(fswidget)
 
