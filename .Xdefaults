@@ -5,7 +5,8 @@ XTerm*internalBorder: 3
 XTerm*scrollBar: false
 XTerm*scrollKey: true
 XTerm*saveLines: 5000
-XTerm*faceName: terminusmedium:pixelsize=12
+#XTerm*faceName: terminusmedium:pixelsize=12
+urxvt*font: xft:Terminus:pixelsize=12
 XTerm*boldMode: false
 !xterm*font: fixed
 !xterm*boldFont: fixed
@@ -15,10 +16,10 @@ URxvt*scrollKey: true
 URxvt*cursorBlink: true
 URxvt*dynamicColors: true
 URxvt*saveLines: 5000
-!URxvt*geometry: 100x44
+URxvt*geometry: 100x27
 URxvt*inheritPixmap: true
 URxvt*transparent: true
-URxvt*shading: 30%
+URxvt*shading: 0%
 URxvt.perl-ext-common: default,matcher
 URxvt.matcher.button:   1 
 URxvt*urlLauncher: /usr/bin/firefox

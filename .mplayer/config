@@ -1,3 +1,5 @@
+stop-xscreensaver=1
+stop-xscreensaver=yes
 #ass-color=ff557f00
 
 #================
@@ -7,7 +9,7 @@
 # Video driver
 vo=gl
 va=vaapi
-lavdopts=threads=4#:skiploopfilter=all:fast
+#lavdopts=threads=4#:skiploopfilter=all:fast
 
 # Sound driver
 ao=alsa
@@ -24,6 +26,9 @@ double=yes
 # Aspect ratio
 monitoraspect=16:9
 
+#Default audio stream
+alang=jp,jpn,en,eng
+
 #=====
 # Subs
 #=====
@@ -35,13 +40,14 @@ spualign=-1
 spuaa=4
 
 # Set language
-slang=en,eng
+slang=jp,jpn,en,eng
 
 # Find subtitle files (1: load all subs containing movie name)
 sub-fuzziness=1
 
 # Set font
-font=/usr/share/fonts/DejaVuSans.ttf
+fontconfig=no
+#font=/usr/share/fonts/TTF/DejaVuSans.ttf
 
 # Set font encoding
 subfont-encoding=unicode
@@ -74,9 +80,9 @@ subfont-text-scale=3.5
 #====
 # ASS
 #====
-ass=on
+ass=yes
 embeddedfonts=yes
-ass-styles=/home/zainin/.mplayer/ass.styles 
+#ass-styles=/home/zainin/.mplayer/styles.ass
 
 
 #====

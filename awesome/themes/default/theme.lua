@@ -11,8 +11,8 @@ theme.bg_focus      = "#000000"
 theme.bg_urgent     = "#000000"
 theme.bg_minimize   = "#000000"
 
-theme.fg_normal     = "#eeeeee"
-theme.fg_focus      = "#ff6600"
+theme.fg_normal     = "#8c8c8c"
+theme.fg_focus      = "#eeeeee"
 theme.fg_urgent     = "#0099FF"
 theme.fg_minimize   = "#888888"
 
@@ -76,7 +76,7 @@ theme.titlebar_maximized_button_focus_active  = "/usr/share/awesome/themes/defau
 
 -- You can use your own command to set your wallpaper
 -- theme.wallpaper_cmd = { "awsetbg /usr/share/awesome/themes/default/background.png" }
-theme.wallpaper_cmd = { "awsetbg -c /home/zainin/Obrazy/sunrise_from_space_1680x1050.jpg" }
+theme.wallpaper_cmd = { "awsetbg -f /home/zainin/Obrazy/chicago.jpg" }
 
 -- You can use your own layout icons like this:
 theme.layout_fairh = "/usr/share/awesome/themes/default/layouts/fairhw.png"
@@ -95,4 +95,4 @@ theme.layout_dwindle = "/usr/share/awesome/themes/default/layouts/dwindlew.png"
 theme.awesome_icon = "/usr/share/awesome/icons/awesome16.png"
 
 return theme
--- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:encoding=utf-8:textwidth=80
+-- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80
