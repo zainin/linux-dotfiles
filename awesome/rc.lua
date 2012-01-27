@@ -116,11 +116,64 @@ mpdicon:set_image("/home/zainin/.icons/xbm8x8/phones.png")
 
 --- {{{ COMMANDS
 local commands = {}
-commands.volup = "amixer -q set Master 2+ unmute; notify-send ' +5 '`amixer get Master | awk \'{ print $4 }\' | grep \\%` -i /usr/share/pixmaps/volume.png -t 1500"
-commands.voldown = "amixer -q set Master 2- unmute; notify-send ' -5 '`amixer get Master | awk \'{ print $4 }\' | grep \\%` -i /usr/share/pixmaps/volume.png -t 1500"
-commands.voltoggle = "amixer -q set Master toggle; notify-send Volume `amixer get Master | awk \'{ print $6 }\' |grep o` -i /usr/share/pixmaps/volume.png -t 1500"
-commands.brithup = "xbacklight +20; notify-send ' +20% brightness ['`xbacklight -get | awk -F. \'{print $1 }\'`']'"
-commands.brithdown = "xbacklight -20; notify-send ' -20% brightness ['`xbacklight -get | awk -F. \'{print $1 }\'`']'"
+--volbar = awful.widget.progressbar()
+--volbar:set_width(10)
+--volbar:set_height(18)
+--volbar:set_vertical(true)
+--volbar:set_background_color("#1a1918")
+--volbar:set_color("#ff6500")
+
+--{ audio raise/lower volume
+function getvol(x)
+	local f
+	if x == "toggle" then
+		f = io.popen("amixer get Master | awk '{ print $6 }' | grep o")
+	else
+		f = io.popen("amixer get Master | awk '{ print $4 }' | grep \\%")
+	end
+	local level = f:read("*all")
+	f.close(f)
+	return level
+end
+function vol(x)
+	--local level = getvol()
+	local level
+	if x == "up" then
+		awful.util.spawn("amixer -q set Master 2+ unmute")
+		level = ' +5 ' .. getvol()
+	elseif x == "down" then
+		awful.util.spawn("amixer -q set Master 2- unmute")
+		level = ' -5 ' .. getvol()
+	else
+		awful.util.spawn("amixer -q set Master toggle")
+		level = getvol("toggle")
+	end
+	naughty.notify({ text = level, title = 'Volume', position = 'top_right', timeout = 5, icon = "/usr/share/pixmaps/volume.png", replaces_id=666 }).id=666
+end
+--}
+
+--{ brightness
+function get_brightness()
+	local f = io.popen("xbacklight -get | awk -F. '{print $1 }'")
+	local aux = f:read("*all")
+	f.close(f)
+	return aux
+end
+function bright(x)
+	local level
+	if x == "up" then
+		awful.util.spawn("xbacklight +20")
+		level = " +20% brightness [" .. get_brightness() .. "]"
+	else
+		awful.util.spawn("xbacklight -20")
+		level = " -20% brightness [" .. get_brightness() .. "]"
+	end
+	level = level:gsub('\n', '')
+	naughty.notify({ text = level, title = 'Screen brightness', position = 'top_right', timeout = 5, replaces_id=777 }).id=777
+end
+--}
+commands.www = "opera"
+commands.home = "pcmanfm ~"
 -- }}}
 
 -- {{{ WIDGETS
@@ -350,15 +403,16 @@ globalkeys = awful.util.table.join(
               end),
 
 	-- CUSTOM KEYS
-	awful.key({}, "XF86HomePage",	function () awful.util.spawn_with_shell("exec firefox") end),
+	awful.key({}, "XF86HomePage",	function () awful.util.spawn_with_shell(commands.www) end),
 	awful.key({ modkey,			}, "a",	function () awful.util.spawn_with_shell("exec ncmpcpp toggle") end),
 	awful.key({ modkey,			}, "z",	function () awful.util.spawn_with_shell("exec ncmpcpp stop") end),
 	awful.key({ modkey,			}, "c",	function () awful.util.spawn_with_shell("exec ncmpcpp next") end),
-	awful.key({}, "XF86AudioRaiseVolume",function () awful.util.spawn_with_shell(commands.volup) end),
-	awful.key({}, "XF86AudioLowerVolume",function () awful.util.spawn_with_shell(commands.voldown) end),
-	awful.key({}, "XF86MonBrightnessUp", function () awful.util.spawn_with_shell(commands.brithup) end),
-	awful.key({}, "XF86MonBrightnessDown", function () awful.util.spawn_with_shell(commands.brithdown) end),
-	awful.key({}, "XF86AudioMute",function () awful.util.spawn_with_shell(commands.voltoggle) end),
+	awful.key({}, "XF86AudioRaiseVolume",function () vol("up") end),
+	awful.key({}, "XF86AudioLowerVolume",function () vol("down") end),
+	awful.key({}, "XF86AudioMute",function () vol("toggle") end),
+	awful.key({}, "XF86MonBrightnessUp", function () bright("up") end),
+	awful.key({}, "XF86MonBrightnessDown", function () bright("down") end),
+	awful.key({ modkey, "Control" }, "h", function () awful.util.spawn_with_shell(commands.home) end),
 	awful.key({ modkey, "Control" }, "l",	function () awful.util.spawn_with_shell("exec xscreensaver-command -lock") end)
 )
 
