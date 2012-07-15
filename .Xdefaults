@@ -5,8 +5,7 @@ XTerm*internalBorder: 3
 XTerm*scrollBar: false
 XTerm*scrollKey: true
 XTerm*saveLines: 5000
-#XTerm*faceName: terminusmedium:pixelsize=12
-urxvt*font: xft:Terminus:pixelsize=12
+XTerm*faceName: Anonymous Pro:pixelsize=14
 XTerm*boldMode: false
 !xterm*font: fixed
 !xterm*boldFont: fixed
@@ -22,11 +21,10 @@ URxvt*transparent: true
 URxvt*shading: 0%
 URxvt.perl-ext-common: default,matcher
 URxvt.matcher.button:   1 
-URxvt*urlLauncher: /usr/bin/firefox
+URxvt*urlLauncher: /usr/bin/opera
 URxvt.keysym.M-u: perl:url-select:select_next
 URxvt.underlineURLs: true
 URxvt*foreground: white
 URxvt.highlightColor: gray
 URxvt.background: black
-URxvt*font: xft:monospace:pixelsize=11
-! URxvt
+URxvt*font: xft:Anonymous Pro:pixelsize=15:antialiasing=true
