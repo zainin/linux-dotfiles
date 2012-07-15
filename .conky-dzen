@@ -1,0 +1,22 @@
+out_to_x no
+# print text to standard output
+out_to_console yes
+# run indefinitely
+total_run_times 0
+# update every 1 second
+update_interval 1
+use_xft yes
+
+if_up_strictness address
+template0 ┆
+
+TEXT
+${font Glass TTY VT220}
+$if_mpd_playing ${if_match "$mpd_status"=="Paused"}^i(/home/zainin/.icons/xbm8x8/pause.xbm)$else^i(/home/zainin/.icons/xbm8x8/play.xbm)$endif $mpd_smart $else^i(/home/zainin/.icons/xbm8x8/phones.xbm) $endif\
+^i(/home/zainin/.icons/xbm8x8/cpu.xbm)^fg(orange) CPU ^fg()${cpu cpu0}%/${cpu cpu1}% ${freq_g} GHz \
+^i(/home/zainin/.icons/xbm8x8/mem.xbm)^fg(orange) RAM ^fg()$mem/$memmax[$memperc%] \
+^fg(orange)SWAP ^fg()$swap/$swapmax[$swapperc%] \
+^fg(orange)/ ^fg()${fs_free /}/${fs_size /}[${fs_free_perc /}%] \
+^fg(orange)/home ^fg()${fs_free /home}/${fs_size /home}[${fs_free_perc /home}%] \
+^i(/home/zainin/.icons/xbm8x8/spkr_01.xbm) ${if_mixer_mute vol}...$else${mixer vol}%$endif \
+^fg(lightblue)${time %a.%d/%m %R}\
