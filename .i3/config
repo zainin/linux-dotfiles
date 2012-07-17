@@ -180,7 +180,7 @@ bar {
           urgent_workspace  #2f343a #cb5100 #000000
           statusline        #cb5100
         }
-        position bottom
+        position top
         font -misc-fixed-medium-r-semicondensed--12-120-75-75-c-0-iso10646-1
         #status_command conky #i3status
 }

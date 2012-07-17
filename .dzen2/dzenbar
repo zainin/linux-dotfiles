@@ -9,4 +9,5 @@ killall dzen2
 killall conky
 
 #run dzenbar
-conky -c $HOME/.dzen2/conky-dzen | dzen2 -w 1500 -x 80 -y 1031 -ta c -fg $FG -bg $BG -fn $FONT2 -p -e 'onstart=raise;button3=togglehide;entertitle=unhide;'
+#1031
+conky -c $HOME/.dzen2/conky-dzen | dzen2 -w 1500 -x 80 -y 0 -ta c -fg $FG -bg $BG -fn $FONT2 -p -e 'onstart=raise;button3=togglehide;entertitle=unhide;'
