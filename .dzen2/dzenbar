@@ -1,0 +1,12 @@
+#!/bin/bash
+FG='#a2a2a2'
+BG='#000000'
+FONT='-*-terminus-*-r-normal-*-*-120-*-*-*-*-iso8859-*'
+FONT2='-misc-fixed-medium-r-semicondensed--12-120-75-75-c-0-iso10646-1'
+
+# kill previous instances of dzenbar
+killall dzen2
+killall conky
+
+#run dzenbar
+conky -c $HOME/.dzen2/conky-dzen | dzen2 -w 1500 -x 80 -y 1031 -ta c -fg $FG -bg $BG -fn $FONT2 -p -e 'onstart=raise;button3=togglehide;entertitle=unhide;'

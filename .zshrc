@@ -39,5 +39,17 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 
+alias mpd_eq='sudo -H -u mpd alsamixer -D equal'
 alias ls='ls --color=auto'
-cowsay `fortune -a`
+alias sudo='nocorrect sudo'
+alias duH='du -hs * | sort -h'
+alias ati-movie='aticonfig --set-dispattrib=lvds,brightness:-10'
+alias ati-standard='aticonfig --set-dispattrib=lvds,brightness:-23'
+alias irc='screen irssi'
+alias pacman='pacmatic'
+alias debug-wm='Xephyr :1 -ac -br -noreset -screen 1280x780&'
+alias debug-wm-run='DISPLAY=:1.0'
+
+cowsay -f kosh `fortune -a`
+export EDITOR=vim
+eval `dircolors -b ~/.dir_colors`

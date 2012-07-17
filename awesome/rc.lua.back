@@ -173,7 +173,7 @@ function bright(x)
 end
 --}
 commands.www = "opera"
-commands.home = "pcmanfm ~"
+commands.home = "thunar ~"
 -- }}}
 
 -- {{{ WIDGETS
@@ -209,9 +209,6 @@ vicious.register(mpdwidget, vicious.widgets.mpd,
 	end)
 local clockwidget = wibox.widget.textbox()
 vicious.register(clockwidget, vicious.widgets.date, "%d/%m/%g %R")
-
-local cputempwidget = wibox.widget.textbox()
-vicious.register(cputempwidget, vicious.widgets.thermal, " [$1°C] ", 10,{"coretemp.0","core"} )
 
 --local cpufwidget = wibox.widget.textbox()
 --vicious.register(cpufwidget, vicious.widgets.cpufreq, " [ $2GHz ]", 1, "cpu0")
@@ -326,7 +323,7 @@ for s = 1, screen.count() do
 	-- status_bar, widget left side
 	local left_statusbar = wibox.layout.fixed.horizontal()
 	left_statusbar:add(upicon) left_statusbar:add(uptimewidget) left_statusbar:add(separator)
-	left_statusbar:add(cpuicon) left_statusbar:add(cpuwidget) left_statusbar:add(cputempwidget)
+	left_statusbar:add(cpuicon) left_statusbar:add(cpuwidget)
 	--left_statusbar:add(cpufwidget)
 	left_statusbar:add(separator)
 	left_statusbar:add(memicon) left_statusbar:add(memwidget) left_statusbar:add(separator)
@@ -525,11 +522,6 @@ awful.rules.rules = {
     properties = { border_width = 0 } },
   { rule = { class = "Amnesia" },
     properties = { border_width = 0 } },
-  { rule = { class = "Hammerfight" },
-    properties = { border_width = 0 } },
-{ rule = { class = "Gratuitous Space Battles" },
-    properties = { border_width = 0 } },
-
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },

@@ -17,10 +17,8 @@ set $home /home/zainin
 exec feh --bg-scale $home/Images/zixpk.jpg
 exec twmnd
 exec keepassx
-exec_always $home/.dzenbar
-exec setxbkmap pl
-#exec awsetbg $home/Images/weyland.jpg
-#exec_always setxkbmap pl
+exec_always $home/.dzen2/dzenbar
+exec_always setxbkmap pl
 
 # assign windows to default worskspaces
 assign [class="Opera"] 1
@@ -28,6 +26,8 @@ assign [class="Pidgin"] 4
 
 # make wine windows floating
 for_window [class="Wine"] floating enable
+for_window [class="Truecrypt"] floating enable
+for_window [class="Keepassx"] floating enable
 
 # font for window titles. ISO 10646 = Unicode
 #font -misc-helvetica-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -180,7 +180,7 @@ bar {
           urgent_workspace  #2f343a #cb5100 #000000
           statusline        #cb5100
         }
-        position top
+        position bottom
         font -misc-fixed-medium-r-semicondensed--12-120-75-75-c-0-iso10646-1
         #status_command conky #i3status
 }

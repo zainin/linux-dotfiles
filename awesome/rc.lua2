@@ -25,7 +25,7 @@ end
 -- Handle runtime errors after startup
 do
     local in_error = false
-    awesome.connect_signal("debug::error", function (err)
+    awesome.add_signal("debug::error", function (err)
         -- Make sure we don't go into an endless error loop
         if in_error then return end
         in_error = true
@@ -100,18 +100,18 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 -- }}}
 
 -- {{{ ICONS
-upicon = wibox.widget.imagebox()
-upicon:set_image("/home/zainin/.icons/xbm8x8/arch_10x10.png")
-cpuicon = wibox.widget.imagebox()
-cpuicon:set_image("/home/zainin/.icons/xbm8x8/cpu.png")
-memicon = wibox.widget.imagebox()
-memicon:set_image("/home/zainin/.icons/xbm8x8/mem.png")
-batFicon = wibox.widget.imagebox()
-batFicon:set_image("/home/zainin/.icons/xbm8x8/bat_full_02.png")
-fsicon = wibox.widget.imagebox()
-fsicon:set_image("/home/zainin/.icons/xbm8x8/fs_02.png")
-mpdicon = wibox.widget.imagebox()
-mpdicon:set_image("/home/zainin/.icons/xbm8x8/phones.png")
+upicon = widget({ type = "imagebox" })
+upicon.image = image("/home/zainin/.icons/xbm8x8/arch_10x10.png")
+cpuicon = widget({ type = "imagebox" })
+cpuicon.image = image("/home/zainin/.icons/xbm8x8/cpu.png")
+memicon = widget({ type = "imagebox" })
+memicon.image = image("/home/zainin/.icons/xbm8x8/mem.png")
+batFicon = widget({ type = "imagebox" })
+batFicon.image = image("/home/zainin/.icons/xbm8x8/bat_full_02.png")
+fsicon = widget({ type = "imagebox" })
+fsicon.image = image("/home/zainin/.icons/xbm8x8/fs_02.png")
+mpdicon = widget({ type = "imagebox" })
+mpdicon.image = image("/home/zainin/.icons/xbm8x8/phones.png")
 --- }}}
 
 --- {{{ COMMANDS
@@ -177,23 +177,23 @@ commands.home = "pcmanfm ~"
 -- }}}
 
 -- {{{ WIDGETS
-local separator = wibox.widget.textbox()
-separator:set_markup("<span foreground='red'> |</span>")
+local separator = widget({ type = "textbox" })
+separator.text = "<span foreground='red'> |</span>"
 
-local uptimewidget = wibox.widget.textbox()
+local uptimewidget = widget({ type = "textbox" })
 vicious.register(uptimewidget, vicious.widgets.uptime, "<span foreground='white'>$1d$2h$3m</span>")
-local cpuwidget = wibox.widget.textbox()
-vicious.register(cpuwidget, vicious.widgets.cpu, "<span foreground='white'>$2%</span> / <span foreground='white'>$3%</span>")
-local memwidget = wibox.widget.textbox()
+local cpuwidget = widget({ type = "textbox" })
+vicious.register(cpuwidget, vicious.widgets.cpu, "<span foreground='white'>$2%</span> / <span foreground='white'>$3%</span> / <span foreground='white'>$4%</span> / <span foreground='white'>$5%</span>")
+local memwidget = widget({ type = "textbox" })
 vicious.register(memwidget, vicious.widgets.mem, "<span foreground='white'>$1% $2/$3</span><span foreground='red'>/</span><span foreground='white'>$5% $6/$7</span>")
-local batwidget = wibox.widget.textbox()
+local batwidget = widget({ type = "textbox" })
 vicious.register(batwidget, vicious.widgets.bat, "<span foreground='#FF6600'>bat: </span><span foreground='white'>$1$2% </span><span foreground='gray'>left: </span><span foreground='white'>$3</span>", 60, "BAT0")
-local fswidget = wibox.widget.textbox()
+local fswidget = widget({ type = "textbox" })
 vicious.register(fswidget, vicious.widgets.fs,
 	function (widget, args)
 		return '<span foreground=\'gray\'>/ </span><span foreground=\'white\'>'..args["{/ used_p}"]..'%['..args["{/ avail_gb}"]..'GB]</span><span foreground=\'gray\'> /home </span><span foreground=\'white\'>'..args["{/home used_p}"]..'%['..args["{/home avail_gb}"]..'GB]</span>'
 	end)
-local mpdwidget = wibox.widget.textbox()
+local mpdwidget = widget({ type = "textbox" })
 vicious.register(mpdwidget, vicious.widgets.mpd,
 	function (widget, args)
 		if args["{state}"] == "Stop" then
@@ -207,26 +207,20 @@ vicious.register(mpdwidget, vicious.widgets.mpd,
 			end
 		end
 	end)
-local clockwidget = wibox.widget.textbox()
+local clockwidget = widget({ type = "textbox" })
 vicious.register(clockwidget, vicious.widgets.date, "%d/%m/%g %R")
-
-local cputempwidget = wibox.widget.textbox()
-vicious.register(cputempwidget, vicious.widgets.thermal, " [$1°C] ", 10,{"coretemp.0","core"} )
-
---local cpufwidget = wibox.widget.textbox()
---vicious.register(cpufwidget, vicious.widgets.cpufreq, " [ $2GHz ]", 1, "cpu0")
---local volwidget = wibox.widget.textbox()
+--local volwidget = widget({ type = "textbox" })
 --vicious.register(volwidget, vicious.widgets.volume, "Master", "Master")
---local gmailwidget = wibox.widget.textbox()
+--local gmailwidget = widget({ type = "textbox" })
 --vicious.register(gmailwidget, vicious.widgets.gmail, "GMail: ${count}| ")
 
---local netspeedwidget = wibox.widget.textbox()
+--local netspeedwidget = widget({ type = "textbox" })
 --vicious.register(netspeedwidget, vicious.widgets.net, 
 --	function (widget, args)
 --		return args["{eth0 down_kb}"]..'<span foreground=\'#FF6600\'>↓</span>'
 --	end)
 
---local wifiwidget = wibox.widget.textbox()
+--local wifiwidget = widget({ type = "textbox" })
 --vicious.register(wifiwidget, vicious.widgets.wifi, "${link}", 5, "wlan0")
 -- }}}
 
@@ -326,11 +320,9 @@ for s = 1, screen.count() do
 	-- status_bar, widget left side
 	local left_statusbar = wibox.layout.fixed.horizontal()
 	left_statusbar:add(upicon) left_statusbar:add(uptimewidget) left_statusbar:add(separator)
-	left_statusbar:add(cpuicon) left_statusbar:add(cpuwidget) left_statusbar:add(cputempwidget)
-	--left_statusbar:add(cpufwidget)
-	left_statusbar:add(separator)
+	left_statusbar:add(cpuicon) left_statusbar:add(cpuwidget) left_statusbar:add(separator)
 	left_statusbar:add(memicon) left_statusbar:add(memwidget) left_statusbar:add(separator)
-	--left_statusbar:add(batwidget) left_statusbar:add(separator)
+	left_statusbar:add(batwidget) left_statusbar:add(separator)
 	left_statusbar:add(fsicon) left_statusbar:add(fswidget)
 
 	local right_statusbar = wibox.layout.fixed.horizontal()
@@ -411,13 +403,13 @@ globalkeys = awful.util.table.join(
               end),
 
 	-- CUSTOM KEYS
-	awful.key({ modkey,			}, "F1",function () awful.util.spawn_with_shell(commands.www) end),
+	awful.key({}, "XF86HomePage",	function () awful.util.spawn_with_shell(commands.www) end),
 	awful.key({ modkey,			}, "a",	function () awful.util.spawn_with_shell("exec ncmpcpp toggle") end),
 	awful.key({ modkey,			}, "z",	function () awful.util.spawn_with_shell("exec ncmpcpp stop") end),
 	awful.key({ modkey,			}, "c",	function () awful.util.spawn_with_shell("exec ncmpcpp next") end),
-	awful.key({ modkey,			}, "F4",function () vol("up") end),
-	awful.key({ modkey,			}, "F3" ,function () vol("down") end),
-	awful.key({ modkey,			}, "F2" ,function () vol("toggle") end),
+	awful.key({}, "XF86AudioRaiseVolume",function () vol("up") end),
+	awful.key({}, "XF86AudioLowerVolume",function () vol("down") end),
+	awful.key({}, "XF86AudioMute",function () vol("toggle") end),
 	awful.key({}, "XF86MonBrightnessUp", function () bright("up") end),
 	awful.key({}, "XF86MonBrightnessDown", function () bright("down") end),
 	awful.key({ modkey, "Control" }, "h", function () awful.util.spawn_with_shell(commands.home) end),
@@ -508,28 +500,15 @@ awful.rules.rules = {
     { rule = { class = "gimp" },
       properties = { floating = true } },
 	{ rule = { class = "Firefox" },
-	  properties = { tag = tags[1][1], border_width = 0 } },
+	  properties = { tag = tags[1][1] } },
 	{ rule = { class = "Opera" },
-	  properties = { tag = tags[1][1], border_width = 0 } },
+	  properties = { tag = tags[1][1] } },
 	{ rule = { class = "Chromium" },
 	  properties = { tag = tags[1][1] } },
 	{ rule = { class = "Wine" },
 	  properties = { tag = tags[1][5] } },
 	{ rule = { class = "Pidgin" },
 	  properties = { tag = tags[1][4] } },
-	{ rule = { class = "VirtualBox" },
-	  properties = { border_width = 0 } },
-	{ rule = { class = "Wine" },
-	  properties = { border_width = 0 } },
-  { rule = { class = "Psychonauts" },
-    properties = { border_width = 0 } },
-  { rule = { class = "Amnesia" },
-    properties = { border_width = 0 } },
-  { rule = { class = "Hammerfight" },
-    properties = { border_width = 0 } },
-{ rule = { class = "Gratuitous Space Battles" },
-    properties = { border_width = 0 } },
-
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { tag = tags[1][2] } },
@@ -563,37 +542,3 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
-
-autorun = true
-autorunApps = 
-{ 
-	"urxvtd",
-	"setxkbmap pl",
---	"xscreensaver -no-splash",
-	"thunar -d",
---	"xcompmgr",
-	"keepassx",
---	"wicd-client",
-}
-
-function run_once(cmd)
-	findme = cmd
-	firstspace = cmd:find(" ")
-	if firstspace then
-		findme = cmd:sub(0, firstspace-1)
-	end
-	awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
-end
-
-if autorun then
---		local f
---		f = io.popen("pgrep awesome")
---		local is_running = f:read("*all")
---		f.close(f)
-		
-		for app = 1, #autorunApps do
---			awful.util.spawn_with_shell(autorunApps[app])
-			run_once(autorunApps[app])
-		end
-end
-

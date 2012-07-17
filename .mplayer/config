@@ -7,8 +7,9 @@ stop-xscreensaver=yes
 #================
 
 # Video driver
-vo=gl
-va=vaapi
+vo=vdpau
+vc=ffmpeg12vdpau,ffwmv3vdpau,ffvc1vdpau,ffh264vdpau,
+va=alsa
 #lavdopts=threads=4#:skiploopfilter=all:fast
 
 # Sound driver
@@ -25,6 +26,7 @@ double=yes
 
 # Aspect ratio
 monitoraspect=16:9
+aspect=16:9
 
 #Default audio stream
 alang=jp,jpn,en,eng
@@ -47,7 +49,7 @@ sub-fuzziness=1
 
 # Set font
 fontconfig=no
-#font=/usr/share/fonts/TTF/DejaVuSans.ttf
+font=/usr/share/fonts/TTF/DejaVuSans.ttf
 
 # Set font encoding
 subfont-encoding=unicode
@@ -82,7 +84,7 @@ subfont-text-scale=3.5
 #====
 ass=yes
 embeddedfonts=yes
-#ass-styles=/home/zainin/.mplayer/styles.ass
+ass-styles=/home/zainin/.mplayer/ass.styles
 
 
 #====
