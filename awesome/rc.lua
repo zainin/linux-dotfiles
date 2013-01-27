@@ -151,6 +151,17 @@ function is_laptop()
 end
 --- }}
 
+--- {{ get cpu frequency once (because it won't change)
+
+function get_freq()
+  local f = io.popen("grep -m 1 MHz /proc/cpuinfo | awk '{ printf \"%.2fGHz\",$4/1000 }'")
+  local res = f:read("*all")
+  io.close(f)
+  return res
+end
+
+--- }}
+
 --- {{ audio raise/lower volume
 function getvol(x)
 	local f
@@ -247,7 +258,11 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "<span color='#8faf5f'>$2%</spa
 --- {{{ CPU frequency widget
 
 local cpufreqwidget = wibox.widget.textbox()
-vicious.register(cpufreqwidget, vicious.widgets.cpufreq, " $2GHz | $4 ", 1, "cpu0")
+if is_laptop() then
+  vicious.register(cpufreqwidget, vicious.widgets.cpufreq, " $2GHz | $4 ", 1, "cpu0")
+else
+  cpufreqwidget:set_markup("<span color='#8faf5f'>" .. get_freq() .. "</span>") 
+end
 
 --- }}}
 
@@ -445,7 +460,9 @@ for s = 1, screen.count() do
     left_statusbar:add(separator)
     left_statusbar:add(netupicon) left_statusbar:add(netupwidget)
     left_statusbar:add(separator)
-    left_statusbar:add(cpuicon) left_statusbar:add(cpuwidget) left_statusbar:add(cpufreqwidget) 
+    left_statusbar:add(cpuicon) left_statusbar:add(cpuwidget)
+    left_statusbar:add(separator)
+    left_statusbar:add(cpufreqwidget) 
     left_statusbar:add(separator)
     left_statusbar:add(cputempicon) left_statusbar:add(cputempwidget)
 	  left_statusbar:add(separator)
