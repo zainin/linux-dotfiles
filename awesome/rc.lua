@@ -51,6 +51,7 @@ end
 
 --- Useful paths
 home = os.getenv("HOME")
+scripts = home .. "/.scripts"
 confdir = home .. "/.config/awesome"
 themes = confdir .. "/themes"
 
@@ -137,15 +138,16 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 --- {{{ COMMANDS
 local commands = {}
 
---- {{ check if file exists
-function is_file(x)
-	local f = io.popen(x,"r")
-	if f~=nil then
-		io.close(f)
-		return true
-	else
-		return false
-	end
+--- {{ check if we're on laptop
+function is_laptop()
+	local f = io.popen(scripts .. "/if_laptop.sh")
+  local res = f:read("*all")
+  io.close(f)
+  if res == "yes" then
+    return true
+  else
+    return false
+  end
 end
 --- }}
 
@@ -269,8 +271,10 @@ vicious.register(memwidget, vicious.widgets.mem, "<span color='#7788af'>$1% $2/$
 
 --- {{{ Battery widget
 
+baticon = wibox.widget.imagebox()
+baticon:set_image(beautiful.widget_batt)
 local batwidget = wibox.widget.textbox()
-vicious.register(batwidget, vicious.widgets.bat, "<span color='white'> $1$2% </span><span color='gray'>. </span><span color='white'>$3</span>", 60, "BAT0")
+vicious.register(batwidget, vicious.widgets.bat, "<span color='#ce5666'> $1$2% </span><span color='gray'>. </span><span color='#ce5666'>$3</span>", 60, "BAT0")
 
 --- }}}
 
@@ -446,7 +450,10 @@ for s = 1, screen.count() do
     left_statusbar:add(cputempicon) left_statusbar:add(cputempwidget)
 	  left_statusbar:add(separator)
 	  left_statusbar:add(memicon) left_statusbar:add(memwidget) left_statusbar:add(separator)
-	--left_statusbar:add(batwidget) left_statusbar:add(separator)
+	  if is_laptop() then
+      left_statusbar:add(baticon) left_statusbar:add(batwidget)
+      left_statusbar:add(separator)
+    end
 	  left_statusbar:add(fsicon) left_statusbar:add(fswidget)
 
 	  local right_statusbar = wibox.layout.fixed.horizontal()
