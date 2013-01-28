@@ -237,12 +237,20 @@ vicious.register(uptimewidget, vicious.widgets.uptime, "<span color='#94738c'>$1
 netdownicon = wibox.widget.imagebox()
 netdownicon:set_image(beautiful.widget_netdown)
 netdownwidget = wibox.widget.textbox()
-vicious.register(netdownwidget, vicious.widgets.net, "<span color='#ce5666'>${eth0 down_kb}</span>", 1)
+if is_laptop() then
+	vicious.register(netdownwidget, vicious.widgets.net, "<span color='#ce5666'>${wlan0 down_kb}</span>", 1)
+else
+	vicious.register(netdownwidget, vicious.widgets.net, "<span color='#ce5666'>${eth0 down_kb}</span>", 1)
+end
 
 netupicon = wibox.widget.imagebox()
 netupicon:set_image(beautiful.widget_netup)
 netupwidget = wibox.widget.textbox()
-vicious.register(netupwidget, vicious.widgets.net, "<span color='#87af5f'>${eth0 up_kb}</span>", 1)
+if is_laptop() then
+	vicious.register(netupwidget, vicious.widgets.net, "<span color='#87af5f'>${wlan0 up_kb}</span>", 1)
+else
+	vicious.register(netupwidget, vicious.widgets.net, "<span color='#87af5f'>${eth0 up_kb}</span>", 1)
+end
 
 --- }}}
 
@@ -259,7 +267,7 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "<span color='#8faf5f'>$2%</spa
 
 local cpufreqwidget = wibox.widget.textbox()
 if is_laptop() then
-  vicious.register(cpufreqwidget, vicious.widgets.cpufreq, " $2GHz | $4 ", 1, "cpu0")
+  vicious.register(cpufreqwidget, vicious.widgets.cpufreq, "<span color='#8faf5f'>$2GHz</span>", 1, "cpu0")
 else
   cpufreqwidget:set_markup("<span color='#8faf5f'>" .. get_freq() .. "</span>") 
 end
@@ -748,18 +756,24 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 autorun = true
-autorunApps = 
-{ 
-	"urxvtd",
---	"setxkbmap pl",
---	"xscreensaver -no-splash",
---	"thunar -d",
---	"xcompmgr",
-	"keepassx",
---	"wicd-client",
---  "feh --bg-scale /home/zainin/Images/turret.jpg",
-  "/home/zainin/.scripts/wallpaper.sh",
-}
+autorunApps = {}
+if is_laptop() then
+	autorunApps = 
+	{ 
+		"urxvtd",
+		"xcompmgr",
+		"keepassx",
+		"wicd-client",
+  	scripts .. "/wallpaper.sh",
+	}
+else
+	autorunApps =
+	{
+		"urxvtd",
+		"keepassx",
+		scripts .. "/wallpapers.sh",
+	}
+end
 
 function run_once(cmd)
 	findme = cmd
