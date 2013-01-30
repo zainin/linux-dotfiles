@@ -259,7 +259,7 @@ end
 cpuicon = wibox.widget.imagebox()
 cpuicon:set_image(beautiful.widget_cpu)
 local cpuwidget = wibox.widget.textbox()
-vicious.register(cpuwidget, vicious.widgets.cpu, "<span color='#8faf5f'>$2%</span>/<span color='#8faf5f'>$3%</span>")
+vicious.register(cpuwidget, vicious.widgets.cpu, "<span color='#94738c'>$2%</span>/<span color='#94738c'>$3%</span>")
 
 --- }}}
 
@@ -267,9 +267,9 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "<span color='#8faf5f'>$2%</spa
 
 local cpufreqwidget = wibox.widget.textbox()
 if is_laptop() then
-  vicious.register(cpufreqwidget, vicious.widgets.cpufreq, "<span color='#8faf5f'>$2GHz</span>", 1, "cpu0")
+  vicious.register(cpufreqwidget, vicious.widgets.cpufreq, "<span color='#94738c'>$2GHz</span>", 1, "cpu0")
 else
-  cpufreqwidget:set_markup("<span color='#8faf5f'>" .. get_freq() .. "</span>") 
+  cpufreqwidget:set_markup("<span color='#94738c'>" .. get_freq() .. "</span>") 
 end
 
 --- }}}
@@ -771,7 +771,7 @@ else
 	{
 		"urxvtd",
 		"keepassx",
-		scripts .. "/wallpapers.sh",
+		scripts .. "/wallpaper.sh",
 	}
 end
 
@@ -785,11 +785,6 @@ function run_once(cmd)
 end
 
 if autorun then
---		local f
---		f = io.popen("pgrep awesome")
---		local is_running = f:read("*all")
---		f.close(f)
-		
 		for app = 1, #autorunApps do
 --			awful.util.spawn_with_shell(autorunApps[app])
 			run_once(autorunApps[app])
