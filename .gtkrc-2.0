@@ -1,8 +1,0 @@
-# -- THEME AUTO-WRITTEN BY gtk-theme-switch2 DO NOT EDIT
-include "/usr/share/themes/Dark_Star/gtk-2.0/gtkrc"
-
-include "/home/zainin/.gtkrc-2.0.mine"
-gtk-theme-name="Dark_Star"
-gtk-icon-theme-name="Tangerine"
-
-# -- THEME AUTO-WRITTEN BY gtk-theme-switch2 DO NOT EDIT
