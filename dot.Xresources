@@ -1,0 +1,59 @@
+URxvt.transparent: true
+! URxvt.shading: 0 to 99 darkens, 101 to 200 lightens
+URxvt.shading: 60
+
+! --- special colors ---
+
+*background: #000000
+*foreground: #dddddd
+
+! --- standard colors ---
+
+! black
+*color0: #000000
+
+! bright_black
+*color8: #464646
+
+! red
+*color1: #a2213b
+
+! bright_red
+*color9: #da4c69
+
+! green
+*color2: #3ba221
+
+! bright_green
+*color10: #69da4c
+
+! yellow
+*color3: #a28821
+
+! bright_yellow
+*color11: #dabe4c
+
+! blue
+*color4: #213ba2
+
+! bright_blue
+*color12: #4c69da
+
+! cyan
+*color5: #21a288
+
+! bright_cyan
+*color13: #4cdabe
+
+! magenta
+*color6: #8821a2
+
+! bright_magenta
+*color14: #be4cda
+
+! white
+*color7: #dddddd
+
+! bright_white
+*color15: #ffffff
+

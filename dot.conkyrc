@@ -1,0 +1,15 @@
+out_to_x no
+# print text to standard output
+out_to_console yes
+# run indefinitely
+total_run_times 0
+# update every 1 second
+update_interval 1
+use_xft yes
+
+if_up_strictness address
+template0 ┆
+
+TEXT
+${font Glass TTY VT220}
+${color red}${time %a.%d/%m %R}\
