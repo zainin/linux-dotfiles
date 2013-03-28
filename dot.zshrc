@@ -52,4 +52,4 @@ alias packer='packer-color'
 fortune -a
 echo
 export EDITOR=vim
-eval `dircolors -b ~/.dir_colors`
+#eval `dircolors -b ~/.dir_colors`

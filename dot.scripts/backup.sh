@@ -79,6 +79,8 @@ backup=(
   $HOME"/.config/gtk-3.0"
   $HOME"/.zshrc"
   $HOME"/.scripts"
+  $HOME"/woods"
+  $HOME"/solarized"
 )
 
 ### End of variables

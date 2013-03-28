@@ -8,7 +8,7 @@ stop-xscreensaver=yes
 
 # Video driver
 vo=vdpau
-vc=ffmpeg12vdpau,ffwmv3vdpau,ffvc1vdpau,ffh264vdpau,ffodivxvdpau,
+vc=ffh264,ffmpeg12vdpau,ffwmv3vdpau,ffvc1vdpau,ffh264vdpau,ffodivxvdpau,
 va=alsa
 #lavdopts=threads=4#:skiploopfilter=all:fast
 

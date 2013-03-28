@@ -138,6 +138,14 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 --- {{{ COMMANDS
 local commands = {}
 
+
+--- {{{ Spotify controls
+
+spotify = {}
+spotify.play = scripts .. "/spotify.sh play"
+spotify.nxt = scripts .. "/spotify.sh next"
+spotify.prev = scripts .. "/spotify.sh prev"
+
 --- {{ check if we're on laptop
 function is_laptop()
 	local f = io.popen(scripts .. "/if_laptop.sh")
@@ -267,7 +275,7 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "<span color='#94738c'>$2%</spa
 
 local cpufreqwidget = wibox.widget.textbox()
 if is_laptop() then
-  vicious.register(cpufreqwidget, vicious.widgets.cpufreq, "<span color='#94738c'>$5 $2GHz</span>", 1, "cpu0")
+  vicious.register(cpufreqwidget, vicious.widgets.cpufreq, "<span color='#94738c'>$2GHz</span>", 1, "cpu0")
 else
   cpufreqwidget:set_markup("<span color='#94738c'>" .. get_freq() .. "</span>") 
 end
@@ -437,7 +445,7 @@ for s = 1, screen.count() do
 
     -- Create the wibox
     mywibox[s] = awful.wibox({ position = "top", screen = s })
-		status_bar[s] = awful.wibox({ position = "bottom", screen = s })
+	status_bar[s] = awful.wibox({ position = "bottom", screen = s })
 
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
@@ -563,6 +571,7 @@ globalkeys = awful.util.table.join(
 	awful.key({ modkey,			}, "a",	function () awful.util.spawn_with_shell("exec ncmpcpp toggle") end),
 	awful.key({ modkey,			}, "z",	function () awful.util.spawn_with_shell("exec ncmpcpp stop") end),
 	awful.key({ modkey,			}, "c",	function () awful.util.spawn_with_shell("exec ncmpcpp next") end),
+  awful.key({ modkey,     }, "q", function () awful.util.spawn_with_shell(spotify.play) end),
 	awful.key({ modkey,			}, "F4",function () vol("up") end),
 	awful.key({ modkey,			}, "F3" ,function () vol("down") end),
 	awful.key({ modkey,			}, "F2" ,function () vol("toggle") end),
@@ -682,6 +691,10 @@ awful.rules.rules = {
     properties = { border_width = 0 } },
   { rule = { instance = "plugin-container" },
     properties = { floating = true } },
+  { rule = { instance = "Steam", name = "Steam" },
+    properties = { maximized_vertical=true, maximized_horizontal=true } },
+  { rule = { class = "Steam" },
+    properties = { tag = tags[1][3] } },
 
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
