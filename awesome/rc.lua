@@ -804,6 +804,7 @@ if is_laptop() then
 		"keepassx",
 		"wicd-client",
   	scripts .. "/wallpaper.sh",
+    "solaar",
 	}
 else
 	autorunApps =
@@ -811,6 +812,7 @@ else
 		"urxvtd",
 		"keepassx",
 		scripts .. "/wallpaper.sh",
+    "solaar",
 	}
 end
 
