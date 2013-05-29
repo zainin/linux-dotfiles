@@ -2,10 +2,13 @@ URxvt*scrollBar: false
 URxvt*scrollKey: true
 URxvt*cursorBlink: true
 URxvt*saveLines: 5000
-URxvt*geometry: 100x27
+URxvt*geometry: 130x27
 URxvt.perl-ext-common: default,matcher
 URxvt.matcher.button:   1 
-URxvt*urlLauncher: /usr/bin/firefox
+URxvt*url-launcher: /usr/bin/firefox
 URxvt.keysym.M-u: perl:url-select:select_next
 URxvt.underlineURLs: true
-URxvt*font: xft:Anonymous Pro:pixelsize=15:antialiasing=true
+!URxvt*font: xft:Anonymous Pro for Powerline:pixelsize=15:antialiasing=true
+URxvt*font: xft:Inconsolata for Powerline:pixelsize=15:antialiasing=true
+
+*fading: 40 *fadeColor: #333333

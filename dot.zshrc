@@ -44,12 +44,12 @@ alias duH='du -hs * | sort -h'
 alias ati-movie='aticonfig --set-dispattrib=lvds,brightness:-10'
 alias ati-standard='aticonfig --set-dispattrib=lvds,brightness:-23'
 alias irc='screen irssi'
-alias pacman='sudo pacman-color'
 alias debug-wm='Xephyr :1 -ac -br -noreset -screen 1280x780&'
 alias debug-wm-run='DISPLAY=:1.0'
-alias packer='packer-color'
+alias hera='ssh -t i241605@tryglaw.ii.uni.wroc.pl ssh hera'
 
 fortune -a
 echo
 export EDITOR=vim
 #eval `dircolors -b ~/.dir_colors`
+. /usr/share/zsh/site-contrib/powerline.zsh

@@ -8,7 +8,7 @@ stop-xscreensaver=yes
 
 # Video driver
 vo=vdpau
-vc=ffh264,ffmpeg12vdpau,ffwmv3vdpau,ffvc1vdpau,ffh264vdpau,ffodivxvdpau,
+vc=ffh264,ffmpeg12vdpau,ffvc1vdpau,ffh264vdpau,ffodivxvdpau, #,ffwmv3vdpau
 va=alsa
 #lavdopts=threads=4#:skiploopfilter=all:fast
 
@@ -43,7 +43,7 @@ spualign=-1
 spuaa=4
 
 # Set language
-slang=jp,jpn,en,eng
+slang=jp,jpn,eng,en
 
 # Find subtitle files (1: load all subs containing movie name)
 sub-fuzziness=1
