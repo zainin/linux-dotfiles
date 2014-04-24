@@ -7,6 +7,9 @@
 
 vicious = require("vicious")
 
+-- Custom menu generator
+local menu_gen = require("menu")
+
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -124,29 +127,7 @@ myawesomemenu = {
    { "quit", awesome.quit }
 }
 
-cheatSheets = {
- { "BGP", "zathura /home/zainin/studia/cisco/BGP.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "Cisco_IOS_Versions", "zathura /home/zainin/studia/cisco/Cisco_IOS_Versions.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "common_ports", "zathura /home/zainin/studia/cisco/common_ports.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "EIGRP", "zathura /home/zainin/studia/cisco/EIGRP.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "First_Hop_Redundancy", "zathura /home/zainin/studia/cisco/First_Hop_Redundancy.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "IEEE_802.11_WLAN", "zathura /home/zainin/studia/cisco/IEEE_802.11_WLAN.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "IEEE_802.1X", "zathura /home/zainin/studia/cisco/IEEE_802.1X.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "IOS_IPv4_Access_Lists", "zathura /home/zainin/studia/cisco/IOS_IPv4_Access_Lists.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "IPsec", "zathura /home/zainin/studia/cisco/IPsec.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "IPv4_Multicast", "zathura /home/zainin/studia/cisco/IPv4_Multicast.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "IPv4_Subnetting", "zathura /home/zainin/studia/cisco/IPv4_Subnetting.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "IPv6", "zathura /home/zainin/studia/cisco/IPv6.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "IS-IS", "zathura /home/zainin/studia/cisco/IS-IS.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "NAT", "zathura /home/zainin/studia/cisco/NAT.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "OSPF", "zathura /home/zainin/studia/cisco/OSPF.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "physical_terminations", "zathura /home/zainin/studia/cisco/physical_terminations.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "PPP", "zathura /home/zainin/studia/cisco/PPP.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "RIP", "zathura /home/zainin/studia/cisco/RIP.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "RJ45-Guide", "zathura /home/zainin/studia/cisco/RJ45-Guide.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "Spanning_Tree", "zathura /home/zainin/studia/cisco/Spanning_Tree.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
- { "VLANs", "zathura /home/zainin/studia/cisco/VLANs.pdf", "/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png" },
-}
+cheatSheets = menu_gen.gen( 'zathura', home .. '/studia/cisco/', '*pdf', '/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png')
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                     { "open terminal", terminal },
@@ -734,8 +715,8 @@ awful.rules.rules = {
     properties = { floating = true } },
 --  { rule = { instance = "Steam", name = "Steam" },
 --    properties = { maximized_vertical=true, maximized_horizontal=true } },
-  { rule = { class = "Steam" },
-    properties = { tag = tags[1][3] } },
+--  { rule = { class = "Steam" },
+--    properties = { tag = tags[1][3] } },
   { rule = { class = "xbmc.bin" },
     properties = { tag = tags[1][2] } }, --, fullscreen = true } },
   { rule = { name = "Timer" },
@@ -834,13 +815,9 @@ else
 	{
 		"urxvtd",
 		"keepassx",
---		scripts .. "/wallpaper.sh",
+		scripts .. "/wallpaper.sh",
     "solaar",
-    "feh --bg-fill /home/zainin/Images/wallpapers/windy.png",
---    "dropboxd",
-    "pasystray",
-    "compton --backend glx --paint-on-overlay --vsync opengl-swc",
-    "xrdb /home/zainin/cmr",
+    "dropboxd",
 	}
 end
 

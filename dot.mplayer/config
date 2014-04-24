@@ -1,3 +1,4 @@
+#heartbeat-cmd="xscreensaver-command -deactivate >&- 2>&- &"
 stop-xscreensaver=1
 stop-xscreensaver=yes
 #ass-color=ff557f00
@@ -7,13 +8,13 @@ stop-xscreensaver=yes
 #================
 
 # Video driver
-vo=vdpau
-vc=ffh264,ffmpeg12vdpau,ffvc1vdpau,ffh264vdpau,ffodivxvdpau, #,ffwmv3vdpau
-va=alsa
+#vo=vaapi:gl
+vo=xv
+#va=vaapi
 #lavdopts=threads=4#:skiploopfilter=all:fast
 
 # Sound driver
-ao=alsa
+ao=pulse
 
 # Start in fullscreen
 #fs=yes
@@ -25,12 +26,12 @@ double=yes
 #vf=pp=de,hqdn3d
 
 # Aspect ratio
-monitoraspect=16:10
-#aspect=16:10
-noaspect=yes
+monitoraspect=16:9
+#noaspect=yes
 
 #Default audio stream
-alang=jp,jpn,en,eng
+#alang=jp,jpn,en,eng
+alang=en,eng
 
 #=====
 # Subs
@@ -43,14 +44,14 @@ spualign=-1
 spuaa=4
 
 # Set language
-slang=jp,jpn,eng,en
+slang=jp,jpn,en,eng
 
 # Find subtitle files (1: load all subs containing movie name)
 sub-fuzziness=1
 
 # Set font
 fontconfig=no
-font=/usr/share/fonts/TTF/DejaVuSans.ttf
+#font=/usr/share/fonts/TTF/DejaVuSans.ttf
 
 # Set font encoding
 subfont-encoding=unicode
@@ -85,7 +86,7 @@ subfont-text-scale=3.5
 #====
 ass=yes
 embeddedfonts=yes
-ass-styles=/home/zainin/.mplayer/ass.styles
+ass-styles=/home/zainin/.mplayer/styles.ass
 
 
 #====

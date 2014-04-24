@@ -8,6 +8,13 @@ time,duration,height = '', '', '640'
 fps = '20'
 delay = '5'
 
+class t_color:
+  GREEN   = '\033[92m'
+  RED     = '\033[91m'
+  YELLOW  = '\033[93m'
+  BLUE    = '\033[94m'
+  RESET   = '\033[0m'
+
 def get_args(t, d, h):
   if t != '':
     tmp = input('Time [[hh:]mm:]ss[.ms] ( ' + t + ' ) = ')
@@ -27,6 +34,8 @@ def get_args(t, d, h):
   return t, d, h
 
 argc = len(sys.argv)
+
+print(t_color.RED + 'test' + t_color.RESET)
 
 if argc < 3:
   print('Usage: gifmaker filename output [ time ] [ duration ] [ height in px ]')

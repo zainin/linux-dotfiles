@@ -1,10 +1,15 @@
+#heartbeat-cmd="xscreensaver-command -deactivate >&- 2>&- &"
+stop-xscreensaver=1
+stop-xscreensaver=yes
+#ass-color=ff557f00
+
 #================
 # Video and audio
 #================
 
 # Video driver
 #vo=vaapi:gl
-vo=vdpau
+vo=vaapi
 #va=vaapi
 #lavdopts=threads=4#:skiploopfilter=all:fast
 
@@ -14,11 +19,14 @@ ao=pulse
 # Start in fullscreen
 fs=yes
 
+# Double buffering
+double=yes
+
 #autoq=100
 #vf=pp=de,hqdn3d
 
 # Aspect ratio
-monitoraspect=16:10
+monitoraspect=16:9
 #noaspect=yes
 
 #Default audio stream
@@ -29,23 +37,49 @@ alang=en,eng
 # Subs
 #=====
 
+# Align subs (-1: as they want to align themselves)
+spualign=-1
+
+# Anti-alias subs (4: best and slowest)
+spuaa=4
+
 # Set language
 slang=jp,jpn,en,eng
 
-# Set subtitle font
-sub-text-font='DejaVu Sans'
+# Find subtitle files (1: load all subs containing movie name)
+sub-fuzziness=1
+
+# Set font
+fontconfig=no
+#font=/usr/share/fonts/TTF/DejaVuSans.ttf
+
+# Set font encoding
+subfont-encoding=unicode
+
+# Set subtitle file encoding
+unicode=yes
+utf8=yes
+
+# Resample the font alphamap (1: narrow black outline)
+ffactor=10
 
 # Set subtitle position (100: as low as possible)
-sub-pos=95
+subpos=95
+
+# Set subtitle alignment at its position (2: bottom)
+subalign=2
+
+# Set font size (2: proportional to movie width)
+subfont-autoscale=2
 
 # Set font blur radius (default: 2)
-sub-text-blur=0.5
+subfont-blur=2.0
 
 # Set font outline thickness (default: 2)
-sub-text-border-size=4
+subfont-outline=4
 
 # Set autoscale coefficient (default: 5)
-#sub-scale=0.8
+subfont-text-scale=3.5
 
 # OSD font size
 osd-font-size=20
@@ -53,6 +87,15 @@ osd-font-size=20
 #====
 # ASS
 #====
-#ass=yes
-#embeddedfonts=yes
-#ass-styles=/home/zainin/.mplayer/styles.ass
+ass=yes
+embeddedfonts=yes
+ass-styles=/home/zainin/.mplayer/styles.ass
+
+
+#====
+# OSD
+#====
+
+# Set autoscale coefficient (default: 6)
+subfont-osd-scale=3
+
