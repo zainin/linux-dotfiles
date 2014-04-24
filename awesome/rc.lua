@@ -47,6 +47,7 @@ do
 end
 -- }}}
 
+
 -- {{{ Variable definitions
 
 --- Useful paths
@@ -101,7 +102,7 @@ end
 -- Define a tag table which hold all screen tags.
 tags = {
 	names		= { "一", "二", "三", "四", "五", "六" },
-	layout	= { layouts[1], layouts[2], layouts[1], layouts[12], layouts[1], layouts[1] }
+	layout	= { layouts[5], layouts[2], layouts[1], layouts[12], layouts[1], layouts[1] }
 }
 
 
@@ -301,7 +302,7 @@ vicious.register(cpuwidget, vicious.widgets.cpu, "<span color='#94738c'>$2%</spa
 
 local cpufreqwidget = wibox.widget.textbox()
 if is_laptop() then
-  vicious.register(cpufreqwidget, vicious.widgets.cpufreq, "<span color='#94738c'>$2GHz</span>", 1, "cpu0")
+  vicious.register(cpufreqwidget, vicious.widgets.cpufreq, "<span color='#94738c'>$5 $2GHz</span>", 1, "cpu0")
 else
   cpufreqwidget:set_markup("<span color='#94738c'>" .. get_freq() .. "</span>") 
 end
@@ -471,7 +472,7 @@ for s = 1, screen.count() do
 
     -- Create the wibox
     mywibox[s] = awful.wibox({ position = "top", screen = s })
-	status_bar[s] = awful.wibox({ position = "bottom", screen = s })
+		status_bar[s] = awful.wibox({ position = "bottom", screen = s })
 
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
@@ -554,16 +555,18 @@ globalkeys = awful.util.table.join(
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
-    awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end),
-    awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end),
+    --awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end),
+    awful.key({ modkey, }, "Tab", function () awful.screen.focus_relative( 1) end),
+    --awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end),
+    --awful.key({ modkey, "Alt"}, "Tab", function () awful.screen.focus_relative(-1) end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
-    awful.key({ modkey,           }, "Tab",
-        function ()
-            awful.client.focus.history.previous()
-            if client.focus then
-                client.focus:raise()
-            end
-        end),
+    --awful.key({ modkey,           }, "Tab",
+    --    function ()
+    --        awful.client.focus.history.previous()
+    --        if client.focus then
+    --            client.focus:raise()
+    --        end
+    --    end),
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
@@ -605,6 +608,7 @@ globalkeys = awful.util.table.join(
 	awful.key({}, "XF86MonBrightnessDown", function () bright("down") end),
 	awful.key({ modkey, "Control" }, "h", function () awful.util.spawn_with_shell(commands.home) end),
 	awful.key({ modkey, "Control" }, "l",	function () awful.util.spawn_with_shell("exec i3lock -c 000000 -d") end),
+	awful.key({ modkey, "Control" }, "m", function () awful.util.spawn_with_shell("exec autorandr -c --force") end),
 
   --Menubar
   awful.key({ modkey }, "p", function() menubar.show() end)
@@ -639,32 +643,40 @@ end
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it works on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
-for i = 1, keynumber do
+for i = 1, 9 do
     globalkeys = awful.util.table.join(globalkeys,
         awful.key({ modkey }, "#" .. i + 9,
                   function ()
                         local screen = mouse.screen
-                        if tags[screen][i] then
-                            awful.tag.viewonly(tags[screen][i])
+                        local tag = awful.tag.gettags(screen)[i]
+                        if tag then
+                           awful.tag.viewonly(tag)
                         end
                   end),
         awful.key({ modkey, "Control" }, "#" .. i + 9,
                   function ()
                       local screen = mouse.screen
-                      if tags[screen][i] then
-                          awful.tag.viewtoggle(tags[screen][i])
+                      local tag = awful.tag.gettags(screen)[i]
+                      if tag then
+                         awful.tag.viewtoggle(tag)
                       end
                   end),
         awful.key({ modkey, "Shift" }, "#" .. i + 9,
                   function ()
-                      if client.focus and tags[client.focus.screen][i] then
-                          awful.client.movetotag(tags[client.focus.screen][i])
-                      end
+                      if client.focus then
+                          local tag = awful.tag.gettags(client.focus.screen)[i]
+                          if tag then
+                              awful.client.movetotag(tag)
+                          end
+                     end
                   end),
         awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
                   function ()
-                      if client.focus and tags[client.focus.screen][i] then
-                          awful.client.toggletag(tags[client.focus.screen][i])
+                      if client.focus then
+                          local tag = awful.tag.gettags(client.focus.screen)[i]
+                          if tag then
+                              awful.client.toggletag(tag)
+                          end
                       end
                   end))
 end
@@ -686,8 +698,11 @@ awful.rules.rules = {
                      border_color = beautiful.border_normal,
                      focus = awful.client.focus.filter,
                      keys = clientkeys,
-                     buttons = clientbuttons } },
+                     buttons = clientbuttons,
+                     size_hints_honor = false } },
     { rule = { class = "MPlayer" },
+      properties = { floating = true } },
+    { rule = { class = "mplayer2" },
       properties = { floating = true } },
     { rule = { class = "pinentry" },
       properties = { floating = true } },
@@ -717,10 +732,14 @@ awful.rules.rules = {
     properties = { border_width = 0 } },
   { rule = { instance = "plugin-container" },
     properties = { floating = true } },
-  { rule = { instance = "Steam", name = "Steam" },
-    properties = { maximized_vertical=true, maximized_horizontal=true } },
+--  { rule = { instance = "Steam", name = "Steam" },
+--    properties = { maximized_vertical=true, maximized_horizontal=true } },
   { rule = { class = "Steam" },
     properties = { tag = tags[1][3] } },
+  { rule = { class = "xbmc.bin" },
+    properties = { tag = tags[1][2] } }, --, fullscreen = true } },
+  { rule = { name = "Timer" },
+    properties = { floating = true } },
 
     -- Set Firefox to always map on tags number 2 of screen 1.
     -- { rule = { class = "Firefox" },
@@ -803,16 +822,25 @@ if is_laptop() then
 		"xcompmgr",
 		"keepassx",
 		"wicd-client",
-  	scripts .. "/wallpaper.sh",
+  	--scripts .. "/wallpaper.sh",
+    "feh --bg-fill /home/zainin/Images/wallpapers/windy.png",
     "solaar",
+    "start-pulseaudio-x11",
+    "pasystray",
+--    "dropboxd",
 	}
 else
 	autorunApps =
 	{
 		"urxvtd",
 		"keepassx",
-		scripts .. "/wallpaper.sh",
+--		scripts .. "/wallpaper.sh",
     "solaar",
+    "feh --bg-fill /home/zainin/Images/wallpapers/windy.png",
+--    "dropboxd",
+    "pasystray",
+    "compton --backend glx --paint-on-overlay --vsync opengl-swc",
+    "xrdb /home/zainin/cmr",
 	}
 end
 

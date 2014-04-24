@@ -16,7 +16,7 @@ va=alsa
 ao=alsa
 
 # Start in fullscreen
-fs=yes
+#fs=yes
 
 # Double buffering
 double=yes

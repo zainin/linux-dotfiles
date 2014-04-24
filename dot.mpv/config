@@ -1,0 +1,58 @@
+#================
+# Video and audio
+#================
+
+# Video driver
+#vo=vaapi:gl
+vo=vdpau
+#va=vaapi
+#lavdopts=threads=4#:skiploopfilter=all:fast
+
+# Sound driver
+ao=pulse
+
+# Start in fullscreen
+fs=yes
+
+#autoq=100
+#vf=pp=de,hqdn3d
+
+# Aspect ratio
+monitoraspect=16:10
+#noaspect=yes
+
+#Default audio stream
+#alang=jp,jpn,en,eng
+alang=en,eng
+
+#=====
+# Subs
+#=====
+
+# Set language
+slang=jp,jpn,en,eng
+
+# Set subtitle font
+sub-text-font='DejaVu Sans'
+
+# Set subtitle position (100: as low as possible)
+sub-pos=95
+
+# Set font blur radius (default: 2)
+sub-text-blur=0.5
+
+# Set font outline thickness (default: 2)
+sub-text-border-size=4
+
+# Set autoscale coefficient (default: 5)
+#sub-scale=0.8
+
+# OSD font size
+osd-font-size=20
+
+#====
+# ASS
+#====
+#ass=yes
+#embeddedfonts=yes
+#ass-styles=/home/zainin/.mplayer/styles.ass

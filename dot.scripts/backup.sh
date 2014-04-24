@@ -75,9 +75,11 @@ backup=(
   $HOME"/.Xdefaults"
   $HOME"/.Xresources"
   $HOME"/.mplayer"
+  $HOME"/.mpv"
   $HOME"/.gtkrc-2.0"
   $HOME"/.config/gtk-3.0"
   $HOME"/.zshrc"
+  $HOME"/.vimrc"
   $HOME"/.scripts"
   $HOME"/woods"
   $HOME"/solarized"
@@ -111,6 +113,7 @@ fi
 
 # backup!
 echo -e "\e[0;36m++ Starting backup\e[00m\n"
+echo -e "Backup dir is $backup_dir\n"
 
 for item in "${backup[@]}"
 do

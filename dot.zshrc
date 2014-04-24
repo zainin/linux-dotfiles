@@ -24,7 +24,7 @@ ZSH_THEME="gnzh"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment following line if you want red dots to be displayed while waiting for completion
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -48,8 +48,22 @@ alias debug-wm='Xephyr :1 -ac -br -noreset -screen 1280x780&'
 alias debug-wm-run='DISPLAY=:1.0'
 alias hera='ssh -t i241605@tryglaw.ii.uni.wroc.pl ssh hera'
 
-fortune -a
+fortune -ae
 echo
 export EDITOR=vim
 #eval `dircolors -b ~/.dir_colors`
+source /usr/share/doc/pkgfile/command-not-found.zsh
+[ -r /etc/profile.d/cnf.sh ] && . /etc/profile.d/cnf.sh
 . /usr/share/zsh/site-contrib/powerline.zsh
+
+# Colored man pages
+man() {
+  env LESS_TERMCAP_mb=$'\E[01;31m' \
+  LESS_TERMCAP_md=$'\E[01;38;5;74m' \
+  LESS_TERMCAP_me=$'\E[0m' \
+  LESS_TERMCAP_se=$'\E[0m' \
+  LESS_TERMCAP_so=$'\E[38;5;246m' \
+  LESS_TERMCAP_ue=$'\E[0m' \
+  LESS_TERMCAP_us=$'\E[04;38;5;146m' \
+  man "$@"
+}
