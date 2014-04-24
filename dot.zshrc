@@ -47,7 +47,6 @@ alias irc='screen irssi'
 alias debug-wm='Xephyr :1 -ac -br -noreset -screen 1280x780&'
 alias debug-wm-run='DISPLAY=:1.0'
 alias hera='ssh -t i241605@tryglaw.ii.uni.wroc.pl ssh hera'
-alias vim='PYTHONPATH=/usr/lib/python3.3/site-packages vim'
 
 fortune -ae
 echo

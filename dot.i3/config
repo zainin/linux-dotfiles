@@ -17,22 +17,21 @@ set $home /home/zainin
 exec feh --bg-scale $home/Images/zixpk.jpg
 exec twmnd
 exec keepassx
-exec xcompmgr
-exec wicd-client
 exec_always $home/.dzen2/dzenbar
 exec_always setxbkmap pl
 
 # assign windows to default worskspaces
-assign [class="Opera"] 1
 assign [class="Firefox"] 1
-assign [class="Chromium"] 1
+assign [class="Opera"] 1
 assign [class="Pidgin"] 4
+assign [class="Wine"] 5
 
 # make wine windows floating
 for_window [class="Wine"] floating enable
 for_window [class="Truecrypt"] floating enable
 for_window [class="Keepassx"] floating enable
 for_window [class="Steam"] floating enable
+for_window [class="Xephyr"] floating enable
 
 # font for window titles. ISO 10646 = Unicode
 #font -misc-helvetica-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -40,20 +39,17 @@ for_window [class="Steam"] floating enable
 # mpd controls
 bindsym $mod+a exec ncmpcpp toggle
 bindsym $mod+z exec ncmpcpp stop
+bindsym $mod+c exec ncmpcpp next
 
 # sound controls
-# pc
-#bindsym $mod+F4 exec amixer -q set Master 2+ unmute
-#bindsym $mod+F3 exec amixer -q set Master 2- unmute
-#bindsym $mod+F2 exec amixer -q set Master toggle
-# laptop
-bindsym XF86AudioRaiseVolume exec amixer -q set Master 2+ unmute
-bindsym XF86AudioLowerVolume exec amixer -q set Master 2- unmute
-bindsym XF86AudioMute exec amixer -q set Master toggle
-bindsym XF86Display exec /home/zainin/.scripts/lid.sh
+bindsym $mod+F4 exec amixer -q set Master 2+ unmute
+bindsym $mod+F3 exec amixer -q set Master 2- unmute
+bindsym $mod+F2 exec amixer -q set Master toggle
 
 # i3lock
-bindsym $mod+Mod1+L exec i3lock -d -i $home/Images/matrix.png
+bindsym $mod+Mod1+L exec i3lock -i $home/Images/matrix.png
+
+# toggle dzenbar
 
 ######################
 

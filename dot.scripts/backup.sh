@@ -74,7 +74,6 @@ backup=(
   $HOME"/.config/awesome --include=awesome/rc.lua --exclude=\"awesome/*\""
   $HOME"/.Xdefaults"
   $HOME"/.Xresources"
-  $HOME"/.mplayer"
   $HOME"/.mpv"
   $HOME"/.gtkrc-2.0"
   $HOME"/.config/gtk-3.0"

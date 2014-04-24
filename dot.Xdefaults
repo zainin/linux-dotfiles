@@ -12,4 +12,3 @@ URxvt.underlineURLs: true
 URxvt*font: xft:Inconsolata for Powerline:pixelsize=15:antialiasing=true
 
 *fading: 40 *fadeColor: #333333
-Xcursor.size: 32
