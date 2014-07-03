@@ -80,6 +80,7 @@ backup=(
   $HOME"/.zshrc"
   $HOME"/.vimrc"
   $HOME"/.scripts"
+	"/etc/lightdm"
   $HOME"/woods"
   $HOME"/solarized"
 	$HOME"/cmr"
