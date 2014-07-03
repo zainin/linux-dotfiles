@@ -47,6 +47,10 @@ alias irc='screen irssi'
 alias debug-wm='Xephyr :1 -ac -br -noreset -screen 1280x780&'
 alias debug-wm-run='DISPLAY=:1.0'
 alias hera='ssh -t i241605@tryglaw.ii.uni.wroc.pl ssh hera'
+#serwis matrix
+alias serwis='ssh zdalny@178.19.98.7'
+alias serwis-user='ssh user@178.19.98.7'
+alias svim='sudoedit'
 
 fortune -ae
 echo

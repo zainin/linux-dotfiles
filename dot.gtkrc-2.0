@@ -1,8 +1,8 @@
 # DO NOT EDIT! This file will be overwritten by LXAppearance.
 # Any customization should be done in ~/.gtkrc-2.0.mine instead.
 
-gtk-theme-name="Dark_Star"
-gtk-icon-theme-name="ACYL_Icon_Theme_0.9.4"
+gtk-theme-name="Boje-Red"
+gtk-icon-theme-name="Faenza-Ambiance"
 gtk-font-name="Sans 10"
 gtk-cursor-theme-name="Adwaita"
 gtk-cursor-theme-size=0
@@ -15,4 +15,5 @@ gtk-enable-input-feedback-sounds=1
 gtk-xft-antialias=1
 gtk-xft-hinting=1
 gtk-xft-hintstyle="hintfull"
+gtk-color-scheme="theme_text_dark_color:#E0E0E0\ntooltip_fg_color:#ffffff\nlink_color:#4a90f9\nbase_color:#2C2E2F\ntext_color:#dcdcdc\nselected_fg_color:#E9E9E9\ntheme_bg_dark_color:#383A3B\nbg_color:#383A3B\ntooltip_bg_color:#161616\ntheme_fg_dark_color:#C0C0C0\nselected_bg_color:#4d679a\nfg_color:#bdbdbd\n"
 include "/home/zainin/.gtkrc-2.0.mine"

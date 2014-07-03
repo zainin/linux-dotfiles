@@ -1,40 +1,28 @@
-*background:  #000000
-*foreground:  #919191
+! "black"
+*color0: #4d4d4d
+*color8: #5a5a5a
+! red
+*color1: #C70031
+*color9: #F05178
+! green
+*color2: #29CF13
+*color10: #6CE05C
+! yellow
+*color3: #D8E30E
+*color11: #F3F79E
+! blue
+*color4: #3449D1
+*color12: #97A4F7
+! magenta
+*color5: #8400FF
+*color13: #C495F0
+! cyan
+*color6: #0798AB
+*color14: #68F2E0
+! "white"
+*color7: #E2D1E3
+*color15: #FFFFFF
+ 
+URxvt*background: #151515
+URxvt*foreground: #aeaeae
 
-*colorBD:     #C6C6C6
-*colorIT:     #C6C6C6
-*colorUL:     #C6C6C6
-
-*cursorColor: #00DDF4
-
-! BLACK
-*color0:      #303030
-*color8:      #5E5E5E
-
-! WHITE
-*color7:      #C6C6C6
-*color15:     #FFFFFF
-
-! RED
-*color1:      #A13A38
-*color9:      #FFA59A
-
-! YELLOW
-*color3:      #006F32
-*color11:     #73DB95
-
-! GREEN
-*color2:      #00715D
-*color10:     #24DFC4
-
-! CYAN
-*color6:      #007086
-*color14:     #00DDF4
-
-! BLUE
-*color4:      #A43261
-*color12:     #FF9FC9
-
-! MAGENTA
-*color5:      #913E88
-*color13:     #FFA7F6

@@ -47,6 +47,8 @@ sub-text-border-size=4
 # Set autoscale coefficient (default: 5)
 #sub-scale=0.8
 
+sub-text-font-size=35
+
 # OSD font size
 osd-font-size=20
 

@@ -82,47 +82,44 @@ backup=(
   $HOME"/.scripts"
   $HOME"/woods"
   $HOME"/solarized"
+	$HOME"/cmr"
 )
 
 ### End of variables
 
+restore() {
+  dots_restore
+  for item in "${backup[@]}"; do
+    cmp "$item" `echo $item | sed -e 's@'$HOME'@'$backup_dir'@'`
+  done
+  dots_convert
+  exit
+}
+
 # check if backup dir exists, create if necessary
-if [ ! -d $backup_dir ]; then
-  echo -en "\e[0;31m!! No backup directory;\n!! creating one in "
-  echo -e  "\e[0;32m$backup_dir\e[00m"
-  mkdir $backup_dir || { echo -en "\e[0;31m!! ERROR - can't create directory.";
-                         echo -e  "Insufficient rights?\e[00m"; exit 1; }
-fi
+backdir(){
+  if [ ! -d $backup_dir ]; then
+    echo -en "\e[0;31m!! No backup directory;\n!! creating one in "
+    echo -e  "\e[0;32m$backup_dir\e[00m"
+    mkdir $backup_dir || { echo -en "\e[0;31m!! ERROR - can't create directory.";
+                           echo -e  "Insufficient rights?\e[00m"; exit 1; }
+  fi
+}
 
-# clean error log before continuing
-echo > $log || { echo -en "\e[0;31m!! ERROR creating/cleaning error log. ";
-            echo -e  "Insufficient rights?\e[00m"; exit 1; } 
-
-echo -e "\e[0;36m++ Reconverting dots (if any)\e[00m"
 
 # rename dots (if any) "dot.file => .file"
-if [ $dots=1 ]; then
+dots_restore(){
+  echo -e "\e[0;36m++ Reconverting dots (if any)\e[00m"
   for item in `find $backup_dir -maxdepth 1 -name "dot.*" -printf "%f\n"`; do
     mv $backup_dir'/'$item $backup_dir'/'`echo $item | sed 's/^dot\./\./g'` &&
        echo -e "\e[0;32m++ Reconverted $item\e[00m" || 
        { echo -e "!\e[0;31m!! ERROR reconverting dots in $item\e[00m";
          echo    "!! ERROR reconverting dots in $item" >> err.log; }
   done
-fi
-
-# backup!
-echo -e "\e[0;36m++ Starting backup\e[00m\n"
-echo -e "Backup dir is $backup_dir\n"
-
-for item in "${backup[@]}"
-do
-  bash -c "rsync -qa $item $backup_dir &>> err.log" && 
-            echo -e "\e[0;32m:: $item\e[00m" ||
-            echo -e "\e[0;31m!! ERROR copying $item, see $log for details!\e[00m"
-done
+}
 
 # rename dots ".file => dot.file"
-if [ $dots=1 ]; then
+dots_convert(){
   # we need to ignore backup directory if its name begins with a dot
   ignore=`echo $backup_dir | sed 's,'"$HOME\/"',,'`
   for item in `find $backup_dir -maxdepth 1 \( -name .\* ! -name .git \
@@ -133,6 +130,43 @@ if [ $dots=1 ]; then
          echo -n "!! ERROR could not convert dots in ";
          echo    "$backup_dir/$item" >> err.log; }
   done
+}
+
+# backup!
+backup(){
+  echo -e "\e[0;36m++ Backing up!\e[00m\n"
+  echo -e "Backup dir is $backup_dir\n"
+
+  if [ $dots=1 ]; then
+    dots_restore
+  fi
+
+  echo -e "\e[0;36m++ Copying files\e[00m"
+
+  for item in "${backup[@]}"
+  do
+    bash -c "rsync -qa $item $backup_dir &>> err.log" && 
+              echo -e "\e[0;32m:: $item\e[00m" ||
+              echo -e "\e[0;31m!! ERROR copying $item, see $log for details!\e[00m"
+  done
+
+  if [ $dots=1 ]; then
+    dots_convert
+  fi
+}
+
+# clean error log before continuing
+echo > $log || { echo -en "\e[0;31m!! ERROR creating/cleaning error log. ";
+            echo -e  "Insufficient rights?\e[00m"; exit 1; } 
+
+
+if [ "$1" != "diff" ]; then
+  echo -en "\e[036mDefault behavior is backup.\nTry 'backup diff' for restoring"
+  echo -e " files\e[00m"
+  backdir
+  backup
+else
+  restore
 fi
 
 exit 0

@@ -27,8 +27,8 @@ def get_args(t, d, h):
     if tmp != '': d = tmp
   else:
     d = input('Duration [[hh:]mm:]ss[.ms] = ')
-  
-  tmp = input('Height in px ( ' + h + ' ) = ') 
+
+  tmp = input('Height in px ( ' + h + ' ) = ')
   if tmp != '': h = tmp
 
   return t, d, h
@@ -87,7 +87,7 @@ ffmpeg += ' -ss ' + time
 ffmpeg += ' -i "' + filename + '"'
 ffmpeg += ' -vf scale=' + height + ':-1'
 ffmpeg += ' -t ' + duration
-ffmpeg += ' -r ' + fps + ' ' 
+ffmpeg += ' -r ' + fps + ' '
 ffmpeg += tempdir + '/%3d.png'
 #print(ffmpeg)
 call(ffmpeg, shell=True)

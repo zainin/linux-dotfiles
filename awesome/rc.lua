@@ -8,7 +8,7 @@
 vicious = require("vicious")
 
 -- Custom menu generator
-local menu_gen = require("menu")
+--local menu_gen = require("menu")
 
 -- Standard awesome library
 local gears = require("gears")
@@ -127,7 +127,7 @@ myawesomemenu = {
    { "quit", awesome.quit }
 }
 
-cheatSheets = menu_gen.gen( 'zathura', home .. '/studia/cisco/', '*pdf', '/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png')
+--cheatSheets = menu_gen.gen( 'zathura', home .. '/studia/cisco/', '*pdf', '/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png')
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                     { "open terminal", terminal },
@@ -182,9 +182,9 @@ end
 function getvol(x)
 	local f
 	if x == "toggle" then
-		f = io.popen("amixer get Master | awk '{ print $6 }' | grep o")
+		f = io.popen("amixer get Master | grep % | head -1 | cut -d ' ' -f 8")
 	else
-		f = io.popen("amixer get Master | awk '{ print $4 }' | grep \\%")
+		f = io.popen("amixer get Master | grep % | head -1 | cut -d ' ' -f 7 | sed 's/\\[\\|\\]//g'")
 	end
 	local level = f:read("*all")
 	f.close(f)
@@ -194,16 +194,16 @@ function vol(x)
 	--local level = getvol()
 	local level
 	if x == "up" then
-		awful.util.spawn("amixer -q set Master 2+ unmute")
-		level = ' +5 ' .. getvol()
+		awful.util.spawn("pulseaudio-ctl up")
+		--level = ' +5 ' .. getvol()
 	elseif x == "down" then
-		awful.util.spawn("amixer -q set Master 2- unmute")
-		level = ' -5 ' .. getvol()
+		awful.util.spawn("pulseaudio-ctl down")
+		--level = ' -5 ' .. getvol()
 	else
-		awful.util.spawn("amixer -q set Master toggle")
-		level = getvol("toggle")
+		awful.util.spawn("pulseaudio-ctl mute")
+		--level = getvol("toggle")
 	end
-	naughty.notify({ text = level, title = 'Volume', position = 'top_right', timeout = 5, icon = "/usr/share/pixmaps/volume.png", replaces_id=666 }).id=666
+	--naughty.notify({ text = level, title = 'Volume', position = 'top_right', timeout = 5, icon = "/usr/share/pixmaps/volume.png", replaces_id=666 }).id=666
 end
 --- }}
 
@@ -285,7 +285,7 @@ local cpufreqwidget = wibox.widget.textbox()
 if is_laptop() then
   vicious.register(cpufreqwidget, vicious.widgets.cpufreq, "<span color='#94738c'>$5 $2GHz</span>", 1, "cpu0")
 else
-  cpufreqwidget:set_markup("<span color='#94738c'>" .. get_freq() .. "</span>") 
+  cpufreqwidget:set_markup("<span color='#94738c'>" .. get_freq() .. "</span>")
 end
 
 --- }}}
@@ -358,11 +358,11 @@ vicious.register(volwidget, vicious.widgets.volume, " [$2$1]", 1, "Master")
 
 --- {{{ Weather widget
 
-local weatherwidget = wibox.widget.textbox()
-vicious.register(weatherwidget, vicious.widgets.weather,
-  function (widget, args)
-    return ' '..args["{tempc}"]..'°C | '
-  end, 1800, "EPWR")
+--local weatherwidget = wibox.widget.textbox()
+--vicious.register(weatherwidget, vicious.widgets.weather,
+--  function (widget, args)
+--    return ' '..args["{tempc}"]..'°C | '
+--  end, 1800, "EPWR")
 
 --- }}}
 
@@ -464,8 +464,8 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
-    right_layout:add(uptimeicon) right_layout:add(uptimewidget) 
-    right_layout:add(weatherwidget)
+    right_layout:add(uptimeicon) right_layout:add(uptimewidget)
+--    right_layout:add(weatherwidget)
     right_layout:add(clockwidget)
     right_layout:add(mylayoutbox[s])
 
@@ -479,14 +479,14 @@ for s = 1, screen.count() do
 
 	  -- status_bar, widget left side
 	  local left_statusbar = wibox.layout.fixed.horizontal()
-	
+
 	  left_statusbar:add(netdownicon) left_statusbar:add(netdownwidget)
     left_statusbar:add(separator)
     left_statusbar:add(netupicon) left_statusbar:add(netupwidget)
     left_statusbar:add(separator)
     left_statusbar:add(cpuicon) left_statusbar:add(cpuwidget)
     left_statusbar:add(separator)
-    left_statusbar:add(cpufreqwidget) 
+    left_statusbar:add(cpufreqwidget)
     left_statusbar:add(separator)
     left_statusbar:add(cputempicon) left_statusbar:add(cputempwidget)
 	  left_statusbar:add(separator)
@@ -578,13 +578,19 @@ globalkeys = awful.util.table.join(
 
 	-- CUSTOM KEYS
 	awful.key({ modkey,			}, "F1",function () awful.util.spawn_with_shell(commands.www) end),
-	awful.key({ modkey,			}, "a",	function () awful.util.spawn_with_shell("exec ncmpcpp toggle") end),
+	awful.key({}, "XF86AudioPlay",	function () awful.util.spawn_with_shell("exec ncmpcpp toggle") end),
+	awful.key({}, "XF86AudioStop",	function () awful.util.spawn_with_shell("exec ncmpcpp stop") end),
+	awful.key({}, "XF86AudioNext",	function () awful.util.spawn_with_shell("exec ncmpcpp next") end),
+	awful.key({modkey,			}, "a",	function () awful.util.spawn_with_shell("exec ncmpcpp toggle") end),
 	awful.key({ modkey,			}, "z",	function () awful.util.spawn_with_shell("exec ncmpcpp stop") end),
 	awful.key({ modkey,			}, "c",	function () awful.util.spawn_with_shell("exec ncmpcpp next") end),
   awful.key({ modkey,     }, "q", function () awful.util.spawn_with_shell(spotify.play) end),
-	awful.key({ modkey,			}, "F4",function () vol("up") end),
-	awful.key({ modkey,			}, "F3" ,function () vol("down") end),
-	awful.key({ modkey,			}, "F2" ,function () vol("toggle") end),
+	awful.key({}, "XF86AudioRaiseVolume",function () vol("up") end),
+	awful.key({}, "XF86AudioLowerVolume" ,function () vol("down") end),
+	awful.key({}, "XF86AudioMute" ,function () vol("toggle") end),
+	awful.key({ modkey,			}, "F3",function () vol("up") end),
+	awful.key({ modkey,			}, "F2" ,function () vol("down") end),
+	awful.key({ modkey,			}, "F1" ,function () vol("toggle") end),
 	awful.key({}, "XF86MonBrightnessUp", function () bright("up") end),
 	awful.key({}, "XF86MonBrightnessDown", function () bright("down") end),
 	awful.key({ modkey, "Control" }, "h", function () awful.util.spawn_with_shell(commands.home) end),
@@ -684,6 +690,8 @@ awful.rules.rules = {
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
     { rule = { class = "mplayer2" },
+      properties = { floating = true } },
+    { rule = { class = "mpv" },
       properties = { floating = true } },
     { rule = { class = "pinentry" },
       properties = { floating = true } },
@@ -794,11 +802,11 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
-autorun = true
+--[[autorun = true
 autorunApps = {}
 if is_laptop() then
-	autorunApps = 
-	{ 
+	autorunApps =
+	{
 		"urxvtd",
 		"xcompmgr",
 		"keepassx",
@@ -814,6 +822,7 @@ else
 	autorunApps =
 	{
 		"urxvtd",
+    "setxkbmap pl",
 		"keepassx",
 --		scripts .. "/wallpaper.sh",
     "solaar",
@@ -839,7 +848,8 @@ if autorun then
 --			awful.util.spawn_with_shell(autorunApps[app])
 			run_once(autorunApps[app])
 		end
-end
+end]]--
+awful.util.spawn_with_shell(scripts .. "/autostart.sh")
 
 -- disable startup-notification globally
 local oldspawn = awful.util.spawn
