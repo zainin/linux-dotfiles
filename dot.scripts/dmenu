@@ -1,0 +1,13 @@
+#!/bin/sh
+
+dmenu_run -l 10 \
+    -w 200 \
+    -y 0 \
+    -x 5\
+    -i \
+    -p "> " \
+    -nb '#000000' \
+    -nf '#dadada' \
+    -sf '#dadada' \
+    -sb '#5f87af' \
+    -o 0.95 2>/dev/null
