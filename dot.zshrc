@@ -5,7 +5,7 @@ ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="gnzh"
+ZSH_THEME="sporty_256"
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -51,23 +51,22 @@ alias hera='ssh -t i241605@tryglaw.ii.uni.wroc.pl ssh hera'
 alias serwis='ssh zdalny@178.19.98.7'
 alias serwis-user='ssh user@178.19.98.7'
 alias svim='sudoedit'
+alias subs='subliminal -l en --'
+alias mtunnel='ssh -L 8080:172.16.0.223:8291 user@mserwis'
 
-fortune -ae
+fortune -a
 echo
 export EDITOR=vim
 #eval `dircolors -b ~/.dir_colors`
-source /usr/share/doc/pkgfile/command-not-found.zsh
-[ -r /etc/profile.d/cnf.sh ] && . /etc/profile.d/cnf.sh
-. /usr/share/zsh/site-contrib/powerline.zsh
 
-# Colored man pages
-man() {
-  env LESS_TERMCAP_mb=$'\E[01;31m' \
-  LESS_TERMCAP_md=$'\E[01;38;5;74m' \
-  LESS_TERMCAP_me=$'\E[0m' \
-  LESS_TERMCAP_se=$'\E[0m' \
-  LESS_TERMCAP_so=$'\E[38;5;246m' \
-  LESS_TERMCAP_ue=$'\E[0m' \
-  LESS_TERMCAP_us=$'\E[04;38;5;146m' \
-  man "$@"
-}
+[ -r /etc/profile.d/cnf.sh ] && . /etc/profile.d/cnf.sh
+#. /usr/share/zsh/site-contrib/powerline.zsh
+
+#no rehash
+setopt nohashdirs
+
+#syntax highlighting
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+#colored man
+source ~/.mancolor.sh

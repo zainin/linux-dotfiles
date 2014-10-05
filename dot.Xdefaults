@@ -9,7 +9,19 @@ URxvt*url-launcher: /usr/bin/firefox
 URxvt.keysym.M-u: perl:url-select:select_next
 URxvt.underlineURLs: true
 !URxvt*font: xft:Anonymous Pro for Powerline:pixelsize=15:antialiasing=true
-URxvt*font: xft:Inconsolata for Powerline:pixelsize=15:antialiasing=true
+URxvt*font: xft:Inconsolata for Powerline:pixelsize=14:antialiasing=true
+
+Xft.autohint: 0
+Xft.lcdfilter:  lcddefault
+Xft.hintstyle:  hintfull
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
 
 *fading: 40 *fadeColor: #333333
 Xcursor.size: 32
+
+!Colored man pages
+URxvt.colorIT:      #87af5f
+URxvt.colorBD:      #d7d7d7
+URxvt.colorUL:      #87afd7

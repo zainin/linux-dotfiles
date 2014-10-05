@@ -17,8 +17,10 @@ laptop=(
 )
 
 pc=(
-  "compton --backend glx --paint-on-overlay --vsync opengl-swc"
+  "compton --vsync opengl"
   "start-pulseaudio-x11"
+  "connman-ui-gtk"
+  "deluge"
 )
 
 grep -q Q9550 /proc/cpuinfo && \
@@ -28,7 +30,7 @@ grep -q Q9550 /proc/cpuinfo && \
   autorun=("${autorun[@]}" "${laptop[@]}")
 
 run_once() {
-  pgrep -u $USER -x ${1% *} &> /dev/null || $1&
+  pgrep -u $USER -f ${1% *} &> /dev/null || $1&
 }
 
 for i in "${autorun[@]}"

@@ -56,7 +56,7 @@
 #   In every step the script tries to provide useful output.              #
 ###########################################################################
 
-### Variables 
+### Variables
 
 # backup location
 backup_dir=$HOME'/linux-dotfiles'
@@ -113,7 +113,7 @@ dots_restore(){
   echo -e "\e[0;36m++ Reconverting dots (if any)\e[00m"
   for item in `find $backup_dir -maxdepth 1 -name "dot.*" -printf "%f\n"`; do
     mv $backup_dir'/'$item $backup_dir'/'`echo $item | sed 's/^dot\./\./g'` &&
-       echo -e "\e[0;32m++ Reconverted $item\e[00m" || 
+       echo -e "\e[0;32m++ Reconverted $item\e[00m" ||
        { echo -e "!\e[0;31m!! ERROR reconverting dots in $item\e[00m";
          echo    "!! ERROR reconverting dots in $item" >> err.log; }
   done
@@ -146,7 +146,7 @@ backup(){
 
   for item in "${backup[@]}"
   do
-    bash -c "rsync -qa $item $backup_dir &>> err.log" && 
+    bash -c "rsync -qa $item $backup_dir &>> err.log" &&
               echo -e "\e[0;32m:: $item\e[00m" ||
               echo -e "\e[0;31m!! ERROR copying $item, see $log for details!\e[00m"
   done
@@ -158,7 +158,7 @@ backup(){
 
 # clean error log before continuing
 echo > $log || { echo -en "\e[0;31m!! ERROR creating/cleaning error log. ";
-            echo -e  "Insufficient rights?\e[00m"; exit 1; } 
+            echo -e  "Insufficient rights?\e[00m"; exit 1; }
 
 
 if [ "$1" != "diff" ]; then

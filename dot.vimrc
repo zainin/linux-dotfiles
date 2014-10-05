@@ -1,9 +1,7 @@
 set fo=tcq
 set modeline
 set backupdir=~/.vim/backup
-"filetype plugin on
 syntax on
-set tabstop=2
 
 "highlight search
 set hlsearch
@@ -38,9 +36,10 @@ set nocompatible
 set title
 let &titleold='urxvt'
 
-"set expandtab
+set expandtab
 "tab width
 set softtabstop=2
+set tabstop=2
 set shiftwidth=2
 
 "visual autocomplete for vim commands
@@ -53,8 +52,8 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin 'bling/vim-airline'
 Plugin 'gmarik/Vundle.vim'
+Plugin 'bling/vim-airline'
 Plugin 'Yggdroot/indentLine'
 Plugin 'scrooloose/syntastic'
 Plugin 'Valloric/YouCompleteMe'
@@ -62,7 +61,8 @@ Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'matchit.zip'
 
 call vundle#end()
-filetype plugin indent on
+"filetype plugin indent on
+filetype plugin on
 
 colorscheme badwolf
 
