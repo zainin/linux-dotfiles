@@ -121,7 +121,7 @@ end
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-	names		= { "一", "二", "三", "四", "五", "六" },
+	names		= { "一", "二", "三", "四", "五" },
    -- names   = { "α", "β", "γ", "δ", "ε" },
 	layout	= { layouts[4], layouts[2], layouts[1], layouts[2], layouts[1] }
 }
