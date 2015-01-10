@@ -28,4 +28,4 @@ dotfiles
 Screenshot
 =====
 
-![awesome screenshot](screen.png)
+![awesome screenshot](https://raw.githubusercontent.com/zainin/linux-dotfiles/master/screen.png)
