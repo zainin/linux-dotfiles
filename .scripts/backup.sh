@@ -14,6 +14,7 @@ backup=(
   $HOME"/.config/awesome/rc.lua"
   $HOME"/.config/awesome/themes/rv1/"
   $HOME"/.config/gtk-3.0/"
+  $HOME"/.config/compton.conf"
   $HOME"/.scripts/"
   $HOME"/.mpv/"
   $HOME"/.Xresources"
