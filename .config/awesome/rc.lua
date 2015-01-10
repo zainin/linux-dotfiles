@@ -65,14 +65,14 @@ confdir = home .. "/.config/awesome"
 themes = confdir .. "/themes"
 
 -- Themes define colours, icons, and wallpapers
-active_theme = themes .. "/colored"
+active_theme = themes .. "/rv1"
 beautiful.init(active_theme .. "/theme.lua")
 
-widget_bg_alt = "#006885"
-widget_font_alt = "#000000"
+widget_bg_alt = "#1c1c1c"
+widget_font_alt = "#8f8d8d"
 
 -- This is used later as the default terminal and editor to run.
-terminal = "urxvt"
+terminal = "urxvtc"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -84,22 +84,23 @@ editor_cmd = terminal .. " -e " .. editor
 modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
-local layouts =
-{
+local layouts = {
     awful.layout.suit.floating,
     awful.layout.suit.tile.left,
-    awful.layout.suit.tile,
-    awful.layout.suit.tile.bottom,
+    --awful.layout.suit.tile,
+    lain.layout.uselesstile,
+    --awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
-    awful.layout.suit.max,
+    --awful.layout.suit.fair,
+    --awful.layout.suit.fair.horizontal,
+    --awful.layout.suit.max,
     lain.layout.termfair,
     lain.layout.centerfair,
-    lain.layout.cascade,
-    lain.layout.cascadetile,
+    --lain.layout.cascade,
+    --lain.layout.cascadetile,
     lain.layout.centerwork,
 }
+awful.layout.layouts = layouts
 
 lain.layout.termfair.nmaster = 2
 lain.layout.termfair.ncol = 1
@@ -121,8 +122,10 @@ end
 -- Define a tag table which hold all screen tags.
 tags = {
 	names		= { "一", "二", "三", "四", "五", "六" },
-	layout	= { layouts[5], layouts[2], layouts[1], layouts[2], layouts[1], layouts[1] }
+   -- names   = { "α", "β", "γ", "δ", "ε" },
+	layout	= { layouts[4], layouts[2], layouts[1], layouts[2], layouts[1] }
 }
+--theme.taglist_font = "IPAPGothic 9"
 
 
 for s = 1, screen.count() do
@@ -147,7 +150,6 @@ myawesomemenu = {
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                     { "open terminal", terminal },
-                                    { "cheat sheets", cheatSheets },
                                     { "applications", xdgmenu }
                                   }
                         })
@@ -160,74 +162,31 @@ mylauncher = awful.widget.launcher({ --image = beautiful.awesome_icon,
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
---- {{{ COMMANDS
-local commands = {}
-
 
 --- {{{ Spotify controls
-
 spotify = {}
 spotify.play = scripts .. "/spotify.sh play"
 spotify.next = scripts .. "/spotify.sh next"
 spotify.prev = scripts .. "/spotify.sh prev"
+--- }}}
 
---- {{ check if we're on laptop
-function is_laptop()
-	local f = io.popen(scripts .. "/if_laptop.sh")
-  local res = f:read("*all")
-  io.close(f)
-  if res == "yes" then
-    return true
-  else
-    return false
-  end
-end
---- }}
+--- {{{ Music controls
+mctl = {}
+mctl.play = scripts .. "/music-ctl.sh play"
+mctl.next = scripts .. "/music-ctl.sh next"
+mctl.stop = scripts .. "/music-ctl.sh stop"
+--- }}}
 
---- {{ get cpu frequency once (because it won't change)
+-- {{{ volume controls
+vol = {}
+vol.up = scripts .. "/vol-ctl.sh up"
+vol.down = scripts .. "/vol-ctl.sh down"
+vol.mute = scripts .. "/vol-ctl.sh mute"
+--- }}}
 
-function get_freq()
-  local f = io.popen("grep -m 1 MHz /proc/cpuinfo | awk '{ printf \"%.2fGHz\",$4/1000 }'")
-  local res = f:read("*all")
-  io.close(f)
-  return res
-end
-
---- }}
-
-
---- {{ audio raise/lower volume
-function getvol(x)
-	local f
-	if x == "toggle" then
-		f = io.popen("amixer get Master | grep % | head -1 | cut -d ' ' -f 8")
-	else
-		f = io.popen("amixer get Master | grep % | head -1 | cut -d ' ' -f 7 | sed 's/\\[\\|\\]//g'")
-	end
-	local level = f:read("*all")
-	f.close(f)
-	return level
-end
-function vol(x)
-	--local level = getvol()
-	local level
-	if x == "up" then
-		awful.util.spawn("pulseaudio-ctl up")
-		--level = ' +5 ' .. getvol()
-	elseif x == "down" then
-		awful.util.spawn("pulseaudio-ctl down")
-		--level = ' -5 ' .. getvol()
-	else
-		awful.util.spawn("pulseaudio-ctl mute")
-		--level = getvol("toggle")
-	end
-	--naughty.notify({ text = level, title = 'Volume', position = 'top_right', timeout = 5, icon = "/usr/share/pixmaps/volume.png", replaces_id=666 }).id=666
-end
---- }}
-
---- {{ brightness
+--- {{{ brightness
 function get_brightness()
-	local f = io.popen("sudo light -c | awk -F. '{print $1 }'")
+    local f = io.popen("sudo light -c | awk -F. '{print $1 }'")
 	local aux = f:read("*all")
 	f.close(f)
 	return aux
@@ -244,10 +203,6 @@ function bright(x)
 	level = level:gsub('\n', '')
 	naughty.notify({ text = level, title = 'Screen brightness', position = 'top_right', timeout = 5, replaces_id=777 }).id=777
 end
---- }}
-
-commands.home = "pcmanfm ~"
-
 -- }}}
 
 -- {{{ WIDGETS
@@ -275,10 +230,10 @@ separator:set_text(" ")
 uptimeicon = wibox.widget.imagebox()
 uptimeicon:set_image(beautiful.widget_uptime)
 local uptimewidget = wibox.widget.textbox()
-local uptimewidget_bg = wibox.widget.background()
-vicious.register(uptimewidget, vicious.widgets.uptime, "<span color='#94738c'>$1.$2:$3'</span>")
-uptimewidget_bg:set_widget(uptimewidget)
-uptimewidget_bg:set_bg("#313131")
+--local uptimewidget_bg = wibox.widget.background()
+vicious.register(uptimewidget, vicious.widgets.uptime, "<span color='#94738c'><span font='FontAwesome 9'>  </span>$4 </span>")
+--uptimewidget_bg:set_widget(uptimewidget)
+--uptimewidget_bg:set_bg("#313131")
 
 --- }}}
 
@@ -290,20 +245,12 @@ vicious.cache(vicious.widgets.net)
 netdownicon = wibox.widget.imagebox()
 netdownicon:set_image(beautiful.widget_netdown)
 netdownwidget = wibox.widget.textbox()
-if is_laptop() then
-	vicious.register(netdownwidget, vicious.widgets.net, "<span color='#ce5666'>${wlan0 down_kb}</span>", 1)
-else
-	vicious.register(netdownwidget, vicious.widgets.net, "<span color='#ce5666'>${eth0 down_kb}kB/s</span>", 1)
-end
+vicious.register(netdownwidget, vicious.widgets.net, "<span color='#ce5666'><span font='FontAwesome 9'>  </span>${eth0 down_kb}kB/s</span>", 1)
 
 netupicon = wibox.widget.imagebox()
 netupicon:set_image(beautiful.widget_netup)
 netupwidget = wibox.widget.textbox()
-if is_laptop() then
-	vicious.register(netupwidget, vicious.widgets.net, "<span color='#87af5f'>${wlan0 up_kb}</span>", 1)
-else
-	vicious.register(netupwidget, vicious.widgets.net, "<span color='#87af5f'>${eth0 up_kb}kB/s</span>", 1)
-end
+vicious.register(netupwidget, vicious.widgets.net, "<span color='#87af5f'><span font='FontAwesome 9'>  </span>${eth0 up_kb}kB/s</span> ", 1)
 
 --- }}}
 
@@ -329,15 +276,12 @@ cpuwidget:buttons(awful.util.table.join(
 
 --- {{{ CPU frequency widget
 
-local cpufreqwidget_content = wibox.widget.textbox()
-local cpufreqwidget = wibox.widget.background()
-if is_laptop() then
-  vicious.register(cpufreqwidget_content, vicious.widgets.cpufreq, "<span color='#94738c'>$5 $2GHz</span>", 1, "cpu0")
-else
-  cpufreqwidget_content:set_markup("<span color='#94738c'>" .. get_freq() .. "</span>")
-end
-cpufreqwidget:set_widget(cpufreqwidget_content)
-cpufreqwidget:set_bg("#1A1A1A")
+--local cpufreqwidget_content = wibox.widget.textbox()
+--local cpufreqwidget = wibox.widget.background()
+local cpufreqwidget = wibox.widget.textbox()
+vicious.register(cpufreqwidget, vicious.widgets.cpufreq, "<span color='#94738c'>$5 $2GHz</span>", 1, "cpu0")
+--cpufreqwidget:set_widget(cpufreqwidget_content)
+--cpufreqwidget:set_bg("#1A1A1A")
 
 --- }}}
 
@@ -346,7 +290,7 @@ cpufreqwidget:set_bg("#1A1A1A")
 cputempicon = wibox.widget.imagebox()
 cputempicon:set_image(beautiful.widget_temp)
 local cputempwidget = wibox.widget.textbox()
-vicious.register(cputempwidget, vicious.widgets.thermal, "<span color='#ffaf5f'>$1°C</span>", 10,{"coretemp.0","core"} )
+vicious.register(cputempwidget, vicious.widgets.thermal, "<span color='#ffaf5f'>$1°C</span> ", 10,{"coretemp.0","core"} )
 
 --- }}}
 
@@ -358,11 +302,12 @@ memicon = wibox.widget.background()
 memicon:set_widget(memicon_img)
 memicon:set_bg(widget_bg_alt)
 
-local memwidget_content = wibox.widget.textbox()
-local memwidget = wibox.widget.background()
-vicious.register(memwidget_content, vicious.widgets.mem, "<span color='"..widget_font_alt.."'>$1% $2/$3</span>")
-memwidget:set_widget(memwidget_content)
-memwidget:set_bg(widget_bg_alt)
+--local memwidget_content = wibox.widget.textbox()
+local memwidget = wibox.widget.textbox()
+vicious.register(memwidget, vicious.widgets.mem, "<span color='#7788af'><span font='FontAwesome 9'></span> $1% </span>")
+--vicious.register(memwidget_content, vicious.widgets.mem, "<span color='"..widget_font_alt.."'>$1% $2/$3</span> ")
+--memwidget:set_widget(memwidget_content)
+--memwidget:set_bg(widget_bg_alt)
 
 --- }}}
 
@@ -381,7 +326,8 @@ fsicon = wibox.widget.imagebox()
 fsicon:set_image(beautiful.widget_fs)
 
 local fswidget = wibox.widget.textbox()
-vicious.register(fswidget, vicious.widgets.fs, "<span color='gray'>/ </span><span color='#7788af'>${/ used_p}%[${/ avail_gb}GB]</span><span color='gray'> /home </span><span color='#7788af'>${/home used_p}%[${/home avail_gb}GB]</span><span color='gray'> /storage-ext </span><span color='#7788af'>${/media/storage-ext used_p}%[${/media/storage-ext avail_gb}GB]</span>", 10)
+--vicious.register(fswidget, vicious.widgets.fs, "<span color='gray'>/ </span><span color='#7788af'>${/ used_p}%[${/ avail_gb}GB]</span><span color='gray'> /home </span><span color='#7788af'>${/home used_p}%[${/home avail_gb}GB]</span><span color='gray'> /storage-ext </span><span color='#7788af'>${/media/storage-ext used_p}%[${/media/storage-ext avail_gb}GB]</span>", 10)
+vicious.register(fswidget, vicious.widgets.fs, "<span color='#9c6523'><span font='FontAwesome 9'>  </span>${/ used_p}%, ${/home used_p}%, ${/media/storage-ext used_p}%</span> ", 10)
 
 --- }}}
 
@@ -430,12 +376,16 @@ vicious.register(volwidget, vicious.widgets.volume, "[$2$1]", 1, "Master")
 
 --- {{{ Clock widget
 
-local clockwidget_content = wibox.widget.textbox()
-vicious.register(clockwidget_content, vicious.widgets.date, "%d/%m/%g %R")
+local clockwidget = wibox.widget.textbox()
+vicious.register(clockwidget, vicious.widgets.date, "<span font='FontAwesome 9'>  </span>%a %d/%m/%g %R ")
 
-local clockwidget = wibox.widget.background()
-clockwidget:set_widget(clockwidget_content)
-clockwidget:set_bg(widget_bg_alt)
+--local clockwidget = wibox.widget.background()
+--clockwidget:set_widget(clockwidget_content)
+--clockwidget:set_bg(widget_bg_alt)
+clockwidget:add_signal("mouse::enter", function()
+       awful.util.spawn_with_shell("notify-send clock")
+    end)
+clockwidget:add_signal("mouse::leave", function() end)
 
 --- }}}
 
@@ -503,10 +453,10 @@ for s = 1, screen.count() do
     -- We need one layoutbox per screen.
     mylayoutbox[s] = awful.widget.layoutbox(s)
     mylayoutbox[s]:buttons(awful.util.table.join(
-                           awful.button({ }, 1, function () awful.layout.inc(layouts, 1) end),
-                           awful.button({ }, 3, function () awful.layout.inc(layouts, -1) end),
-                           awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
-                           awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end)))
+                           awful.button({ }, 1, function () awful.layout.inc(1) end),
+                           awful.button({ }, 3, function () awful.layout.inc(-1) end),
+                           awful.button({ }, 4, function () awful.layout.inc(1) end),
+                           awful.button({ }, 5, function () awful.layout.inc(-1) end)))
     -- Create a taglist widget
     mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
 
@@ -515,7 +465,7 @@ for s = 1, screen.count() do
 
     -- Create the wibox
     mywibox[s] = awful.wibox({ position = "top", screen = s })
-		status_bar[s] = awful.wibox({ position = "bottom", screen = s })
+	--status_bar[s] = awful.wibox({ position = "bottom", screen = s })
 
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
@@ -525,12 +475,24 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
-    if s == 1 then right_layout:add(wibox.widget.systray()) end
+    --if s == 1 then right_layout:add(wibox.widget.systray()) end
+    if s == 1 then
+        local systray = wibox.widget.systray()
+        local systray_margin = wibox.layout.margin()
+        systray_margin:set_margins(2)
+        systray_margin:set_widget(systray)
+        right_layout:add(systray_margin)
+    end
     --right_layout:add(uptimeicon) right_layout:add(uptimewidget)
     --right_layout:add(weatherwidget)
-    right_layout:add(arrow_left)
+    --right_layout:add(arrow_left)
+    right_layout:add(netdownwidget)
+    right_layout:add(netupwidget)
+    right_layout:add(uptimewidget)
+    right_layout:add(memwidget)
+    right_layout:add(fswidget)
     right_layout:add(clockwidget)
-    right_layout:add(arrow_left_alt)
+    --right_layout:add(arrow_left_alt)
     right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
@@ -541,36 +503,35 @@ for s = 1, screen.count() do
 
     mywibox[s]:set_widget(layout)
 
-	  -- status_bar, widget left side
-	  local left_statusbar = wibox.layout.fixed.horizontal()
+    --[[
+    -- status_bar, widget left side
+    local left_statusbar = wibox.layout.fixed.horizontal()
 
-	  left_statusbar:add(netdownicon) left_statusbar:add(netdownwidget)
+    left_statusbar:add(netdownicon) left_statusbar:add(netdownwidget)
     left_statusbar:add(separator)
     left_statusbar:add(netupicon) left_statusbar:add(netupwidget)
-    left_statusbar:add(arrow_right_alt)
+    --left_statusbar:add(arrow_right_alt)
     left_statusbar:add(cpuicon) left_statusbar:add(cpuwidget)
     --left_statusbar:add(separator)
     --left_statusbar:add(cpufreqwidget)
-    left_statusbar:add(arrow_right)
+    --left_statusbar:add(arrow_right)
     left_statusbar:add(cputempicon) left_statusbar:add(cputempwidget)
-	  --left_statusbar:add(separator)
-    left_statusbar:add(arrow_right_alt)
-	  left_statusbar:add(memicon) left_statusbar:add(memwidget)
-    left_statusbar:add(arrow_right)
-	  if is_laptop() then
-      left_statusbar:add(baticon) left_statusbar:add(batwidget)
-      left_statusbar:add(separator)
-    end
-	  left_statusbar:add(fsicon) left_statusbar:add(fswidget)
+    --left_statusbar:add(separator)
+    --left_statusbar:add(arrow_right_alt)
+    --left_statusbar:add(memicon) left_statusbar:add(memwidget)
+    --left_statusbar:add(arrow_right)
+    left_statusbar:add(fsicon) left_statusbar:add(fswidget)
 
-	  local right_statusbar = wibox.layout.fixed.horizontal()
-	  right_statusbar:add(arrow_left) right_statusbar:add(mpdwidget)
-    right_statusbar:add(arrow_left_alt) right_statusbar:add(volwidget)
+    local right_statusbar = wibox.layout.fixed.horizontal()
+    --right_statusbar:add(arrow_left) right_statusbar:add(mpdwidget)
+    --right_statusbar:add(arrow_left_alt)
+    right_statusbar:add(volwidget)
 
-	  local layout_statusbar = wibox.layout.align.horizontal()
-	  layout_statusbar:set_left(left_statusbar)
-	  layout_statusbar:set_right(right_statusbar)
-	  status_bar[s]:set_widget(layout_statusbar)
+    local layout_statusbar = wibox.layout.align.horizontal()
+    layout_statusbar:set_left(left_statusbar)
+    layout_statusbar:set_right(right_statusbar)
+    status_bar[s]:set_widget(layout_statusbar)
+    --]]
 end
 -- }}}
 
@@ -608,13 +569,13 @@ globalkeys = awful.util.table.join(
     --awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end),
     --awful.key({ modkey, "Alt"}, "Tab", function () awful.screen.focus_relative(-1) end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
-    --awful.key({ modkey,           }, "Tab",
-    --    function ()
-    --        awful.client.focus.history.previous()
-    --        if client.focus then
-    --            client.focus:raise()
-    --        end
-    --    end),
+    awful.key({ modkey,           }, "Tab",
+        function ()
+            awful.client.focus.history.previous()
+            if client.focus then
+                client.focus:raise()
+            end
+        end),
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
@@ -627,8 +588,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
     awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
-    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
+    awful.key({ modkey,           }, "space", function () awful.layout.inc(1) end),
+    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1) end),
 
     awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
@@ -644,28 +605,39 @@ globalkeys = awful.util.table.join(
               end),
 
 	-- CUSTOM KEYS
-	awful.key({ modkey,			}, "F1",function () awful.util.spawn_with_shell(commands.www) end),
-	awful.key({}, "XF86AudioPlay",	function () awful.util.spawn_with_shell("exec ncmpcpp toggle") end),
-	awful.key({}, "XF86AudioStop",	function () awful.util.spawn_with_shell("exec ncmpcpp stop") end),
-	awful.key({}, "XF86AudioNext",	function () awful.util.spawn_with_shell("exec ncmpcpp next") end),
-	awful.key({modkey,			}, "a",	function () awful.util.spawn_with_shell("exec ncmpcpp toggle") end),
-	awful.key({ modkey,			}, "z",	function () awful.util.spawn_with_shell("exec ncmpcpp stop") end),
-	awful.key({ modkey,			}, "c",	function () awful.util.spawn_with_shell("exec ncmpcpp next") end),
-  awful.key({ modkey,     }, "q", function () awful.util.spawn_with_shell(spotify.play) end),
-	awful.key({}, "XF86AudioRaiseVolume",function () vol("up") end),
-	awful.key({}, "XF86AudioLowerVolume" ,function () vol("down") end),
-	awful.key({}, "XF86AudioMute" ,function () vol("toggle") end),
-	awful.key({ modkey,			}, "F3",function () vol("up") end),
-	awful.key({ modkey,			}, "F2" ,function () vol("down") end),
-	awful.key({ modkey,			}, "F1" ,function () vol("toggle") end),
+    -- [[ Volume keys
+    -- [[[ mute
+	awful.key({ modkey,			}, "F1" ,function () awful.util.spawn_with_shell(vol.mute) end),
+	awful.key({}, "XF86AudioMute" ,function () awful.util.spawn_with_shell(vol.mute) end),
+    -- [[[ up
+	awful.key({ modkey,			}, "F3",function () awful.util.spawn_with_shell(vol.up) end),
+	awful.key({}, "XF86AudioRaiseVolume",function () awful.util.spawn_with_shell(vol.up) end),
+    -- [[[ down
+	awful.key({ modkey,			}, "F2" ,function () awful.util.spawn_with_shell(vol.down) end),
+	awful.key({}, "XF86AudioLowerVolume" ,function () awful.util.spawn_with_shell(vol.down) end),
+    -- [[ Music control
+    -- [[[ play/pause
+	awful.key({ modkey,			}, "a",	function () awful.util.spawn_with_shell(mctl.play) end),
+	awful.key({}, "XF86AudioPlay",	function () awful.util.spawn_with_shell(mctl.play) end),
+    -- [[[ next
+	awful.key({ modkey,			}, "c",	function () awful.util.spawn_with_shell(mctl.next) end),
+	awful.key({}, "XF86AudioNext",	function () awful.util.spawn_with_shell(mctl.next) end),
+    -- [[[ stop
+	awful.key({}, "XF86AudioStop",	function () awful.util.spawn_with_shell(mctl.stop) end),
+	awful.key({ modkey,			}, "z",	function () awful.util.spawn_with_shell(mctl.stop) end),
+    -- [[ Brightness control
 	awful.key({}, "XF86MonBrightnessUp", function () bright("up") end),
 	awful.key({}, "XF86MonBrightnessDown", function () bright("down") end),
-	awful.key({ modkey, "Control" }, "h", function () awful.util.spawn_with_shell(commands.home) end),
+    -- [[ Screen lock
 	awful.key({ modkey, "Control" }, "l",	function () awful.util.spawn_with_shell("exec i3lock -c 000000 -d") end),
+    -- [[ Multiscreen reload
 	awful.key({ modkey, "Control" }, "m", function () awful.util.spawn_with_shell("exec autorandr -c --force") end),
+    -- [[ Screenshot
+    awful.key({}, "Print", function () awful.util.spawn_with_shell("scrot '/media/storage-ext/Images/screenshots/%F-%T.png'") end),
+    awful.key({ modkey, }, "Print", function () awful.util.spawn_with_shell("scrot -s '/media/storage-ext/Images/screenshots/%F-%T.png'") end),
 
-  --Menubar
-  awful.key({ modkey }, "p", function() menubar.show() end)
+    --Menubar
+    awful.key({ modkey }, "p", function() menubar.show() end)
 )
 
 clientkeys = awful.util.table.join(
@@ -754,47 +726,42 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons,
                      size_hints_honor = false } },
-    { rule = { class = "MPlayer" },
-      properties = { floating = true } },
-    { rule = { class = "mplayer2" },
-      properties = { floating = true } },
+    --{ rule = { class = "MPlayer" },
+    --  properties = { floating = true } },
+    --{ rule = { class = "mplayer2" },
+    --  properties = { floating = true } },
     { rule = { class = "mpv" },
       properties = { floating = true } },
-    { rule = { class = "pinentry" },
+    --{ rule = { class = "gimp" },
+    --  properties = { floating = true } },
+    { rule = { class = "Firefox" },
+      properties = { tag = tags[1][1], border_width = 0 } },
+    { rule = { class = "Opera" },
+      properties = { tag = tags[1][1], border_width = 0 } },
+    { rule = { class = "Chromium" },
+      properties = { tag = tags[1][1], border_width = 0 } },
+    { rule = { class = "Wine" },
+      properties = { tag = tags[1][5] } },
+	--{ rule = { class = "Pidgin" },
+	--  properties = { tag = tags[1][4] } },
+    { rule = { class = "VirtualBox" },
+      properties = { border_width = 0 } },
+    { rule = { class = "Wine" },
+      properties = { border_width = 0 } },
+    { rule = { instance = "plugin-container" },
       properties = { floating = true } },
-    { rule = { class = "gimp" },
-      properties = { floating = true } },
-	{ rule = { class = "Firefox" },
-	  properties = { tag = tags[1][1], border_width = 0 } },
-	{ rule = { class = "Opera" },
-	  properties = { tag = tags[1][1], border_width = 0 } },
-	{ rule = { class = "Chromium" },
-	  properties = { tag = tags[1][1], border_width = 0 } },
-	{ rule = { class = "Wine" },
-	  properties = { tag = tags[1][5] } },
-	{ rule = { class = "Pidgin" },
-	  properties = { tag = tags[1][4] } },
-	{ rule = { class = "VirtualBox" },
-	  properties = { border_width = 0 } },
-	{ rule = { class = "Wine" },
-	  properties = { border_width = 0 } },
-  { rule = { class = "Psychonauts" },
-    properties = { border_width = 0 } },
-  { rule = { class = "Amnesia" },
-    properties = { border_width = 0 } },
-  { rule = { class = "Hammerfight" },
-    properties = { border_width = 0 } },
-  { rule = { class = "Gratuitous Space Battles" },
-    properties = { border_width = 0 } },
-  { rule = { instance = "plugin-container" },
-    properties = { floating = true } },
---  { rule = { instance = "Steam", name = "Steam" },
---    properties = { maximized_vertical=true, maximized_horizontal=true } },
-  { rule = { class = "Steam" },
-    properties = { tag = tags[1][3] } },
-  { rule = { class = "xbmc.bin" },
-    properties = { tag = tags[1][2] } }, --, fullscreen = true } },
-  { rule = { name = "Timer" },
+    --  { rule = { instance = "Steam", name = "Steam" },
+    --    properties = { maximized_vertical=true, maximized_horizontal=true } },
+    { rule = { class = "Steam" },
+      properties = { tag = tags[1][3] } },
+    { rule = { class = "xbmc.bin" },
+      properties = { tag = tags[1][2] } }, --, fullscreen = true } },
+    { rule = { class = "Keepassx" },
+      properties = { floating = true }},
+
+    --{ rule = { name = "Timer" },
+    --properties = { floating = true } },
+    { rule = { type = "dock" },
     properties = { floating = true } },
 
     -- Set Firefox to always map on tags number 2 of screen 1.
@@ -869,57 +836,10 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
---[[autorun = true
-autorunApps = {}
-if is_laptop() then
-	autorunApps =
-	{
-		"urxvtd",
-		"xcompmgr",
-		"keepassx",
-		"wicd-client",
-  	--scripts .. "/wallpaper.sh",
-    "feh --bg-fill /home/zainin/Images/wallpapers/windy.png",
-    "solaar",
-    "start-pulseaudio-x11",
-    "pasystray",
---    "dropboxd",
-	}
-else
-	autorunApps =
-	{
-		"urxvtd",
-    "setxkbmap pl",
-		"keepassx",
---		scripts .. "/wallpaper.sh",
-    "solaar",
-    "feh --bg-fill /home/zainin/Images/wallpapers/windy.png",
---    "dropboxd",
-    "pasystray",
-    "compton --backend glx --paint-on-overlay --vsync opengl-swc",
-    "xrdb /home/zainin/cmr",
-	}
-end
-
-function run_once(cmd)
-	findme = cmd
-	firstspace = cmd:find(" ")
-	if firstspace then
-		findme = cmd:sub(0, firstspace-1)
-	end
-	awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
-end
-
-if autorun then
-		for app = 1, #autorunApps do
---			awful.util.spawn_with_shell(autorunApps[app])
-			run_once(autorunApps[app])
-		end
-end]]--
 awful.util.spawn_with_shell(scripts .. "/autostart.sh")
 
 -- disable startup-notification globally
 local oldspawn = awful.util.spawn
 awful.util.spawn = function (s)
-  oldspawn(s, false)
+    oldspawn(s, false)
 end

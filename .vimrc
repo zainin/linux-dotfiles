@@ -52,19 +52,19 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin 'gmarik/Vundle.vim'
-Plugin 'bling/vim-airline'
-Plugin 'Yggdroot/indentLine'
-Plugin 'scrooloose/syntastic'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'matchit.zip'
+  Plugin 'gmarik/Vundle.vim'
+  Plugin 'bling/vim-airline'
+  Plugin 'Yggdroot/indentLine'
+  Plugin 'scrooloose/syntastic'
+  Plugin 'Valloric/YouCompleteMe'
+  Plugin 'kien/rainbow_parentheses.vim'
+  Plugin 'matchit.zip'
 
 call vundle#end()
 "filetype plugin indent on
 filetype plugin on
 
-colorscheme badwolf
+colorscheme molokai
 
 highlight LiteralTabs ctermbg=darkgreen guibg=darkgreen
 match LiteralTabs /\s\	/
@@ -96,3 +96,4 @@ au VimEnter * RainbowParenthesesToggle
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
+autocmd Filetype lua setlocal ts=4 sts=4 sw=4

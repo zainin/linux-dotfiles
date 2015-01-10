@@ -57,7 +57,7 @@ else:
 
 
 while True:
-  mplayer = 'mplayer -ao null --loop=0 --really-quiet'
+  mplayer = 'mpv -ao null --loop=0 --really-quiet'
   mplayer += ' --xy=' + height
   mplayer += ' -ss ' + time
   mplayer += ' --endpos=' + duration

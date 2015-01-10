@@ -1,28 +1,49 @@
-! "black"
-*color0: #4d4d4d
-*color8: #5a5a5a
-! red
-*color1: #C70031
-*color9: #F05178
-! green
-*color2: #29CF13
-*color10: #6CE05C
-! yellow
-*color3: #D8E30E
-*color11: #F3F79E
-! blue
-*color4: #3449D1
-*color12: #97A4F7
-! magenta
-*color5: #8400FF
-*color13: #C495F0
-! cyan
-*color6: #0798AB
-*color14: #68F2E0
-! "white"
-*color7: #E2D1E3
-*color15: #FFFFFF
- 
-URxvt*background: #151515
-URxvt*foreground: #aeaeae
+! Molokai theme
+*background: #101010
+*foreground: #d0d0d0
+*cursorColor: #8000BA
+*color0: #101010
+*color1: #960050
+*color2: #66aa11
+*color3: #c47f2c
+*color4: #30309b
+*color5: #7e40a5
+*color6: #89b6e2
+*color7: #9999aa
+*color8: #303030
+*color9: #ff0090
+*color10: #80ff00
+*color11: #ffba68
+*color12: #5f5fee
+*color13: #bb88dd
+*color14: #4eb4fa
+*color15: #d0d0d0
 
+!urxvt font
+URxvt*font: xft:Inconsolata for Powerline:pixelsize=14:antialiasing=true
+
+!urxvt looks
+URxvt*scrollBar: false
+URxvt*scrollKey: true
+URxvt*cursorBlink: true
+URxvt*saveLines: 5000
+URxvt*geometry: 130x27
+
+Xft.autohint: 0
+Xft.lcdfilter:  lcddefault
+Xft.hintstyle:  hintfull
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
+
+*fading: 40 *fadeColor: #333333
+Xcursor.size: 16
+
+!URxvt.iconFile: /usr/share/icons/gnome/24x24/apps/xfce-terminal.png
+
+!URxvt perl extensions
+URxvt.perl-ext-common: default,matcher,url-select
+URxvt.matcher.button: 1
+URxvt.url-select.launcher: firefox
+URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.underlineURLs: true

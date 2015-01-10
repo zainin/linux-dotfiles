@@ -4,11 +4,9 @@ autorun=(
   "urxvtd"
   "keepassx"
   "setxkbmap pl"
-  "feh --bg-fill /home/zainin/Images/wallpapers/windy.png"
+  "feh --bg-tile /home/zainin/Images/wallpapers/thingy-pattern.png"
   "solaar"
   "pasystray"
-  "xrdb /home/zainin/cmr"
-  "devmon"
 )
 
 laptop=(
@@ -19,7 +17,7 @@ laptop=(
 pc=(
   "compton --vsync opengl"
   "start-pulseaudio-x11"
-  "connman-ui-gtk"
+  "nm-applet"
   "deluge"
 )
 
