@@ -22,7 +22,7 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
-
+-- lain
 local lain = require("lain")
 
 -- Applications menu
@@ -163,13 +163,6 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- }}}
 
 
---- {{{ Spotify controls
-spotify = {}
-spotify.play = scripts .. "/spotify.sh play"
-spotify.next = scripts .. "/spotify.sh next"
-spotify.prev = scripts .. "/spotify.sh prev"
---- }}}
-
 --- {{{ Music controls
 mctl = {}
 mctl.play = scripts .. "/music-ctl.sh play"
@@ -185,55 +178,35 @@ vol.mute = scripts .. "/vol-ctl.sh mute"
 --- }}}
 
 --- {{{ brightness
-function get_brightness()
-    local f = io.popen("sudo light -c | awk -F. '{print $1 }'")
-	local aux = f:read("*all")
-	f.close(f)
-	return aux
-end
-function bright(x)
-	local level
-	if x == "up" then
-		awful.util.spawn("sudo light -a 12")
-		level = " brightness up [" .. get_brightness() .. "%]"
-	else
-		awful.util.spawn("sudo light -s 12")
-		level = " brightness down [" .. get_brightness() .. "%]"
-	end
-	level = level:gsub('\n', '')
-	naughty.notify({ text = level, title = 'Screen brightness', position = 'top_right', timeout = 5, replaces_id=777 }).id=777
-end
+--function get_brightness()
+--    local f = io.popen("sudo light -c | awk -F. '{print $1 }'")
+--	local aux = f:read("*all")
+--	f.close(f)
+--	return aux
+--end
+--function bright(x)
+--	local level
+--	if x == "up" then
+--		awful.util.spawn("sudo light -a 12")
+--		level = " brightness up [" .. get_brightness() .. "%]"
+--	else
+--		awful.util.spawn("sudo light -s 12")
+--		level = " brightness down [" .. get_brightness() .. "%]"
+--	end
+--	level = level:gsub('\n', '')
+--	naughty.notify({ text = level, title = 'Screen brightness', position = 'top_right', timeout = 5, replaces_id=777 }).id=777
+--end
 -- }}}
 
 -- {{{ WIDGETS
 
-arrow_right = wibox.widget.imagebox()
-arrow_right:set_image(beautiful.arrow_right)
-
-arrow_right_alt = wibox.widget.imagebox()
-arrow_right_alt:set_image(beautiful.arrow_right_alt)
-
-arrow_left = wibox.widget.imagebox()
-arrow_left:set_image(beautiful.arrow_left)
-
-arrow_left_alt = wibox.widget.imagebox()
-arrow_left_alt:set_image(beautiful.arrow_left_alt)
-
 local separator = wibox.widget.textbox()
 separator:set_text(" ")
 
-
----- {{{ bottom bar
-
 --- {{{ Uptime widget
 
-uptimeicon = wibox.widget.imagebox()
-uptimeicon:set_image(beautiful.widget_uptime)
 local uptimewidget = wibox.widget.textbox()
---local uptimewidget_bg = wibox.widget.background()
 vicious.register(uptimewidget, vicious.widgets.uptime, "<span color='#94738c'><span font='FontAwesome 9'>  </span>$4 </span>")
---uptimewidget_bg:set_widget(uptimewidget)
---uptimewidget_bg:set_bg("#313131")
 
 --- }}}
 
@@ -242,121 +215,72 @@ vicious.register(uptimewidget, vicious.widgets.uptime, "<span color='#94738c'><s
 --caching
 vicious.cache(vicious.widgets.net)
 
-netdownicon = wibox.widget.imagebox()
-netdownicon:set_image(beautiful.widget_netdown)
 netdownwidget = wibox.widget.textbox()
 vicious.register(netdownwidget, vicious.widgets.net, "<span color='#ce5666'><span font='FontAwesome 9'>  </span>${eth0 down_kb}kB/s</span>", 1)
 
-netupicon = wibox.widget.imagebox()
-netupicon:set_image(beautiful.widget_netup)
 netupwidget = wibox.widget.textbox()
 vicious.register(netupwidget, vicious.widgets.net, "<span color='#87af5f'><span font='FontAwesome 9'>  </span>${eth0 up_kb}kB/s</span> ", 1)
 
 --- }}}
 
---- {{{ CPU widget
-
-cpuicon_img = wibox.widget.imagebox()
-cpuicon = wibox.widget.background()
-cpuicon_img:set_image(beautiful.widget_cpu)
-cpuicon:set_widget(cpuicon_img)
-cpuicon:set_bg(widget_bg_alt)
-local cpuwidget_content = wibox.widget.textbox()
-local cpuwidget = wibox.widget.background()
---vicious.register(cpuwidget_content, vicious.widgets.cpu, "<span color='#94738c'>$2%</span>/<span color='#94738c'>$3%</span> ")
-vicious.register(cpuwidget_content, vicious.widgets.cpu, "<span color='"..widget_font_alt.."'>$1%</span> ")
-
-cpuwidget:set_widget(cpuwidget_content)
-cpuwidget:set_bg(widget_bg_alt)
-cpuwidget:buttons(awful.util.table.join(
-  awful.button({}, 1, function() awful.util.spawn_with_shell("notify-send asdf") end)
-))
-
---- }}}
-
---- {{{ CPU frequency widget
-
---local cpufreqwidget_content = wibox.widget.textbox()
---local cpufreqwidget = wibox.widget.background()
-local cpufreqwidget = wibox.widget.textbox()
-vicious.register(cpufreqwidget, vicious.widgets.cpufreq, "<span color='#94738c'>$5 $2GHz</span>", 1, "cpu0")
---cpufreqwidget:set_widget(cpufreqwidget_content)
---cpufreqwidget:set_bg("#1A1A1A")
-
---- }}}
-
 --- {{{ CPU temperature widget
 
-cputempicon = wibox.widget.imagebox()
-cputempicon:set_image(beautiful.widget_temp)
-local cputempwidget = wibox.widget.textbox()
-vicious.register(cputempwidget, vicious.widgets.thermal, "<span color='#ffaf5f'>$1°C</span> ", 10,{"coretemp.0","core"} )
+--cputempicon = wibox.widget.imagebox()
+--cputempicon:set_image(beautiful.widget_temp)
+--local cputempwidget = wibox.widget.textbox()
+--vicious.register(cputempwidget, vicious.widgets.thermal, "<span color='#ffaf5f'>$1°C</span> ", 10,{"coretemp.0","core"} )
 
 --- }}}
 
 --- {{{ RAM widget
 
-memicon_img = wibox.widget.imagebox()
-memicon_img:set_image(beautiful.widget_mem)
-memicon = wibox.widget.background()
-memicon:set_widget(memicon_img)
-memicon:set_bg(widget_bg_alt)
-
---local memwidget_content = wibox.widget.textbox()
 local memwidget = wibox.widget.textbox()
 vicious.register(memwidget, vicious.widgets.mem, "<span color='#7788af'><span font='FontAwesome 9'></span> $1% </span>")
---vicious.register(memwidget_content, vicious.widgets.mem, "<span color='"..widget_font_alt.."'>$1% $2/$3</span> ")
---memwidget:set_widget(memwidget_content)
---memwidget:set_bg(widget_bg_alt)
 
 --- }}}
 
 --- {{{ Battery widget
 
-baticon = wibox.widget.imagebox()
-baticon:set_image(beautiful.widget_batt)
-local batwidget = wibox.widget.textbox()
-vicious.register(batwidget, vicious.widgets.bat, "<span color='#ce5666'> $1$2% </span><span color='gray'>. </span><span color='#ce5666'>$3</span>", 60, "BAT0")
+--baticon = wibox.widget.imagebox()
+--baticon:set_image(beautiful.widget_batt)
+--local batwidget = wibox.widget.textbox()
+--vicious.register(batwidget, vicious.widgets.bat, "<span color='#ce5666'> $1$2% </span><span color='gray'>. </span><span color='#ce5666'>$3</span>", 60, "BAT0")
 
 --- }}}
 
 --- {{{ FS widget
 
-fsicon = wibox.widget.imagebox()
-fsicon:set_image(beautiful.widget_fs)
-
 local fswidget = wibox.widget.textbox()
---vicious.register(fswidget, vicious.widgets.fs, "<span color='gray'>/ </span><span color='#7788af'>${/ used_p}%[${/ avail_gb}GB]</span><span color='gray'> /home </span><span color='#7788af'>${/home used_p}%[${/home avail_gb}GB]</span><span color='gray'> /storage-ext </span><span color='#7788af'>${/media/storage-ext used_p}%[${/media/storage-ext avail_gb}GB]</span>", 10)
 vicious.register(fswidget, vicious.widgets.fs, "<span color='#9c6523'><span font='FontAwesome 9'>  </span>${/ used_p}%, ${/home used_p}%, ${/media/storage-ext used_p}%</span> ", 10)
 
 --- }}}
 
 --- {{{ MPD widget
 
-local mpdwidget_content = wibox.widget.textbox()
-local mpdwidget = wibox.widget.background()
-vicious.register(mpdwidget_content, vicious.widgets.mpd,
-	function (widget, args)
-		if args["{state}"] == "Stop" then
-			return '<span color=\''..widget_font_alt..'\'>MPD stopped</span>'
-		else
-			if args["{state}"] == "Pause" then
-				return '<span color=\''..widget_font_alt..'\'>^'..args["{Artist}"]..' - '..args["{Title}"]..'</span>'
-			else
-				--return '<span color=\'white\'>'..args[\"{Artist}\"]..' - '..args[\"{Title}\"]..'</span>'
-				return args["{Artist}"]..' - '.. args["{Title}"]
-			end
-		end
-	end)
-mpdwidget:set_widget(mpdwidget_content)
-mpdwidget:set_bg(widget_bg_alt)
+--local mpdwidget_content = wibox.widget.textbox()
+--local mpdwidget = wibox.widget.background()
+--vicious.register(mpdwidget_content, vicious.widgets.mpd,
+--	function (widget, args)
+--		if args["{state}"] == "Stop" then
+--			return '<span color=\''..widget_font_alt..'\'>MPD stopped</span>'
+--		else
+--			if args["{state}"] == "Pause" then
+--				return '<span color=\''..widget_font_alt..'\'>^'..args["{Artist}"]..' - '..args["{Title}"]..'</span>'
+--			else
+--				--return '<span color=\'white\'>'..args[\"{Artist}\"]..' - '..args[\"{Title}\"]..'</span>'
+--				return args["{Artist}"]..' - '.. args["{Title}"]
+--			end
+--		end
+--	end)
+--mpdwidget:set_widget(mpdwidget_content)
+--mpdwidget:set_bg(widget_bg_alt)
 
 --- }}}
 
 --- {{{ Volume widget
 
-local volwidget = wibox.widget.textbox()
-vicious.register(volwidget, vicious.widgets.volume, "[$2$1]", 1, "Master")
+--local volwidget = wibox.widget.textbox()
+--vicious.register(volwidget, vicious.widgets.volume, "[$2$1]", 1, "Master")
 
 --- }}}
 
@@ -379,9 +303,6 @@ vicious.register(volwidget, vicious.widgets.volume, "[$2$1]", 1, "Master")
 local clockwidget = wibox.widget.textbox()
 vicious.register(clockwidget, vicious.widgets.date, "<span font='FontAwesome 9'>  </span>%a %d/%m/%g %R ")
 
---local clockwidget = wibox.widget.background()
---clockwidget:set_widget(clockwidget_content)
---clockwidget:set_bg(widget_bg_alt)
 clockwidget:add_signal("mouse::enter", function()
        awful.util.spawn_with_shell("notify-send clock")
     end)
@@ -483,16 +404,13 @@ for s = 1, screen.count() do
         systray_margin:set_widget(systray)
         right_layout:add(systray_margin)
     end
-    --right_layout:add(uptimeicon) right_layout:add(uptimewidget)
-    --right_layout:add(weatherwidget)
-    --right_layout:add(arrow_left)
+    -- My widgets
     right_layout:add(netdownwidget)
     right_layout:add(netupwidget)
     right_layout:add(uptimewidget)
     right_layout:add(memwidget)
     right_layout:add(fswidget)
     right_layout:add(clockwidget)
-    --right_layout:add(arrow_left_alt)
     right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
@@ -502,36 +420,6 @@ for s = 1, screen.count() do
     layout:set_right(right_layout)
 
     mywibox[s]:set_widget(layout)
-
-    --[[
-    -- status_bar, widget left side
-    local left_statusbar = wibox.layout.fixed.horizontal()
-
-    left_statusbar:add(netdownicon) left_statusbar:add(netdownwidget)
-    left_statusbar:add(separator)
-    left_statusbar:add(netupicon) left_statusbar:add(netupwidget)
-    --left_statusbar:add(arrow_right_alt)
-    left_statusbar:add(cpuicon) left_statusbar:add(cpuwidget)
-    --left_statusbar:add(separator)
-    --left_statusbar:add(cpufreqwidget)
-    --left_statusbar:add(arrow_right)
-    left_statusbar:add(cputempicon) left_statusbar:add(cputempwidget)
-    --left_statusbar:add(separator)
-    --left_statusbar:add(arrow_right_alt)
-    --left_statusbar:add(memicon) left_statusbar:add(memwidget)
-    --left_statusbar:add(arrow_right)
-    left_statusbar:add(fsicon) left_statusbar:add(fswidget)
-
-    local right_statusbar = wibox.layout.fixed.horizontal()
-    --right_statusbar:add(arrow_left) right_statusbar:add(mpdwidget)
-    --right_statusbar:add(arrow_left_alt)
-    right_statusbar:add(volwidget)
-
-    local layout_statusbar = wibox.layout.align.horizontal()
-    layout_statusbar:set_left(left_statusbar)
-    layout_statusbar:set_right(right_statusbar)
-    status_bar[s]:set_widget(layout_statusbar)
-    --]]
 end
 -- }}}
 
