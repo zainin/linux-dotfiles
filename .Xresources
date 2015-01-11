@@ -20,7 +20,10 @@
 *color15: #d0d0d0
 
 !urxvt font
-URxvt*font: xft:Inconsolata for Powerline:pixelsize=14:antialiasing=true
+!URxvt*font: xft:Inconsolata for Powerline:pixelsize=14:antialiasing=true
+!URxvt*font: xft:EnvyCodeR:pixelsize=12:antialiasing=true
+!URxvt*font: xft:Sauce Code Powerline:pixelsize=11:antialiasing=true
+URxvt*font: xft:monofur for Powerline:pixelsize=14
 
 !urxvt looks
 URxvt*scrollBar: false

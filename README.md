@@ -2,7 +2,6 @@ dotfiles
 =====
 
 ##### awesome deps
-* [awesome-git](https://github.com/awesomeWM/awesome) (smaller systray icons)
 * fontawesome (statusbar icons)
 * ipafont (tags' names)
 * Ubuntu font (global awesome font)
@@ -24,6 +23,7 @@ dotfiles
 
 ##### urxvt deps
 * perl extensions
+* monufor for powerline font
 
 Screenshot
 =====
