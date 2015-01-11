@@ -648,7 +648,7 @@ awful.rules.rules = {
     --    properties = { maximized_vertical=true, maximized_horizontal=true } },
     { rule = { class = "Steam" },
       properties = { tag = tags[1][3] } },
-    { rule = { class = "xbmc.bin" },
+    { rule = { class = "Kodi" },
       properties = { tag = tags[1][2] } }, --, fullscreen = true } },
     { rule = { class = "Keepassx" },
       properties = { floating = true }},

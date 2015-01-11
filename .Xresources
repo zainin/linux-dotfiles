@@ -42,7 +42,7 @@ Xft.rgba: rgb
 *fading: 40 *fadeColor: #333333
 Xcursor.size: 16
 
-!URxvt.iconFile: /usr/share/icons/gnome/24x24/apps/xfce-terminal.png
+URxvt.iconFile: /usr/share/icons/Flattr/apps/scalable/terminal.svg
 
 !URxvt perl extensions
 URxvt.perl-ext-common: default,matcher,url-select
