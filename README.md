@@ -24,6 +24,7 @@ dotfiles
 ##### urxvt deps
 * perl extensions
 * monufor for powerline font
+* flattr icons (optional)
 
 Screenshot
 =====
