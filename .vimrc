@@ -59,6 +59,7 @@ call vundle#begin()
   Plugin 'Valloric/YouCompleteMe'
   Plugin 'kien/rainbow_parentheses.vim'
   Plugin 'matchit.zip'
+  Plugin 'zainin/vim-mikrotik'
 
 call vundle#end()
 "filetype plugin indent on
@@ -71,10 +72,10 @@ match LiteralTabs /\s\	/
 highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
 match ExtraWhitespace /\s\+$/
 
-highlight OverLength ctermfg=red
-match OverLength /\%81v.\+/
+"highlight OverLength ctermfg=red
+"match OverLength /\%81v.\+/
 
-highlight comment ctermfg=cyan
+"highlight comment ctermfg=cyan
 
 set ruler
 set laststatus=2
@@ -90,6 +91,7 @@ let g:indentLine_char = '┆'
 "vim-airline config
 let g:airline_powerline_fonts = 1
 let g:airline_theme='badwolf'
+let g:airline#extensions#tabline#enabled = 1
 
 "rainbow_parentheses
 au VimEnter * RainbowParenthesesToggle
