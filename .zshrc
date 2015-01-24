@@ -30,7 +30,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(vi-mode git extract colorize fbterm)
+plugins=(git extract colorize fbterm)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -46,10 +46,6 @@ alias ati-standard='aticonfig --set-dispattrib=lvds,brightness:-23'
 alias irc='screen irssi'
 alias debug-wm='Xephyr :1 -ac -br -noreset -screen 1280x780&'
 alias debug-wm-run='DISPLAY=:1.0'
-#serwis matrix
-alias serwis-zdalny='ssh zdalny@178.19.98.7'
-alias serwis='ssh user@178.19.98.7'
-alias mtunnel='ssh -L 8080:172.16.0.223:8291 user@mserwis'
 
 alias svim='sudoedit'
 alias subs='subliminal -l en --'

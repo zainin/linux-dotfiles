@@ -216,10 +216,10 @@ vicious.register(uptimewidget, vicious.widgets.uptime, "<span color='#94738c'><s
 vicious.cache(vicious.widgets.net)
 
 netdownwidget = wibox.widget.textbox()
-vicious.register(netdownwidget, vicious.widgets.net, "<span color='#ce5666'><span font='FontAwesome 9'>  </span>${eth0 down_kb}kB/s</span>", 1)
+vicious.register(netdownwidget, vicious.widgets.net, "<span color='#ce5666'><span font='FontAwesome 9'>  </span>${eth0 down_mb}MB/s</span>", 1)
 
 netupwidget = wibox.widget.textbox()
-vicious.register(netupwidget, vicious.widgets.net, "<span color='#87af5f'><span font='FontAwesome 9'>  </span>${eth0 up_kb}kB/s</span> ", 1)
+vicious.register(netupwidget, vicious.widgets.net, "<span color='#87af5f'><span font='FontAwesome 9'>  </span>${eth0 up_mb}MB/s</span> ", 1)
 
 --- }}}
 
