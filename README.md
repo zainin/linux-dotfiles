@@ -29,4 +29,8 @@ dotfiles
 Screenshot
 =====
 
-![awesome screenshot](https://raw.githubusercontent.com/zainin/linux-dotfiles/master/screen.png)
+##### awesome
+![awesome screenshot](https://raw.githubusercontent.com/zainin/linux-dotfiles/master/screen-awesome.png)
+
+##### bspwm
+![bspwm screenshot](https://raw.githubusercontent.com/zainin/linux-dotfiles/master/screen-bspwm.png)
