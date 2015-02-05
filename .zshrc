@@ -13,7 +13,7 @@ ZSH_THEME="miloshadzic"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Set to this to use case-sensitive completion
-#CASE_SENSITIVE="true"
+# CASE_SENSITIVE="true"
 
 # Comment this out to disable weekly auto-update checks
 # DISABLE_AUTO_UPDATE="true"
@@ -35,7 +35,7 @@ plugins=(git extract colorize fbterm)
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/android-sdk/tools:/usr/bin/vendor_perl:/usr/bin/core_perl:/opt/qt/bin
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin/vendor_perl:/usr/bin/core_perl
 
 #alias ls='ls --color=auto'
 alias sudo='nocorrect sudo'
@@ -58,17 +58,19 @@ echo
 export EDITOR=vim
 eval $(dircolors ~/.dir_colors)
 
+# command not found
 [ -r /etc/profile.d/cnf.sh ] && . /etc/profile.d/cnf.sh
-#. /usr/share/zsh/site-contrib/powerline.zsh
 
-#vi mode faster normal mode
+# vi mode faster normal mode
 export KEYTIMEOUT=1
 
-#syntax highlighting
+# fish-like syntax highlighting
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-#colored man
+# colored man
 source ~/.mancolor.sh
 
-#reverse history search
-bindkey "^R" history-incremental-search-backward
+# zsh ssh/config completion
+zstyle -s ':completion:*:hosts' hosts _ssh_config
+[[ -r ~/.ssh/config ]] && _ssh_config+=($(cat ~/.ssh/config | sed -ne 's/Host[=\t ]//p'))
+zstyle ':completion:*:hosts' hosts $_ssh_config

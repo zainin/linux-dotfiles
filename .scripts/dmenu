@@ -1,6 +1,6 @@
 #!/bin/sh
 
-dmenu_run -l 10 \
+dmenu-launch -l 10 \
     -w 200 \
     -y 0 \
     -x 5\

@@ -25,7 +25,7 @@ case $1 in
     ;;
 esac
 
-xdotool key --window $(xdotool search --name "Spotify (Premium )?- Linux Preview"|head -n1) $key &&\
+xdotool key --window $(xdotool search --name "Spotify Free"|head -n1) $key &&\
  exit 0
 
 nmcpcpp $cmd

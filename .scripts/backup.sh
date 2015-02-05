@@ -13,7 +13,10 @@ log=$HOME'/dotfiles-backup.log'
 backup=(
   $HOME"/.config/awesome/rc.lua"
   $HOME"/.config/awesome/themes/rv1/"
+  $HOME"/.config/bspwm/bspwmrc"
+  $HOME"/.config/sxhkd/sxhkdrc"
   $HOME"/.config/gtk-3.0/"
+  $HOME"/.config/tint2/tint2rc"
   $HOME"/.config/compton.conf"
   $HOME"/.scripts/"
   $HOME"/.mpv/"

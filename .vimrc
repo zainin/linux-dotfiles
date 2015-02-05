@@ -64,6 +64,7 @@ call vundle#begin()
   Plugin 'zainin/vim-mikrotik'
   Plugin 'ntpeters/vim-better-whitespace'
   Plugin 'scrooloose/nerdtree'
+  Plugin 'godlygeek/tabular'
 
 call vundle#end()
 "filetype plugin indent on

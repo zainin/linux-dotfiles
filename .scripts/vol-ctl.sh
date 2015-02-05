@@ -17,7 +17,8 @@ esac
 
 duration=3
 
-x=1530
+#x=1530
+x=$(($(xdpyinfo | grep dimensions | awk '{print $2}' | cut -d 'x' -f1) - 150))
 y=20
 w=150
 h=20
