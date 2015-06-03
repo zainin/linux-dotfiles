@@ -2,9 +2,8 @@ dotfiles
 =====
 
 ##### awesome deps
-* fontawesome (statusbar icons)
-* ipafont (tags' names)
-* Ubuntu font (global awesome font)
+* fontawesome (statusbar icons and tags' names)
+* cantarell font (for theme)
 * [vicious](http://git.sysphere.org/vicious/) (widgets)
 * [lain](https://github.com/copycat-killer/lain) (layouts)
 * [bar ain't recursive](https://github.com/lemonboy/bar) (volume notifications)
