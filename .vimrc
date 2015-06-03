@@ -48,6 +48,9 @@ set wildmenu
 "redraw only when have to
 set lazyredraw
 
+"keep some context near cursor
+set scrolloff=5
+
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -67,8 +70,8 @@ call vundle#begin()
   Plugin 'godlygeek/tabular'
 
 call vundle#end()
-"filetype plugin indent on
-filetype plugin on
+filetype plugin indent on
+"filetype plugin on
 
 colorscheme molokai
 

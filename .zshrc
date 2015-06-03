@@ -52,6 +52,9 @@ alias subs='subliminal -l en --'
 alias pfx='peerflix -v -r -f /media/storage-ext/tmp/'
 
 alias xcat='colorize'
+alias pa='pacaur'
+
+alias irc='mosh pbr -- tmux a'
 
 fortune -as
 echo

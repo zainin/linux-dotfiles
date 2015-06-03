@@ -40,10 +40,10 @@ Xft.hinting: 1
 Xft.antialias: 1
 Xft.rgba: rgb
 
-*fading: 40 *fadeColor: #333333
+!URxvt*fading: 40 *fadeColor: #333333
 Xcursor.size: 16
 
-URxvt.iconFile: /usr/share/icons/Flattr/apps/scalable/terminal.svg
+URxvt.iconFile: /usr/share/icons/Flattr/apps/64/terminal.svg
 
 !URxvt perl extensions
 URxvt.perl-ext-common: default,matcher,url-select

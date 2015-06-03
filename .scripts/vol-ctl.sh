@@ -18,9 +18,10 @@ esac
 duration=3
 
 #x=1530
-x=$(($(xdpyinfo | grep dimensions | awk '{print $2}' | cut -d 'x' -f1) - 150))
-y=20
+#x=$(($(xdpyinfo | grep dimensions | awk '{print $2}' | cut -d 'x' -f1) - 150))
 w=150
+x=$(($(xrandr -q | grep DVI-I-2 | awk '{print $4}' | cut -d 'x' -f1) - $w))
+y=20
 h=20
 
 amixer get Master | grep '\[off\]' && bar_bg="#ff1F1F1D" || \
@@ -30,7 +31,8 @@ bar_fg="#ffffffff"
 
 bar_font='-*-gohufont-medium-*-*--11-*-*-*-*-*-iso10646-1'
 
-char='─'
+#char='─'
+char='.'
 
 get_volume=`amixer get Master | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p'| uniq`
 simple_volume=$(($get_volume/5))

@@ -1,10 +1,9 @@
 #!/bin/bash
 
 autorun=(
-  "urxvtd"
+  "feh --no-xinerama --bg-scale /home/zainin/Images/wallpapers/wallpaper"
   "keepassx"
   "setxkbmap pl"
-  "feh --bg-tile /home/zainin/Images/wallpapers/thingy-pattern.png"
   "solaar"
   "pasystray"
 )
@@ -17,8 +16,8 @@ laptop=(
 pc=(
   "compton --vsync opengl"
   "start-pulseaudio-x11"
-  "nm-applet"
   "deluge"
+  "nvidia-settings -l"
 )
 
 grep -q Q9550 /proc/cpuinfo && \
