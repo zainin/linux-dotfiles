@@ -72,7 +72,9 @@ widget_bg_alt = "#1c1c1c"
 widget_font_alt = "#8f8d8d"
 
 -- This is used later as the default terminal and editor to run.
-terminal = "urxvtc"
+--terminal = "urxvtc"
+terminal = "termite"
+terminal_light = "termite -c ~/.config/termite/solarized"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -121,9 +123,10 @@ end
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-	names		= { "一", "二", "三", "四", "五" },
+	--names		= { "一", "二", "三", "四", "五" },
+	names		= { "", "", "", "", "" },
    -- names   = { "α", "β", "γ", "δ", "ε" },
-	layout	= { layouts[4], layouts[2], layouts[1], layouts[2], layouts[1] }
+	layout	= { layouts[4], layouts[2], layouts[3], layouts[2], layouts[1] }
 }
 --theme.taglist_font = "IPAPGothic 9"
 
@@ -402,7 +405,7 @@ for s = 1, screen.count() do
     if s == 1 then
         local systray = wibox.widget.systray()
         local systray_margin = wibox.layout.margin()
-        systray_margin:set_margins(2)
+        systray_margin:set_margins(5)
         systray_margin:set_widget(systray)
         right_layout:add(systray_margin)
     end
@@ -435,8 +438,8 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
+    --awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
+    --awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
     awful.key({ modkey,           }, "j",
@@ -455,9 +458,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
     awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end),
+    awful.key({ modkey,           }, "Tab", function () awful.screen.focus_relative( 1) end),
     awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
-    awful.key({ modkey,           }, "Tab",
+    awful.key({ modkey,           }, "`",
         function ()
             awful.client.focus.history.previous()
             if client.focus then
@@ -465,8 +469,36 @@ globalkeys = awful.util.table.join(
             end
         end),
 
+    -- Directional Navigation
+    awful.key({ modkey }, "Down",
+        function () awful.client.focus.bydirection("down")
+            if client.focus then
+                client.focus:raise()
+            end
+        end),
+    awful.key({ modkey }, "Up",
+        function () awful.client.focus.bydirection("up")
+            if client.focus then
+                client.focus:raise()
+            end
+        end),
+    awful.key({ modkey }, "Left",
+        function () awful.client.focus.bydirection("left")
+            if client.focus then
+                client.focus:raise()
+            end
+        end),
+    awful.key({ modkey }, "Right",
+        function () awful.client.focus.bydirection("right")
+            if client.focus then
+                client.focus:raise()
+            end
+        end),
+
+
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
+    awful.key({ modkey,           }, "/", function () awful.util.spawn_with_shell(terminal_light) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "e", awesome.quit),
 
@@ -517,11 +549,11 @@ globalkeys = awful.util.table.join(
 	awful.key({}, "XF86MonBrightnessUp", function () bright("up") end),
 	awful.key({}, "XF86MonBrightnessDown", function () bright("down") end),
     -- [[ Screen lock
-	awful.key({ modkey, "Control" }, "l",	function () awful.util.spawn_with_shell("exec i3lock -c 000000 -d") end),
+	--awful.key({ modkey, "Control" }, "l",	function () awful.util.spawn_with_shell("exec i3lock -c 000000 -d") end),
     -- [[ Multiscreen reload
 	awful.key({ modkey, "Control" }, "m", function () awful.util.spawn_with_shell("exec autorandr -c --force") end),
     -- [[ Screenshot
-    awful.key({}, "Print", function () awful.util.spawn_with_shell("scrot '/media/storage-ext/Images/screenshots/%F-%T.png'") end),
+    awful.key({}, "Print", function () awful.util.spawn_with_shell("maim -m on \'/media/storage-ext/Images/screenshots/'$(date +%F-%T)'.png\'") end),
     awful.key({ modkey, }, "Print", function () awful.util.spawn_with_shell("scrot -s '/media/storage-ext/Images/screenshots/%F-%T.png'") end),
 
     --Menubar
@@ -678,7 +710,7 @@ client.connect_signal("manage", function (c, startup)
     if not startup then
         -- Set the windows at the slave,
         -- i.e. put it at the end of others instead of setting it master.
-        -- awful.client.setslave(c)
+        awful.client.setslave(c)
 
         -- Put windows in a smart way, only if they does not set an initial position.
         if not c.size_hints.user_position and not c.size_hints.program_position then

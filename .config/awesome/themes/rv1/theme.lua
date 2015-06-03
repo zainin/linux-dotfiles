@@ -6,8 +6,8 @@ theme = {}
 theme.confdir = os.getenv("HOME") .. "/.config/awesome/themes/rv1"
 
 --== Fonts
-theme.font          = "ubuntu mono 9"
-theme.taglist_font  = "IPAPGothic 9"
+theme.font          = "cantarell 9"
+theme.taglist_font  = "FontAwesome 9"
 
 --== Colors
 theme.bg_normal     = "#080808"
@@ -101,7 +101,7 @@ theme.layout_magnifier  = theme.confdir .. "/layouts/magnifier.png"
 theme.layout_floating   = theme.confdir .. "/layouts/floating.png"
 
 --== lain config
-theme.useless_gap_width  = 7
+theme.useless_gap_width  = 25
 theme.layout_termfair    = theme.confdir .. "/layouts/termfair.png"
 theme.layout_centerfair  = theme.confdir .. "/layouts/centerfair.png"
 theme.layout_cascade     = theme.confdir .. "/layouts/cascade.png"
