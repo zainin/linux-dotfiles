@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+x=$(($(xdpyinfo | grep dimensions | awk '{print $2}' | cut -d 'x' -f1) - 150))
+y=20
+w=150
+h=20
+
+bar_bg="#ff1a1a1a"
+
+bar_fg="#ffffffff"
+
+bar_font="Ubuntu-10"
+
+char='─'
+
+barcmd="-d -g ${w}x${h}+${x}+${y} -B${bar_bg} -F${bar_fg} -f ${bar_font}"
+conky -c ~/.scripts/panel-conky | bar ${barcmd}

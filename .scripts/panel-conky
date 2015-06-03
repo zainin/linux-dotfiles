@@ -1,0 +1,7 @@
+background yes
+out_to_console yes
+out_to_x no
+update interval 1
+
+TEXT
+${memperc}% ${loadavg 1} 
