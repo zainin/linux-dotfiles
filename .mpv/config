@@ -22,8 +22,8 @@ monitoraspect=16:10
 #noaspect=yes
 
 #Default audio stream
-#alang=jp,jpn,en,eng
-alang=en,eng
+alang=jp,jpn,en,eng
+#alang=en,eng
 
 #=====
 # Subs
