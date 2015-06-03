@@ -17,8 +17,14 @@ super + b
 super + {s,f}
 	bspc window -t {floating,fullscreen}
 
-super + {grave,Tab}
-	bspc {window,desktop} -f last
+#super + {grave,Tab}
+#	bspc {window,desktop} -f last
+
+super + grave
+  bspc window -f last
+
+super + Tab
+  bspc monitor -f next
 
 super + apostrophe
 	bspc window -s last
@@ -61,8 +67,11 @@ super + alt + shift + {h,j,k,l}
 super + ctrl + {1-9}
 	bspc window -r 0.{1-9}
 
+#super + {_,shift + }{1-9,0}
+#	bspc {desktop -f,window -d} ^{1-9,10}
+
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,window -d} ^{1-9,10}
+    bspc {desktop -f, window -d} ^$(($((`bspc query -M -m` * 5)) + {1-9,10}))
 
 ~button1
 	bspc pointer -g focus
@@ -75,6 +84,11 @@ super + !button{1-3}
 
 super + @button{1-3}
 	bspc pointer -u
+
+
+# Change window gap
+alt + {minus,equal}
+  bspc config -d focused window_gap $((`bspc config -d focused window_gap` {+,-} 2 ))
 
 #
 # wm independent hotkeys
@@ -94,6 +108,9 @@ super + Escape
 # ncmpcpp
 super + {a,z,x}
   ~/.scripts/music-ctl.sh {play,stop,next}
+
+super + F4
+  ~/.scripts/music-notify.sh
 
 # pulseaudio volume
 super + {F1,F2,F3}
