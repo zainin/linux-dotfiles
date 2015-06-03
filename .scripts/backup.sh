@@ -18,6 +18,7 @@ backup=(
   $HOME"/.config/gtk-3.0/"
   $HOME"/.config/tint2/tint2rc"
   $HOME"/.config/compton.conf"
+  $HOME"/.config/termite/"
   $HOME"/.scripts/"
   $HOME"/.mpv/"
   $HOME"/.Xresources"
