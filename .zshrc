@@ -41,11 +41,10 @@ export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bi
 alias sudo='nocorrect sudo'
 alias yaourt='nocorrect yaourt'
 alias duH='du -hs * | sort -h'
-alias ati-movie='aticonfig --set-dispattrib=lvds,brightness:-10'
-alias ati-standard='aticonfig --set-dispattrib=lvds,brightness:-23'
-alias irc='screen irssi'
-alias debug-wm='Xephyr :1 -ac -br -noreset -screen 1280x780&'
-alias debug-wm-run='DISPLAY=:1.0'
+#alias ati-movie='aticonfig --set-dispattrib=lvds,brightness:-10'
+#alias ati-standard='aticonfig --set-dispattrib=lvds,brightness:-23'
+#alias debug-wm='Xephyr :1 -ac -br -noreset -screen 1280x780&'
+#alias debug-wm-run='DISPLAY=:1.0'
 
 alias svim='sudoedit'
 alias subs='subliminal -l en --'
@@ -77,3 +76,4 @@ source ~/.mancolor.sh
 zstyle -s ':completion:*:hosts' hosts _ssh_config
 [[ -r ~/.ssh/config ]] && _ssh_config+=($(cat ~/.ssh/config | sed -ne 's/Host[=\t ]//p'))
 zstyle ':completion:*:hosts' hosts $_ssh_config
+export TERM=xterm-256color

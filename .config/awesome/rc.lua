@@ -28,6 +28,11 @@ local lain = require("lain")
 -- Applications menu
 local xdg_menu = require("archmenu")
 
+-- dynamic tagging
+local eminent = require("eminent")
+
+local scratch = require("scratch")
+
 --- }}}
 
 -- {{{ Error handling
@@ -123,10 +128,10 @@ end
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-	--names		= { "一", "二", "三", "四", "五" },
-	names		= { "", "", "", "", "" },
+	names		= { "一", "二", "三", "四", "五" },
+	--names		= { "", "", "", "", "" },
    -- names   = { "α", "β", "γ", "δ", "ε" },
-	layout	= { layouts[4], layouts[2], layouts[3], layouts[2], layouts[1] }
+	layout	= { layouts[4], layouts[2], layouts[2], layouts[2], layouts[1] }
 }
 --theme.taglist_font = "IPAPGothic 9"
 
@@ -553,8 +558,9 @@ globalkeys = awful.util.table.join(
     -- [[ Multiscreen reload
 	awful.key({ modkey, "Control" }, "m", function () awful.util.spawn_with_shell("exec autorandr -c --force") end),
     -- [[ Screenshot
-    awful.key({}, "Print", function () awful.util.spawn_with_shell("maim -m on \'/media/storage-ext/Images/screenshots/'$(date +%F-%T)'.png\'") end),
-    awful.key({ modkey, }, "Print", function () awful.util.spawn_with_shell("scrot -s '/media/storage-ext/Images/screenshots/%F-%T.png'") end),
+    awful.key({}, "Print", function () awful.util.spawn_with_shell("maim -m on \'/media/storage-ext/Images/screenshots/'$(date +%f-%t)'.png\'") end),
+    --awful.key({}, "Print", function () awful.util.spawn_with_shell("maim -m on -s \'/media/storage-ext/Images/screenshots/%'$(date +%f-%t)'.png\'") end),
+    awful.key({}, "F12", function () scratch.drop("termite -e 'vim /home/zainin/notes'", "top", "right", 500, 700) end),
 
     --Menubar
     awful.key({ modkey }, "p", function() menubar.show() end)

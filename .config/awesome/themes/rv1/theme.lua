@@ -23,17 +23,10 @@ theme.fg_focus      = "#7788af"
 --theme.fg_focus      = "#d1d1e8"
 theme.fg_urgent     = "#94738c"
 theme.fg_minimize   = "#444444"
---[[
-theme.fg_black      = "#424242"
-theme.fg_red        = "#ce5666"
-theme.fg_green      = "#80a673"
-theme.fg_yellow     = "#ffaf5f"
-theme.fg_blue       = "#7788af"
-theme.fg_magenta    = "#94738c"
-theme.fg_cyan       = "#778baf"
-theme.fg_white      = "#aaaaaa"
-theme.fg_blu        = "#8ebdde"
---]]
+
+--== Taglist
+theme.taglist_bg_focus = "#ce5666"
+theme.taglist_fg_focus = "#000000"
 
 --== Borders
 theme.border_width  = 1

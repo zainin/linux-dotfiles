@@ -1,0 +1,2 @@
+#!/bin/bash
+maim -m on -s \'/media/storage-ext/Images/screenshots/%$(date +%f-%t).png\'

@@ -25,6 +25,7 @@ backup=(
   $HOME"/.gtkrc-2.0"
   $HOME"/.zshrc"
   $HOME"/.vimrc"
+  $HOME"/.profile"
 )
 
 ### End of variables
