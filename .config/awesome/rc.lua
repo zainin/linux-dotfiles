@@ -551,8 +551,8 @@ globalkeys = awful.util.table.join(
 	awful.key({}, "XF86AudioStop",	function () awful.util.spawn_with_shell(mctl.stop) end),
 	awful.key({ modkey,			}, "z",	function () awful.util.spawn_with_shell(mctl.stop) end),
     -- [[ Brightness control
-	awful.key({}, "XF86MonBrightnessUp", function () bright("up") end),
-	awful.key({}, "XF86MonBrightnessDown", function () bright("down") end),
+	--awful.key({}, "XF86MonBrightnessUp", function () bright("up") end),
+	--awful.key({}, "XF86MonBrightnessDown", function () bright("down") end),
     -- [[ Screen lock
 	--awful.key({ modkey, "Control" }, "l",	function () awful.util.spawn_with_shell("exec i3lock -c 000000 -d") end),
     -- [[ Multiscreen reload
