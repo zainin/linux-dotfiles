@@ -286,8 +286,12 @@ if isLAPTOP then
                 return "<span color='#ce5666'>  " .. x[2] .. "% "
                         .. x[3] .. "</span>"
             else
-                return "<span color='#ce5666'> " .. x[2] .. "% "
-                        .. x[3] .. "</span>"
+                if x[3] == "N/A" then
+                    return "<span color='#ce5666'> " .. x[2] .. "%</span>"
+                else
+                    return "<span color='#ce5666'> " .. x[2] .. "% "
+                            .. x[3] .. "</span>"
+                end
             end
         end, 10, "BAT0")
 end
