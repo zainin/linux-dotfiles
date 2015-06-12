@@ -6,7 +6,7 @@ ZSH=$HOME/.oh-my-zsh
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 #ZSH_THEME="sporty_256"
-ZSH_THEME="miloshadzic"
+ZSH_THEME="af-magic"
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -30,7 +30,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git extract colorize fbterm)
+plugins=(git extract colorize)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -41,10 +41,11 @@ export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bi
 alias sudo='nocorrect sudo'
 alias yaourt='nocorrect yaourt'
 alias duH='du -hs * | sort -h'
-#alias ati-movie='aticonfig --set-dispattrib=lvds,brightness:-10'
-#alias ati-standard='aticonfig --set-dispattrib=lvds,brightness:-23'
-#alias debug-wm='Xephyr :1 -ac -br -noreset -screen 1280x780&'
-#alias debug-wm-run='DISPLAY=:1.0'
+alias ati-movie='aticonfig --set-dispattrib=lvds,brightness:-10'
+alias ati-standard='aticonfig --set-dispattrib=lvds,brightness:-23'
+alias irc='screen irssi'
+alias debug-wm='Xephyr :1 -ac -br -noreset -screen 1280x780&'
+alias debug-wm-run='DISPLAY=:1.0'
 
 alias svim='sudoedit'
 alias subs='subliminal -l en --'
@@ -76,4 +77,3 @@ source ~/.mancolor.sh
 zstyle -s ':completion:*:hosts' hosts _ssh_config
 [[ -r ~/.ssh/config ]] && _ssh_config+=($(cat ~/.ssh/config | sed -ne 's/Host[=\t ]//p'))
 zstyle ':completion:*:hosts' hosts $_ssh_config
-export TERM=xterm-256color

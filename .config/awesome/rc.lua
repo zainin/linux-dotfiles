@@ -26,7 +26,7 @@ local menubar = require("menubar")
 local lain = require("lain")
 
 -- Applications menu
-local xdg_menu = require("archmenu")
+--local xdg_menu = require("archmenu")
 
 -- dynamic tagging
 local eminent = require("eminent")
@@ -68,6 +68,11 @@ home = os.getenv("HOME")
 scripts = home .. "/.scripts"
 confdir = home .. "/.config/awesome"
 themes = confdir .. "/themes"
+
+--- Detect if we're on PC or laptop
+local handle = io.popen("grep -q Q9550 /proc/cpuinfo")
+isLAPTOP = handle:read("*a")
+handle:close()
 
 -- Themes define colours, icons, and wallpapers
 active_theme = themes .. "/rv1"
@@ -224,10 +229,34 @@ vicious.register(uptimewidget, vicious.widgets.uptime, "<span color='#94738c'><s
 vicious.cache(vicious.widgets.net)
 
 netdownwidget = wibox.widget.textbox()
-vicious.register(netdownwidget, vicious.widgets.net, "<span color='#ce5666'><span font='FontAwesome 9'>  </span>${eth0 down_mb}MB/s</span>", 1)
+--vicious.register(netdownwidget, vicious.widgets.net, "<span color='#ce5666'><span font='FontAwesome 9'>  </span>${eth0 down_mb}MB/s</span>", 1)
+vicious.register(netdownwidget, vicious.widgets.net,
+    function (widget, args)
+            if isLAPTOP then
+                return "<span color='#ce5666'><span font='FontAwesome 9'>  </span>"
+                        .. args["{enp0s25 down_mb}"] + args["{wlp3s0 down_mb}"]
+                        .. "MB/s</span>"
+            else
+                return "<span color='#ce5666'><span font='FontAwesome 9'>  </span>"
+                        .. args["{eth0 down_mb}"]
+                        .. "MB/s</span>"
+            end
+    end, 1)
 
 netupwidget = wibox.widget.textbox()
-vicious.register(netupwidget, vicious.widgets.net, "<span color='#87af5f'><span font='FontAwesome 9'>  </span>${eth0 up_mb}MB/s</span> ", 1)
+--vicious.register(netupwidget, vicious.widgets.net, "<span color='#87af5f'><span font='FontAwesome 9'>  </span>${eth0 up_mb}MB/s</span> ", 1)
+vicious.register(netupwidget, vicious.widgets.net,
+    function (widget, args)
+            if isLAPTOP then
+                return "<span color='#87af5f'><span font='FontAwesome 9'>  </span>"
+                        .. args["{enp0s25 up_mb}"] + args["{wlp3s0 up_mb}"]
+                        .. "MB/s</span>"
+            else
+                return "<span color='#87af5f'><span font='FontAwesome 9'>  </span>"
+                        .. args["{eth0 up_mb}"]
+                        .. "MB/s</span>"
+            end
+    end, 1)
 
 --- }}}
 
@@ -249,17 +278,39 @@ vicious.register(memwidget, vicious.widgets.mem, "<span color='#7788af'><span fo
 
 --- {{{ Battery widget
 
---baticon = wibox.widget.imagebox()
---baticon:set_image(beautiful.widget_batt)
---local batwidget = wibox.widget.textbox()
---vicious.register(batwidget, vicious.widgets.bat, "<span color='#ce5666'> $1$2% </span><span color='gray'>. </span><span color='#ce5666'>$3</span>", 60, "BAT0")
+local batwidget = wibox.widget.textbox()
+if isLAPTOP then
+    vicious.register(batwidget, vicious.widgets.bat,
+        function (widget, x)
+            if x[1] == "−" then
+                return "<span color='#ce5666'>  " .. x[2] .. "% "
+                        .. x[3] .. "</span>"
+            else
+                return "<span color='#ce5666'> " .. x[2] .. "% "
+                        .. x[3] .. "</span>"
+            end
+        end, 10, "BAT0")
+end
 
 --- }}}
 
 --- {{{ FS widget
 
 local fswidget = wibox.widget.textbox()
-vicious.register(fswidget, vicious.widgets.fs, "<span color='#9c6523'><span font='FontAwesome 9'>  </span>${/ used_p}%, ${/home used_p}%, ${/media/storage-ext used_p}%</span> ", 10)
+--vicious.register(fswidget, vicious.widgets.fs, "<span color='#9c6523'><span font='FontAwesome 9'>  </span>${/ used_p}%, ${/home used_p}%, ${/media/storage-ext used_p}%</span> ", 10)
+vicious.register(fswidget, vicious.widgets.fs,
+    function (widget, args)
+        if isLAPTOP then
+            return "<span color='#9c6523'><span font='FontAwesome 9'>  </span>"
+                    .. args["{/ used_p}"] .. "%, "
+                    .. args["{/home used_p}"] .. "%</span>"
+        else
+            return "<span color='#9c6523'><span font='FontAwesome 9'>  </span>"
+                    .. args["{/ used_p}"] .. "%, "
+                    .. args["{/home used_p}"] .. "%, "
+                    .. args["{/media/storage-ext used_p}"] .. "%</span> "
+        end
+    end, 10)
 
 --- }}}
 
@@ -420,6 +471,9 @@ for s = 1, screen.count() do
     right_layout:add(uptimewidget)
     right_layout:add(memwidget)
     right_layout:add(fswidget)
+    if isLAPTOP then
+        right_layout:add(batwidget)
+    end
     right_layout:add(clockwidget)
     right_layout:add(mylayoutbox[s])
 

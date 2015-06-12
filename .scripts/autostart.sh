@@ -6,15 +6,15 @@ autorun=(
   "setxkbmap pl"
   "solaar"
   "pasystray"
+  "compton --vsync opengl"
 )
 
 laptop=(
-  "xcompmgr"
-  "connman-ui-gtk"
+  "setxkbmap pl"
+  "nm-applet"
 )
 
 pc=(
-  "compton --vsync opengl"
   "start-pulseaudio-x11"
   "deluge"
   "nvidia-settings -l"
