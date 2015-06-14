@@ -6,7 +6,7 @@ ZSH=$HOME/.oh-my-zsh
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 #ZSH_THEME="sporty_256"
-ZSH_THEME="af-magic"
+grep -q Q9550 /proc/cpuinfo && ZSH_THEME="miloshadzic" || ZSH_THEME="af-magic"
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
