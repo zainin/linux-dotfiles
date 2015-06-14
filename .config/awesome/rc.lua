@@ -70,9 +70,13 @@ confdir = home .. "/.config/awesome"
 themes = confdir .. "/themes"
 
 --- Detect if we're on PC or laptop
-local handle = io.popen("grep -q Q9550 /proc/cpuinfo")
-isLAPTOP = handle:read("*a")
+local handle = io.popen("grep Q9550 /proc/cpuinfo")
+local tmp = handle:read("*a")
 handle:close()
+isLAPTOP = true
+if (string.len(tmp) >= 1) then
+    isLAPTOP = false
+end
 
 -- Themes define colours, icons, and wallpapers
 active_theme = themes .. "/rv1"
