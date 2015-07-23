@@ -189,9 +189,9 @@ mctl.stop = scripts .. "/music-ctl.sh stop"
 
 -- {{{ volume controls
 vol = {}
-vol.up = scripts .. "/vol-ctl.sh up"
-vol.down = scripts .. "/vol-ctl.sh down"
-vol.mute = scripts .. "/vol-ctl.sh mute"
+vol.up = scripts .. "/vol-ctl.sh -i 5"
+vol.down = scripts .. "/vol-ctl.sh -d 5"
+vol.mute = scripts .. "/vol-ctl.sh -t"
 --- }}}
 
 --- {{{ brightness
