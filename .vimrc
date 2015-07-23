@@ -68,6 +68,7 @@ call vundle#begin()
   Plugin 'ntpeters/vim-better-whitespace'
   Plugin 'scrooloose/nerdtree'
   Plugin 'godlygeek/tabular'
+  Plugin 'plasticboy/vim-markdown'
 
 call vundle#end()
 filetype plugin indent on
