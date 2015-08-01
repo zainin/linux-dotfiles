@@ -4,7 +4,6 @@ autorun=(
   "feh --no-xinerama --bg-scale /home/zainin/Images/wallpapers/wallpaper"
   "keepassx"
   "setxkbmap pl"
-  "solaar"
   "pasystray"
   "compton --vsync opengl"
 )
