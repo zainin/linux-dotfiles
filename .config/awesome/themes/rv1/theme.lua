@@ -31,7 +31,7 @@ theme.taglist_fg_focus = "#000000"
 --== Borders
 theme.border_width  = 1
 theme.border_normal = "#202020"
-theme.border_focus  = "#535d6c"
+theme.border_focus  = "#ce5666"
 theme.border_marked = "#91231c"
 
 --== Menu

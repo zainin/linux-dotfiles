@@ -194,6 +194,18 @@ vol.down = scripts .. "/vol-ctl.sh -d 5"
 vol.mute = scripts .. "/vol-ctl.sh -t"
 --- }}}
 
+
+--- {{{ box the widget
+function boxwidget(w, b, c, color)
+    b:set_widget(c)
+    b:set_bg(color)
+    w:set_widget(b)
+    w:set_margins(4)
+    return w
+end
+--- }}}
+
+
 --- {{{ brightness
 --function get_brightness()
 --    local f = io.popen("sudo light -c | awk -F. '{print $1 }'")
@@ -222,45 +234,58 @@ separator:set_text(" ")
 
 --- {{{ Uptime widget
 
-local uptimewidget = wibox.widget.textbox()
-vicious.register(uptimewidget, vicious.widgets.uptime, "<span color='#94738c'><span font='FontAwesome 9'>  </span>$4 </span>")
+local uptimewidget, u_background, u_content = wibox.layout.margin(), wibox.widget.background(), wibox.widget.textbox()
+local u_content = wibox.widget.textbox()
+vicious.register(u_content, vicious.widgets.uptime, "<span color='#080808' font='Cantarell 9'><span font='FontAwesome 9'>  </span>$4 </span>")
+uptimewidget = boxwidget(uptimewidget, u_background, u_content, '#94738c')
 
---- }}}
+--local uptime_margin = wibox.layout.margin()
+--local uptimewidget = wibox.widget.background()
+--local uptimewidget_content = wibox.widget.textbox()
+--vicious.register(uptimewidget_content, vicious.widgets.uptime, "<span color='#080808' font='Cantarell 10'><span font='FontAwesome 9'>  </span>$4 </span>")
+--uptimewidget:set_widget(uptimewidget_content)
+--uptimewidget:set_bg("#94738c")
+--uptime_margin:set_margins(3)
+--uptime_margin:set_widget(uptimewidget)
 
 --- {{{ Internet widget
 
 --caching
 vicious.cache(vicious.widgets.net)
 
-netdownwidget = wibox.widget.textbox()
---vicious.register(netdownwidget, vicious.widgets.net, "<span color='#ce5666'><span font='FontAwesome 9'>  </span>${eth0 down_mb}MB/s</span>", 1)
-vicious.register(netdownwidget, vicious.widgets.net,
+netdownwidget, ndown_background, ndown_content = wibox.layout.margin(), wibox.widget.background(), wibox.widget.textbox()
+--vicious.register(netdownwidget_content, vicious.widgets.net, "<span color='#ce5666'><span font='FontAwesome 9'>  </span>${eth0 down_mb}MB/s</span>", 1)
+vicious.register(ndown_content, vicious.widgets.net,
     function (widget, args)
             if isLAPTOP then
-                return "<span color='#ce5666'><span font='FontAwesome 9'>  </span>"
+                return "<span color='#080808'><span font='FontAwesome 9'>  </span>"
                         .. args["{enp0s25 down_mb}"] + args["{wlp3s0 down_mb}"]
-                        .. "MB/s</span>"
+                        .. "MB/s </span>"
             else
-                return "<span color='#ce5666'><span font='FontAwesome 9'>  </span>"
+                return "<span color='#080808'><span font='FontAwesome 9'>  </span>"
                         .. args["{enp3s0 down_mb}"]
-                        .. "MB/s</span>"
+                        .. "MB/s </span>"
             end
     end, 1)
+netdownwidget = boxwidget(netdownwidget, ndown_background, ndown_content, '#ce5666')
+--netdownwidget:set_bg('#ce5666')
 
-netupwidget = wibox.widget.textbox()
---vicious.register(netupwidget, vicious.widgets.net, "<span color='#87af5f'><span font='FontAwesome 9'>  </span>${enp3s0 up_mb}MB/s</span> ", 1)
-vicious.register(netupwidget, vicious.widgets.net,
+netupwidget, nup_background, nup_content = wibox.layout.margin(), wibox.widget.background(), wibox.widget.textbox()
+--vicious.register(netupwidget_content, vicious.widgets.net, "<span color='#87af5f'><span font='FontAwesome 9'>  </span>${eth0 up_mb}MB/s</span> ", 1)
+vicious.register(nup_content, vicious.widgets.net,
     function (widget, args)
             if isLAPTOP then
-                return "<span color='#87af5f'><span font='FontAwesome 9'>  </span>"
+                return "<span color='#080808'><span font='FontAwesome 9'>  </span>"
                         .. args["{enp0s25 up_mb}"] + args["{wlp3s0 up_mb}"]
-                        .. "MB/s</span>"
+                        .. "MB/s </span>"
             else
-                return "<span color='#87af5f'><span font='FontAwesome 9'>  </span>"
+                return "<span color='#080808'><span font='FontAwesome 9'>  </span>"
                         .. args["{enp3s0 up_mb}"]
-                        .. "MB/s</span>"
+                        .. "MB/s </span>"
             end
     end, 1)
+netupwidget = boxwidget(netupwidget, nup_background, nup_content, '#87af5f')
+--netupwidget:set_bg('#87af5f')
 
 --- }}}
 
@@ -275,54 +300,56 @@ vicious.register(netupwidget, vicious.widgets.net,
 
 --- {{{ RAM widget
 
-local memwidget = wibox.widget.textbox()
-vicious.register(memwidget, vicious.widgets.mem, "<span color='#7788af'><span font='FontAwesome 9'></span> $1% </span>")
+local memwidget, m_background, m_content = wibox.layout.margin(), wibox.widget.background(), wibox.widget.textbox()
+vicious.register(m_content, vicious.widgets.mem, "<span color='#080808'><span font='FontAwesome 9'> </span> $1% </span>")
+memwidget = boxwidget(memwidget, m_background, m_content, '#7788af')
+--memwidget:set_bg('#7788af')
 
 --- }}}
 
 --- {{{ Battery widget
 
-local batwidget = wibox.widget.textbox()
+local batwidget, b_background, b_content = wibox.layout.margin(), wibox.widget.background(), wibox.widget.textbox()
 if isLAPTOP then
-    vicious.register(batwidget, vicious.widgets.bat,
+    vicious.register(b_content, vicious.widgets.bat,
         function (widget, x)
             if x[1] == "−" then
-                return "<span color='#ce5666'>  " .. x[2] .. "% "
-                        .. x[3] .. "</span>"
+                return "<span color='#080808'>  " .. x[2] .. "% "
+                        .. x[3] .. " </span>"
             else
                 if x[3] == "N/A" then
-                    return "<span color='#ce5666'> " .. x[2] .. "%</span>"
+                    return "<span color='#080808'> " .. x[2] .. "% </span>"
                 else
-                    return "<span color='#ce5666'> " .. x[2] .. "% "
-                            .. x[3] .. "</span>"
+                    return "<span color='#080808'> " .. x[2] .. "% "
+                            .. x[3] .. " </span>"
                 end
             end
         end, 10, "BAT0")
 end
+batwidget = boxwidget(batwidget, b_background, b_content, '#ce5666')
+--batwidget:set_bg('#ce5666')
 
 --- }}}
 
 --- {{{ FS widget
 
-local fswidget = wibox.widget.textbox()
---vicious.register(fswidget, vicious.widgets.fs, "<span color='#9c6523'><span font='FontAwesome 9'>  </span>${/ used_p}%, ${/home used_p}%, ${/media/storage-ext used_p}%</span> ", 10)
-vicious.register(fswidget, vicious.widgets.fs,
+local fswidget, fs_background, fs_content = wibox.layout.margin(), wibox.widget.background(), wibox.widget.textbox()
+--vicious.register(fswidget_content, vicious.widgets.fs, "<span color='#9c6523'><span font='FontAwesome 9'>  </span>${/ used_p}%, ${/home used_p}%, ${/media/storage-ext used_p}%</span> ", 10)
+vicious.register(fs_content, vicious.widgets.fs,
     function (widget, args)
         if isLAPTOP then
-            return "<span color='#9c6523'><span font='FontAwesome 9'>  </span>"
+            return "<span color='#080808'><span font='FontAwesome 9'>  </span>"
                     .. args["{/ used_p}"] .. "%, "
-                    .. args["{/home used_p}"] .. "%</span>"
+                    .. args["{/home used_p}"] .. "% </span>"
         else
-            return "<span color='#9c6523'><span font='FontAwesome 9'>  </span>"
+            return "<span color='#080808'><span font='FontAwesome 9'>  </span>"
                     .. args["{/ used_p}"] .. "%, "
                     .. args["{/home used_p}"] .. "%, "
-                    .. args["{/media/storage-ext used_p}"] .. "%</span> "
+                    .. args["{/media/storage-ext used_p}"] .. "% </span> "
         end
     end, 10)
-
-fswidget:connect_signal("button::press", function()
-        awful.util.spawn_with_shell('notify-send "$(df -h)"')
-    end)
+fswidget = boxwidget(fswidget, fs_background, fs_content, '#9c6523')
+--fswidget:set_bg('#9c6523')
 
 --- }}}
 
@@ -371,8 +398,10 @@ fswidget:connect_signal("button::press", function()
 
 --- {{{ Clock widget
 
-local clockwidget = wibox.widget.textbox()
-vicious.register(clockwidget, vicious.widgets.date, "<span font='FontAwesome 9'>  </span>%a %d/%m/%g %R ")
+local clockwidget, c_background, c_content = wibox.layout.margin(), wibox.widget.background(), wibox.widget.textbox()
+vicious.register(c_content, vicious.widgets.date, "<span color='#080808'><span font='FontAwesome 9'>  </span>%a %d/%m/%g %R </span>")
+clockwidget = boxwidget(clockwidget, c_background, c_content, '#9999aa')
+--clockwidget:set_bg('#9999aa')
 
 clockwidget:connect_signal("button::press", function()
        awful.util.spawn_with_shell("notify-send clock")
