@@ -70,7 +70,7 @@ confdir = home .. "/.config/awesome"
 themes = confdir .. "/themes"
 
 --- Detect if we're on PC or laptop
-local handle = io.popen("grep Q9550 /proc/cpuinfo")
+local handle = io.popen("grep 4690 /proc/cpuinfo")
 local tmp = handle:read("*a")
 handle:close()
 isLAPTOP = true
@@ -242,13 +242,13 @@ vicious.register(netdownwidget, vicious.widgets.net,
                         .. "MB/s</span>"
             else
                 return "<span color='#ce5666'><span font='FontAwesome 9'>  </span>"
-                        .. args["{eth0 down_mb}"]
+                        .. args["{enp3s0 down_mb}"]
                         .. "MB/s</span>"
             end
     end, 1)
 
 netupwidget = wibox.widget.textbox()
---vicious.register(netupwidget, vicious.widgets.net, "<span color='#87af5f'><span font='FontAwesome 9'>  </span>${eth0 up_mb}MB/s</span> ", 1)
+--vicious.register(netupwidget, vicious.widgets.net, "<span color='#87af5f'><span font='FontAwesome 9'>  </span>${enp3s0 up_mb}MB/s</span> ", 1)
 vicious.register(netupwidget, vicious.widgets.net,
     function (widget, args)
             if isLAPTOP then
@@ -257,7 +257,7 @@ vicious.register(netupwidget, vicious.widgets.net,
                         .. "MB/s</span>"
             else
                 return "<span color='#87af5f'><span font='FontAwesome 9'>  </span>"
-                        .. args["{eth0 up_mb}"]
+                        .. args["{enp3s0 up_mb}"]
                         .. "MB/s</span>"
             end
     end, 1)
@@ -320,6 +320,10 @@ vicious.register(fswidget, vicious.widgets.fs,
         end
     end, 10)
 
+fswidget:connect_signal("button::press", function()
+        awful.util.spawn_with_shell('notify-send "$(df -h)"')
+    end)
+
 --- }}}
 
 --- {{{ MPD widget
@@ -370,10 +374,10 @@ vicious.register(fswidget, vicious.widgets.fs,
 local clockwidget = wibox.widget.textbox()
 vicious.register(clockwidget, vicious.widgets.date, "<span font='FontAwesome 9'>  </span>%a %d/%m/%g %R ")
 
-clockwidget:add_signal("mouse::enter", function()
+clockwidget:connect_signal("button::press", function()
        awful.util.spawn_with_shell("notify-send clock")
     end)
-clockwidget:add_signal("mouse::leave", function() end)
+--clockwidget:connect_signal("mouse::leave", function() end)
 
 --- }}}
 

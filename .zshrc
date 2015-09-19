@@ -48,13 +48,17 @@ alias debug-wm='Xephyr :1 -ac -br -noreset -screen 1280x780&'
 alias debug-wm-run='DISPLAY=:1.0'
 
 alias svim='sudoedit'
-alias subs='subliminal -l en --'
+alias subs='subliminal download -l en --'
 alias pfx='peerflix -v -r -f /media/storage-ext/tmp/'
 
 alias xcat='colorize'
 alias pa='pacaur'
 
 alias irc='mosh pbr -- tmux a'
+
+alias windows='sudo systemctl --firmware-setup reboot'
+
+alias kden='GTK2_RC_FILES=gns3-gtk-rc kdenlive'
 
 fortune -as
 echo

@@ -14,7 +14,7 @@ BAR_BG="#ffffff"    # background colour of volume bar
 HEIGHT="30"         # window height
 WIDTH="250"         # window width
 BAR_WIDTH="180"     # width of volume bar
-XPOS="$(($(xrandr -q | grep DVI-I-2 | awk '{print $4}' | cut -d 'x' -f1) - $WIDTH))" # positioned at right edge
+XPOS="$(($(xrandr -q | grep DVI-D-0 | awk '{print $4}' | cut -d 'x' -f1) - $WIDTH))" # positioned at right edge
 YPOS="20"          # vertical positioning
 
 #Probably do not customize

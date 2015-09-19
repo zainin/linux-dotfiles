@@ -19,7 +19,7 @@ pc=(
   "nvidia-settings -l"
 )
 
-grep -q Q9550 /proc/cpuinfo && \
+grep -q 4690 /proc/cpuinfo && \
   #PC
   autorun=("${autorun[@]}" "${pc[@]}") || \
   #laptop
