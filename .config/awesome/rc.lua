@@ -310,6 +310,7 @@ memwidget = boxwidget(memwidget, m_background, m_content, '#7788af')
 --- {{{ Battery widget
 
 local batwidget, b_background, b_content = wibox.layout.margin(), wibox.widget.background(), wibox.widget.textbox()
+local cc = '#ce5666'
 if isLAPTOP then
     vicious.register(b_content, vicious.widgets.bat,
         function (widget, x)
@@ -326,9 +327,27 @@ if isLAPTOP then
             end
         end, 10, "BAT0")
 end
-batwidget = boxwidget(batwidget, b_background, b_content, '#ce5666')
---batwidget:set_bg('#ce5666')
+batwidget = boxwidget(batwidget, b_background, b_content, cc)
 
+--{{<< UGLY HACK
+local bat_aux = wibox.widget.textbox()
+vicious.register(bat_aux, vicious.widgets.bat,
+        function (widget, x)
+            if x[1] == "−" then
+                if x[2] <= 20 then
+                    cc = '#ce5666'
+                else
+                    cc = '#5151ca'
+                end
+                batwidget = boxwidget(batwidget, b_background, b_content, cc)
+                return ""
+            else
+                cc = '#6dd900'
+                batwidget = boxwidget(batwidget, b_background, b_content, cc)
+                return ""
+            end
+        end, 10, "BAT0")
+--}}<< END OF UGLY HACK
 --- }}}
 
 --- {{{ FS widget
