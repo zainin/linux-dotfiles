@@ -6,7 +6,7 @@ theme = {}
 theme.confdir = os.getenv("HOME") .. "/.config/awesome/themes/rv1"
 
 --== Fonts
-theme.font          = "cantarell 9"
+theme.font          = "Cantarell 9"
 theme.taglist_font  = "FontAwesome 9"
 
 --== Colors

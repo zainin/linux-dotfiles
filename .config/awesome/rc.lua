@@ -418,12 +418,12 @@ fswidget = boxwidget(fswidget, fs_background, fs_content, '#9c6523')
 --- {{{ Clock widget
 
 local clockwidget, c_background, c_content = wibox.layout.margin(), wibox.widget.background(), wibox.widget.textbox()
-vicious.register(c_content, vicious.widgets.date, "<span color='#080808'><span font='FontAwesome 9'>  </span>%a %d/%m/%g %R </span>")
+vicious.register(c_content, vicious.widgets.date, "<span color='#080808'><span font='FontAwesome 9'>  </span>%a %d/%m/%y %R </span>")
 clockwidget = boxwidget(clockwidget, c_background, c_content, '#9999aa')
 --clockwidget:set_bg('#9999aa')
 
 clockwidget:connect_signal("button::press", function()
-       awful.util.spawn_with_shell("notify-send clock")
+       awful.util.spawn_with_shell("gsimplecal")
     end)
 --clockwidget:connect_signal("mouse::leave", function() end)
 
