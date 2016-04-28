@@ -891,14 +891,14 @@ awful.rules.rules = {
         },
         name = {},
         role = {}
-      }, properties = { tag = tags[1],
+      }, properties = { screen = 1, tag = tags[screen[1]][1],
                         border_width = 0 }
     },
 
     { rule = {
         class = "Wine"
         },
-      properties = { tag = tags[1] }
+      properties = { screen = 1, tag = tags[screen[1]][5] }
     },
 
     { rule_any = {
@@ -922,13 +922,13 @@ awful.rules.rules = {
     { rule = {
         class = "Steam"
         },
-      properties = { tag = tags[1] }
+      properties = { screen = 1, tag = tags[screen[1]][3] }
     },
 
     { rule = {
         class = "Kodi"
       },
-      properties = { tag = tags[1] }
+      properties = { screen = 1, tag = tags[screen[1]][2] }
     },
 
     --{ rule = { name = "Timer" },
