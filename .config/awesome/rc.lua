@@ -1,8 +1,3 @@
--------------------
---    zainin     --
---  awesome 3.5  --
--------------------
-
 --- {{{ Libraries
 
 vicious = require("vicious")
@@ -192,31 +187,6 @@ mylauncher = awful.widget.launcher({ --image = beautiful.awesome_icon,
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
-
--------------------
---    zainin     --
---  awesome 3.5  --
--------------------
-
---- {{{ Libraries
-
-vicious = require("vicious")
-
--- Custom menu generator
---local menu_gen = require("menu")
-
--- Standard awesome library
-local gears = require("gears")
-local awful = require("awful")
-require("awful.autofocus")
--- Widget and layout library
-local wibox = require("wibox")
--- Theme handling library
-local beautiful = require("beautiful")
--- Notification library
-local naughty = require("naughty")
-local menubar = require("menubar")
-local hotkeys_popup = require("awful.hotkeys_popup").widget
 --- {{{ Music controls
 mctl = {}
 mctl.play = scripts .. "/music-ctl.sh play"
@@ -860,28 +830,7 @@ awful.rules.rules = {
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen
      }
     },
-    --{ rule = { class = "MPlayer" },
-    --  properties = { floating = true } },
-    --{ rule = { class = "mplayer2" },
-    --  properties = { floating = true } },
-    --{ rule = { class = "mpv" },
-    --  properties = { floating = true } },
-    ----{ rule = { class = "gimp" },
-    ----  properties = { floating = true } },
-    --{ rule = { class = "Firefox" },
-    --  properties = { tag = tags[1][1], border_width = 0 } },
-    --{ rule = { class = "Opera" },
-    --  properties = { tag = tags[1][1], border_width = 0 } },
-    --{ rule = { class = "Chromium" },
-    --  properties = { tag = tags[1][1], border_width = 0 } },
-    --{ rule = { class = "VirtualBox" },
-    --  properties = { border_width = 0 } },
-    --{ rule = { class = "Wine" },
-    --  properties = { border_width = 0 } },
-    --  { rule = { instance = "Steam", name = "Steam" },
-    --    properties = { maximized_vertical=true, maximized_horizontal=true } },
-    --{ rule = { class = "Keepassx" },
-    --  properties = { floating = true }},
+
     { rule_any = {
         instance = {},
         class = {
@@ -931,11 +880,6 @@ awful.rules.rules = {
       properties = { screen = 1, tag = tags[screen[1]][2] }
     },
 
-    --{ rule = { name = "Timer" },
-    --properties = { floating = true } },
-    --{ rule = { type = "dock" },
-    --properties = { floating = true } },
-
     -- Add titlebars to normal clients and dialogs
     --{ rule_any = {type = { "normal", "dialog" }
     --  }, properties = { titlebars_enabled = true }
@@ -943,10 +887,6 @@ awful.rules.rules = {
     { rule_any = {type = { "dialog" }
       }, properties = { titlebars_enabled = true }
     },
-
-    -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
 }
 -- }}}
 
