@@ -8,7 +8,8 @@ allow_bold = true
 dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
-font = monofur for Powerline 10.5
+#font = monofur for Powerline 10.5
+font = Hermit 9
 scrollback_lines = 5000
 search_wrap = true
 icon_name = terminal
@@ -21,7 +22,7 @@ cursor_blink = system
 cursor_shape = ibeam
 
 # $BROWSER is used by default
-browser = firefox
+browser = firefox-dev
 
 # set size hints for the window
 #size_hints = false
@@ -29,6 +30,7 @@ browser = firefox
 # emit escape sequences for other keys modified by Control
 #modify_other_keys = false
 
+# molokai
 [colors]
 foreground = #aeaeae
 foreground_bold = #ffffff
@@ -54,7 +56,6 @@ color12  = #5f5fee
 color13  = #bb88dd
 color14  = #4eb4fa
 color15  = #d0d0d0
-
 
 [hints]
 #font = monofur 9

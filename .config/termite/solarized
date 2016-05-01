@@ -8,7 +8,8 @@ allow_bold = true
 dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
-font = Inconsolata 11
+#font = monofur for Powerline 10.5
+font = Hermit 9
 scrollback_lines = 5000
 search_wrap = true
 icon_name = terminal
@@ -21,7 +22,7 @@ cursor_blink = system
 cursor_shape = ibeam
 
 # $BROWSER is used by default
-#browser = firefox
+browser = firefox-dev
 
 # set size hints for the window
 #size_hints = false
@@ -29,6 +30,7 @@ cursor_shape = ibeam
 # emit escape sequences for other keys modified by Control
 #modify_other_keys = false
 
+# solarized
 [colors]
 foreground = #93a1a1
 foreground_bold = #ffffff
