@@ -93,15 +93,6 @@ theme.layout_fullscreen = theme.confdir .. "/layouts/fullscreen.png"
 theme.layout_magnifier  = theme.confdir .. "/layouts/magnifier.png"
 theme.layout_floating   = theme.confdir .. "/layouts/floating.png"
 
---== lain config
-theme.useless_gap_width  = 25
-theme.layout_termfair    = theme.confdir .. "/layouts/termfair.png"
-theme.layout_centerfair  = theme.confdir .. "/layouts/centerfair.png"
-theme.layout_cascade     = theme.confdir .. "/layouts/cascade.png"
-theme.layout_cascadetile = theme.confdir .. "/layouts/cascadebrowse.png"
-theme.layout_centerwork  = theme.confdir .. "/layouts/centerwork.png"
-theme.layout_uselesstile = theme.confdir .. "/layouts/uselesstile.png"
-
 --== titlebar
 theme.titlebar_close_button_normal = theme.confdir .. "/titlebar/close_normal.png"
 theme.titlebar_close_button_focus  = theme.confdir .. "/titlebar/close_focus.png"

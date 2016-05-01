@@ -1,31 +1,22 @@
---- {{{ Libraries
-
-vicious = require("vicious")
-
--- Custom menu generator
---local menu_gen = require("menu")
-
 -- Standard awesome library
 local gears = require("gears")
-local awful = require("awful")
+-- not local for widgets.lua
+awful = require("awful")
 require("awful.autofocus")
 -- Widget and layout library
-local wibox = require("wibox")
+-- like awful, don't make it local
+wibox = require("wibox")
 -- Theme handling library
 local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
--- lain
-local lain = require("lain")
-
--- Applications menu
---local xdg_menu = require("archmenu")
 
 -- dynamic tagging
 local eminent = require("eminent")
 
+-- scratchpad
 local scratch = require("scratch")
 
 --- }}}
@@ -61,25 +52,20 @@ end
 --- Useful paths
 home = os.getenv("HOME")
 scripts = home .. "/.scripts"
-confdir = home .. "/.config/awesome"
+confdir = awful.util.getdir("config")
 themes = confdir .. "/themes"
 
---- Detect if we're on PC or laptop
-local handle = io.popen("grep 4690 /proc/cpuinfo")
-local tmp = handle:read("*a")
-handle:close()
-isLAPTOP = true
-if (string.len(tmp) >= 1) then
-    isLAPTOP = false
-end
+-- import helpers
+dofile(confdir .. "/helpers.lua")
 
 -- Themes define colours, icons, and wallpapers
-active_theme = themes .. "/rv1"
-beautiful.init(active_theme .. "/theme.lua")
+active_theme = "rv1"
+beautiful.init(themes .. "/" .. active_theme .. "/theme.lua")
 beautiful.useless_gap = 5
 
-widget_bg_alt = "#1c1c1c"
-widget_font_alt = "#8f8d8d"
+-- import custom widgets - after theme initialization, otherwise vicious
+-- is not aware of the global font
+dofile(confdir .. "/widgets.lua")
 
 -- This is used later as the default terminal and editor to run.
 --terminal = "urxvtc"
@@ -98,26 +84,14 @@ modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
     awful.layout.suit.floating,
-    awful.layout.suit.tile.left,
-    --awful.layout.suit.tile,
-    lain.layout.uselesstile,
+    --awful.layout.suit.tile.left,
+    awful.layout.suit.tile,
     --awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
     --awful.layout.suit.fair,
     --awful.layout.suit.fair.horizontal,
     --awful.layout.suit.max,
-    lain.layout.termfair,
-    lain.layout.centerfair,
-    --lain.layout.cascade,
-    --lain.layout.cascadetile,
-    lain.layout.centerwork,
 }
-
-lain.layout.termfair.nmaster = 2
-lain.layout.termfair.ncol = 1
-
-lain.layout.centerfair.nmaster = 3
-lain.layout.centerfair.ncol = 1
 
 -- {{{ Helper functions
 local function client_menu_toggle_fn()
@@ -145,16 +119,14 @@ end
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-	names		= { "一", "二", "三", "四", "五" },
-	--names		= { "", "", "", "", "" },
-   -- names   = { "α", "β", "γ", "δ", "ε" },
-	layout	= { awful.layout.layouts[4], awful.layout.layouts[2], awful.layout.layouts[2], awful.layout.layouts[2], awful.layout.layouts[1] }
+        names   = { "一", "二", "三", "四", "五" },
+        layout  = { awful.layout.layouts[3], awful.layout.layouts[2], awful.layout.layouts[2], awful.layout.layouts[2], awful.layout.layouts[1] }
 }
 --theme.taglist_font = "IPAPGothic 9"
 
 
 awful.screen.connect_for_each_screen(function(s)
-	tags[s] = awful.tag(tags.names, s, tags.layout)
+        tags[s] = awful.tag(tags.names, s, tags.layout)
 end)
 --for s = 1, screen.count() do
 --    -- Each screen has its own tag table.
@@ -172,11 +144,8 @@ myawesomemenu = {
    { "quit", awesome.quit }
 }
 
---cheatSheets = menu_gen.gen( 'zathura', home .. '/studia/cisco/', '*pdf', '/usr/share/icons/oxygen/16x16/mimetypes/application-pdf.png')
-
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal },
-                                    { "applications", xdgmenu }
+                                    { "open terminal", terminal }
                                   }
                         })
 
@@ -187,258 +156,6 @@ mylauncher = awful.widget.launcher({ --image = beautiful.awesome_icon,
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
---- {{{ Music controls
-mctl = {}
-mctl.play = scripts .. "/music-ctl.sh play"
-mctl.next = scripts .. "/music-ctl.sh next"
-mctl.stop = scripts .. "/music-ctl.sh stop"
---- }}}
-
--- {{{ volume controls
-vol = {}
-vol.up = scripts .. "/vol-ctl.sh -i 5"
-vol.down = scripts .. "/vol-ctl.sh -d 5"
-vol.mute = scripts .. "/vol-ctl.sh -t"
---- }}}
-
-
---- {{{ box the widget
-function boxwidget(w, b, c, color)
-    b:set_widget(c)
-    b:set_bg(color)
-    w:set_widget(b)
-    w:set_margins(4)
-    return w
-end
---- }}}
-
-
---- {{{ brightness
---function get_brightness()
---    local f = io.popen("sudo light -c | awk -F. '{print $1 }'")
---	local aux = f:read("*all")
---	f.close(f)
---	return aux
---end
---function bright(x)
---	local level
---	if x == "up" then
---		awful.util.spawn("sudo light -a 12")
---		level = " brightness up [" .. get_brightness() .. "%]"
---	else
---		awful.util.spawn("sudo light -s 12")
---		level = " brightness down [" .. get_brightness() .. "%]"
---	end
---	level = level:gsub('\n', '')
---	naughty.notify({ text = level, title = 'Screen brightness', position = 'top_right', timeout = 5, replaces_id=777 }).id=777
---end
--- }}}
-
--- {{{ WIDGETS
-
-local separator = wibox.widget.textbox()
-separator:set_text(" ")
-
---- {{{ Uptime widget
-
-local uptimewidget, u_background, u_content = wibox.layout.margin(), wibox.widget.background(), wibox.widget.textbox()
-local u_content = wibox.widget.textbox()
-vicious.register(u_content, vicious.widgets.uptime, "<span color='#080808' font='Cantarell 9'><span font='FontAwesome 9'>  </span>$4 </span>")
-uptimewidget = boxwidget(uptimewidget, u_background, u_content, '#94738c')
-
---local uptime_margin = wibox.layout.margin()
---local uptimewidget = wibox.widget.background()
---local uptimewidget_content = wibox.widget.textbox()
---vicious.register(uptimewidget_content, vicious.widgets.uptime, "<span color='#080808' font='Cantarell 10'><span font='FontAwesome 9'>  </span>$4 </span>")
---uptimewidget:set_widget(uptimewidget_content)
---uptimewidget:set_bg("#94738c")
---uptime_margin:set_margins(3)
---uptime_margin:set_widget(uptimewidget)
-
---- {{{ Internet widget
-
---caching
-vicious.cache(vicious.widgets.net)
-
-netdownwidget, ndown_background, ndown_content = wibox.layout.margin(), wibox.widget.background(), wibox.widget.textbox()
---vicious.register(netdownwidget_content, vicious.widgets.net, "<span color='#ce5666'><span font='FontAwesome 9'>  </span>${eth0 down_mb}MB/s</span>", 1)
-vicious.register(ndown_content, vicious.widgets.net,
-    function (widget, args)
-            if isLAPTOP then
-                return "<span color='#080808'><span font='FontAwesome 9'>  </span>"
-                        .. args["{enp0s25 down_mb}"] + args["{wlp3s0 down_mb}"]
-                        .. "MB/s </span>"
-            else
-                return "<span color='#080808'><span font='FontAwesome 9'>  </span>"
-                        .. args["{enp3s0 down_mb}"]
-                        .. "MB/s </span>"
-            end
-    end, 1)
-netdownwidget = boxwidget(netdownwidget, ndown_background, ndown_content, '#ce5666')
---netdownwidget:set_bg('#ce5666')
-
-netupwidget, nup_background, nup_content = wibox.layout.margin(), wibox.widget.background(), wibox.widget.textbox()
---vicious.register(netupwidget_content, vicious.widgets.net, "<span color='#87af5f'><span font='FontAwesome 9'>  </span>${eth0 up_mb}MB/s</span> ", 1)
-vicious.register(nup_content, vicious.widgets.net,
-    function (widget, args)
-            if isLAPTOP then
-                return "<span color='#080808'><span font='FontAwesome 9'>  </span>"
-                        .. args["{enp0s25 up_mb}"] + args["{wlp3s0 up_mb}"]
-                        .. "MB/s </span>"
-            else
-                return "<span color='#080808'><span font='FontAwesome 9'>  </span>"
-                        .. args["{enp3s0 up_mb}"]
-                        .. "MB/s </span>"
-            end
-    end, 1)
-netupwidget = boxwidget(netupwidget, nup_background, nup_content, '#87af5f')
---netupwidget:set_bg('#87af5f')
-
---- }}}
-
---- {{{ CPU temperature widget
-
---cputempicon = wibox.widget.imagebox()
---cputempicon:set_image(beautiful.widget_temp)
---local cputempwidget = wibox.widget.textbox()
---vicious.register(cputempwidget, vicious.widgets.thermal, "<span color='#ffaf5f'>$1°C</span> ", 10,{"coretemp.0","core"} )
-
---- }}}
-
---- {{{ RAM widget
-
-local memwidget, m_background, m_content = wibox.layout.margin(), wibox.widget.background(), wibox.widget.textbox()
-vicious.register(m_content, vicious.widgets.mem, "<span color='#080808'><span font='FontAwesome 9'> </span> $1% </span>")
-memwidget = boxwidget(memwidget, m_background, m_content, '#7788af')
---memwidget:set_bg('#7788af')
-
---- }}}
-
---- {{{ Battery widget
-
-local batwidget, b_background, b_content = wibox.layout.margin(), wibox.widget.background(), wibox.widget.textbox()
-local cc = '#ce5666'
-if isLAPTOP then
-    vicious.register(b_content, vicious.widgets.bat,
-        function (widget, x)
-            if x[1] == "−" then
-                return "<span color='#080808'>  " .. x[2] .. "% "
-                        .. x[3] .. " </span>"
-            else
-                if x[3] == "N/A" then
-                    return "<span color='#080808'> " .. x[2] .. "% </span>"
-                else
-                    return "<span color='#080808'> " .. x[2] .. "% "
-                            .. x[3] .. " </span>"
-                end
-            end
-        end, 10, "BAT0")
-end
-batwidget = boxwidget(batwidget, b_background, b_content, cc)
-
---{{<< UGLY HACK
-local bat_aux = wibox.widget.textbox()
-vicious.register(bat_aux, vicious.widgets.bat,
-        function (widget, x)
-            if x[1] == "−" then
-                if x[2] <= 20 then
-                    cc = '#ce5666'
-                else
-                    cc = '#5151ca'
-                end
-                batwidget = boxwidget(batwidget, b_background, b_content, cc)
-                return ""
-            else
-                cc = '#6dd900'
-                batwidget = boxwidget(batwidget, b_background, b_content, cc)
-                return ""
-            end
-        end, 10, "BAT0")
---}}<< END OF UGLY HACK
---- }}}
-
---- {{{ FS widget
-
-local fswidget, fs_background, fs_content = wibox.layout.margin(), wibox.widget.background(), wibox.widget.textbox()
---vicious.register(fswidget_content, vicious.widgets.fs, "<span color='#9c6523'><span font='FontAwesome 9'>  </span>${/ used_p}%, ${/home used_p}%, ${/media/storage-ext used_p}%</span> ", 10)
-vicious.register(fs_content, vicious.widgets.fs,
-    function (widget, args)
-        if isLAPTOP then
-            return "<span color='#080808'><span font='FontAwesome 9'>  </span>"
-                    .. args["{/ used_p}"] .. "%, "
-                    .. args["{/home used_p}"] .. "% </span>"
-        else
-            return "<span color='#080808'><span font='FontAwesome 9'>  </span>"
-                    .. args["{/ used_p}"] .. "%, "
-                    .. args["{/home used_p}"] .. "%, "
-                    .. args["{/media/storage-ext used_p}"] .. "% </span> "
-        end
-    end, 10)
-fswidget = boxwidget(fswidget, fs_background, fs_content, '#9c6523')
---fswidget:set_bg('#9c6523')
-
---- }}}
-
---- {{{ MPD widget
-
---local mpdwidget_content = wibox.widget.textbox()
---local mpdwidget = wibox.widget.background()
---vicious.register(mpdwidget_content, vicious.widgets.mpd,
---	function (widget, args)
---		if args["{state}"] == "Stop" then
---			return '<span color=\''..widget_font_alt..'\'>MPD stopped</span>'
---		else
---			if args["{state}"] == "Pause" then
---				return '<span color=\''..widget_font_alt..'\'>^'..args["{Artist}"]..' - '..args["{Title}"]..'</span>'
---			else
---				--return '<span color=\'white\'>'..args[\"{Artist}\"]..' - '..args[\"{Title}\"]..'</span>'
---				return args["{Artist}"]..' - '.. args["{Title}"]
---			end
---		end
---	end)
---mpdwidget:set_widget(mpdwidget_content)
---mpdwidget:set_bg(widget_bg_alt)
-
---- }}}
-
---- {{{ Volume widget
-
---local volwidget = wibox.widget.textbox()
---vicious.register(volwidget, vicious.widgets.volume, "[$2$1]", 1, "Master")
-
---- }}}
-
----- }}}
-
----- {{{ top bar
-
---- {{{ Weather widget
-
---local weatherwidget = wibox.widget.textbox()
---vicious.register(weatherwidget, vicious.widgets.weather,
---  function (widget, args)
---    return ' '..args["{tempc}"]..'°C | '
---  end, 1800, "EPWR")
-
---- }}}
-
---- {{{ Clock widget
-
-local clockwidget, c_background, c_content = wibox.layout.margin(), wibox.widget.background(), wibox.widget.textbox()
-vicious.register(c_content, vicious.widgets.date, "<span color='#080808'><span font='FontAwesome 9'>  </span>%a %d/%m/%y %R </span>")
-clockwidget = boxwidget(clockwidget, c_background, c_content, '#9999aa')
---clockwidget:set_bg('#9999aa')
-
-clockwidget:connect_signal("button::press", function()
-       awful.util.spawn_with_shell("gsimplecal")
-    end)
---clockwidget:connect_signal("mouse::leave", function() end)
-
---- }}}
-
----- }}}
-
-
 -- Keyboard map indicator and switcher
 mykeyboardlayout = awful.widget.keyboardlayout()
 
@@ -446,16 +163,14 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- Create a textclock widget
 --mytextclock = awful.widget.textclock()
 
+-- create a systray with smaller icons
 local systray = wibox.widget.systray()
 local systray_margin = wibox.layout.margin()
 systray_margin:set_margins(5)
 systray_margin:set_widget(systray)
---right_layout:add(systray_margin)
-
 
 -- Create a wibox for each screen and add it
 mywibox = {}
-status_bar = {} --bar with vicious widgets
 mypromptbox = {}
 mylayoutbox = {}
 mytaglist = {}
@@ -542,9 +257,8 @@ awful.screen.connect_for_each_screen(function(s)
             uptimewidget,
             memwidget,
             fswidget,
-            --if isLAPTOP then
-            --    right_layout:add(batwidget)
-            --end
+            --TODO: detect whether to display batwidget
+            --batwidget,
             clockwidget,
             --mytextclock,
             mylayoutbox[s],
@@ -640,7 +354,7 @@ globalkeys = awful.util.table.join(
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
-    awful.key({ modkey,           }, "/", function () awful.util.spawn_with_shell(terminal_light) end,
+    awful.key({ modkey,           }, "/", function () awful.spawn.with_shell(terminal_light) end,
               {description = "open a solarized terminal", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
@@ -691,38 +405,38 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
 
-	-- CUSTOM KEYS
+        -- CUSTOM KEYS
     -- [[ Volume keys
     -- [[[ mute
-	awful.key({ modkey,			}, "F1" ,function () awful.util.spawn_with_shell(vol.mute) end),
-	awful.key({}, "XF86AudioMute" ,function () awful.util.spawn_with_shell(vol.mute) end),
+        awful.key({ modkey,                     }, "F1" ,function () awful.spawn.with_shell(vol.mute) end),
+        awful.key({}, "XF86AudioMute" ,function () awful.spawn.with_shell(vol.mute) end),
     -- [[[ up
-	awful.key({ modkey,			}, "F3",function () awful.util.spawn_with_shell(vol.up) end),
-	awful.key({}, "XF86AudioRaiseVolume",function () awful.util.spawn_with_shell(vol.up) end),
+        awful.key({ modkey,                     }, "F3",function () awful.spawn.with_shell(vol.up) end),
+        awful.key({}, "XF86AudioRaiseVolume",function () awful.spawn.with_shell(vol.up) end),
     -- [[[ down
-	awful.key({ modkey,			}, "F2" ,function () awful.util.spawn_with_shell(vol.down) end),
-	awful.key({}, "XF86AudioLowerVolume" ,function () awful.util.spawn_with_shell(vol.down) end),
+        awful.key({ modkey,                     }, "F2" ,function () awful.spawn.with_shell(vol.down) end),
+        awful.key({}, "XF86AudioLowerVolume" ,function () awful.spawn.with_shell(vol.down) end),
     -- [[ Music control
     -- [[[ play/pause
-	awful.key({ modkey,			}, "a",	function () awful.util.spawn_with_shell(mctl.play) end),
-	awful.key({}, "XF86AudioPlay",	function () awful.util.spawn_with_shell(mctl.play) end),
+        awful.key({ modkey,                     }, "a", function () awful.spawn.with_shell(mctl.play) end),
+        awful.key({}, "XF86AudioPlay",  function () awful.spawn.with_shell(mctl.play) end),
     -- [[[ next
-	awful.key({ modkey,			}, "c",	function () awful.util.spawn_with_shell(mctl.next) end),
-	awful.key({}, "XF86AudioNext",	function () awful.util.spawn_with_shell(mctl.next) end),
+        awful.key({ modkey,                     }, "c", function () awful.spawn.with_shell(mctl.next) end),
+        awful.key({}, "XF86AudioNext",  function () awful.spawn.with_shell(mctl.next) end),
     -- [[[ stop
-	awful.key({}, "XF86AudioStop",	function () awful.util.spawn_with_shell(mctl.stop) end),
-	awful.key({ modkey,			}, "z",	function () awful.util.spawn_with_shell(mctl.stop) end),
+        awful.key({}, "XF86AudioStop",  function () awful.spawn.with_shell(mctl.stop) end),
+        awful.key({ modkey,                     }, "z", function () awful.spawn.with_shell(mctl.stop) end),
     -- [[ Brightness control
-	--awful.key({}, "XF86MonBrightnessUp", function () bright("up") end),
-	--awful.key({}, "XF86MonBrightnessDown", function () bright("down") end),
+        --awful.key({}, "XF86MonBrightnessUp", function () bright("up") end),
+        --awful.key({}, "XF86MonBrightnessDown", function () bright("down") end),
     -- [[ Screen lock
-	--awful.key({ modkey, "Control" }, "l",	function () awful.util.spawn_with_shell("exec i3lock -c 000000 -d") end),
+        --awful.key({ modkey, "Control" }, "l", function () awful.spawn.with_shell("exec i3lock -c 000000 -d") end),
     -- [[ Multiscreen reload
-	awful.key({ modkey, "Control" }, "m", function () awful.util.spawn_with_shell("exec autorandr -c --force") end),
+        awful.key({ modkey, "Control" }, "m", function () awful.spawn.with_shell("exec autorandr -c --force") end),
     -- [[ Screenshot
-    awful.key({}, "Print", function () awful.util.spawn_with_shell("maim -m on \'/media/storage-ext/Images/screenshots/'$(date +%f-%t)'.png\'") end),
-    --awful.key({}, "Print", function () awful.util.spawn_with_shell("maim -m on -s \'/media/storage-ext/Images/screenshots/%'$(date +%f-%t)'.png\'") end),
-    awful.key({}, "F12", function () scratch.drop("termite -e 'vim /home/zainin/notes'", "top", "right", 500, 700) end)
+    awful.key({}, "Print", function () awful.spawn.with_shell(take_screenshot) end),
+    --FIXME
+    awful.key({}, "F12", function () scratch.drop("termite -e 'vim -p /home/zainin/notes/*'", "top", "right", 0.6, 0.5) end)
 )
 
 clientkeys = awful.util.table.join(
@@ -959,10 +673,13 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
-awful.util.spawn_with_shell(scripts .. "/autostart.sh")
+awful.spawn.with_shell(scripts .. "/autostart.sh")
 
+-- FIXME doesn't work anymore
 -- disable startup-notification globally
 local oldspawn = awful.util.spawn
 awful.util.spawn = function (s)
     oldspawn(s, false)
 end
+
+-- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80
