@@ -80,11 +80,11 @@ memwidget = boxwidget(memwidget, m_background, m_content, '#7788af')
 
 --- Battery widget
 
-batwidget = wibox.layout.margin()
-local b_background, b_content = wibox.widget.background(),
-                                wibox.widget.textbox()
-local cc = '#ce5666'
 if isLAPTOP then
+    batwidget = wibox.layout.margin()
+    local b_background, b_content = wibox.widget.background(),
+                                    wibox.widget.textbox()
+    local cc = '#ce5666'
     vicious.register(b_content, vicious.widgets.bat,
         function (widget, x)
             if x[1] == "−" then
@@ -100,28 +100,26 @@ if isLAPTOP then
             end
         end, 10, "BAT0")
     batwidget = boxwidget(batwidget, b_background, b_content, cc)
-else
-    badwidget = ""
-end
 
---{{ ugly hack for color background change, based on battery capacity
-local bat_aux = wibox.widget.textbox()
-vicious.register(bat_aux, vicious.widgets.bat,
-        function (widget, x)
-            if x[1] == "−" then
-                if x[2] <= 20 then
-                    cc = '#ce5666'
+    --{{ ugly hack for color background change, based on battery capacity
+    local bat_aux = wibox.widget.textbox()
+    vicious.register(bat_aux, vicious.widgets.bat,
+            function (widget, x)
+                if x[1] == "−" then
+                    if x[2] <= 20 then
+                        cc = '#ce5666'
+                    else
+                        cc = '#5151ca'
+                    end
+                    batwidget = boxwidget(batwidget, b_background, b_content, cc)
+                    return ""
                 else
-                    cc = '#5151ca'
+                    cc = '#6dd900'
+                    batwidget = boxwidget(batwidget, b_background, b_content, cc)
+                    return ""
                 end
-                batwidget = boxwidget(batwidget, b_background, b_content, cc)
-                return ""
-            else
-                cc = '#6dd900'
-                batwidget = boxwidget(batwidget, b_background, b_content, cc)
-                return ""
-            end
-        end, 10, "BAT0")
+            end, 10, "BAT0")
+end
 --}}
 
 --- FS widget

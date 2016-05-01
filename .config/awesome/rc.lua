@@ -254,11 +254,10 @@ awful.screen.connect_for_each_screen(function(s)
             systray_margin,
             netdownwidget,
             netupwidget,
-            uptimewidget,
+            loadwidget,
             memwidget,
             fswidget,
-            --TODO: detect whether to display batwidget
-            --batwidget,
+            batwidget, -- it won't exist if laptop check in widgets.lua fails
             clockwidget,
             --mytextclock,
             mylayoutbox[s],
