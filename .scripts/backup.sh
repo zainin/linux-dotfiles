@@ -12,6 +12,8 @@ LOGFILE=$HOME'/dotfiles-backup.log'
 # directories or files
 TO_BACKUP=(
   $HOME"/.config/awesome/rc.lua"
+  $HOME"/.config/awesome/widgets.lua"
+  $HOME"/.config/awesome/helpers.lua"
   $HOME"/.config/awesome/themes/rv1/"
   $HOME"/.config/bspwm/bspwmrc"
   $HOME"/.config/sxhkd/sxhkdrc"
@@ -60,6 +62,7 @@ gen_file_list(){
   for item in "${TO_BACKUP[@]}"; do
     if [ -d "$item" ]; then
       for i in $(find "$item" | xargs); do
+        if [ -d $i ]; then continue; fi
         file_list+=("$i")
       done
     else
@@ -147,5 +150,4 @@ elif [[ "$1" == "backup-quick" ]]; then
 elif [[ "$1" == "restore" ]]; then
   restore
 fi
-
 exit 0
