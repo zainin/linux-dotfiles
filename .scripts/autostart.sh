@@ -1,7 +1,7 @@
 #!/bin/bash
 
 autorun=(
-  "feh --no-xinerama --bg-scale /home/zainin/Images/wallpapers/wallpaper"
+  "feh --bg-fill /home/zainin/Images/wallpapers/wallpaper"
   "keepassx"
   "setxkbmap pl"
   "pasystray"
@@ -26,7 +26,7 @@ grep -q 4690 /proc/cpuinfo && \
   autorun=("${autorun[@]}" "${laptop[@]}")
 
 run_once() {
-  pgrep -u $USER -f ${1% *} &> /dev/null || $1&
+    pgrep -u $USER -f $(cut -f1 -d " " <<<"$1") &> /dev/null || $1&
 }
 
 for i in "${autorun[@]}"
