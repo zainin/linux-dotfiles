@@ -57,6 +57,7 @@ call vundle#begin()
 
   Plugin 'gmarik/Vundle.vim'
   Plugin 'bling/vim-airline'
+  Plugin 'vim-airline/vim-airline-themes'
   Plugin 'Yggdroot/indentLine'
 "  Plugin 'nathanaelkane/vim-indent-guides'
   Plugin 'scrooloose/syntastic'
@@ -69,11 +70,16 @@ call vundle#begin()
   Plugin 'scrooloose/nerdtree'
   Plugin 'godlygeek/tabular'
   Plugin 'plasticboy/vim-markdown'
+  "Plugin 'tpope/vim-markdown'
+  "Plugin 'gabrielelana/vim-markdown'
+  Plugin 'majutsushi/tagbar'
 
 call vundle#end()
 filetype plugin indent on
 "filetype plugin on
 
+let g:rehash256 = 0
+let g:molokai_original = 0
 colorscheme molokai
 
 "highlight LiteralTabs ctermbg=darkgreen guibg=darkgreen
@@ -91,7 +97,6 @@ colorscheme molokai
 
 set ruler
 set laststatus=2
-set guifont=Inconsolata\ for\ Powerline
 
 "reindent file
 map <F7> mzgg=G`z<CR>
@@ -106,6 +111,8 @@ let g:airline_powerline_fonts = 1
 let g:airline_theme='badwolf'
 let g:airline#extensions#tabline#enabled = 1
 
+let g:syntastic_python_chekers = ['flake8']
+let g:syntastic_tex_checkers = ['chktex']
 "rainbow_parentheses
 "au VimEnter * RainbowParenthesesToggle
 
@@ -124,3 +131,10 @@ autocmd Filetype lua setlocal ts=4 sts=4 sw=4
 let &colorcolumn="80,".join(range(120,999),",")
 
 map <C-n> :NERDTreeToggle<CR>
+
+" gui options
+set guioptions-=m  "remove menu bar
+set guioptions-=T  "remove toolbar
+set guioptions-=r  "remove right-hand scroll bar
+set guioptions-=L  "remove left-hand scroll bar
+set guifont=Hermit\ 9
