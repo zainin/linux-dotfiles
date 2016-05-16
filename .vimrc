@@ -36,10 +36,12 @@ set nocompatible
 set title
 let &titleold='urxvt'
 
+"spaces instead of tabs
 set expandtab
 "tab width
 set softtabstop=2
 set tabstop=2
+"reindent shift
 set shiftwidth=2
 
 "visual autocomplete for vim commands
@@ -51,35 +53,28 @@ set lazyredraw
 "keep some context near cursor
 set scrolloff=5
 
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-  Plugin 'gmarik/Vundle.vim'
-  Plugin 'bling/vim-airline'
-  Plugin 'vim-airline/vim-airline-themes'
-  Plugin 'Yggdroot/indentLine'
-"  Plugin 'nathanaelkane/vim-indent-guides'
-  Plugin 'scrooloose/syntastic'
-  Plugin 'Valloric/YouCompleteMe'
-"  Plugin 'kien/rainbow_parentheses.vim'
-"  Plugin 'luochen1990/rainbow'
-  Plugin 'matchit.zip'
-  Plugin 'zainin/vim-mikrotik'
-  Plugin 'ntpeters/vim-better-whitespace'
-  Plugin 'scrooloose/nerdtree'
-  Plugin 'godlygeek/tabular'
-  Plugin 'plasticboy/vim-markdown'
-  "Plugin 'tpope/vim-markdown'
-  "Plugin 'gabrielelana/vim-markdown'
-  Plugin 'majutsushi/tagbar'
-
-call vundle#end()
 filetype plugin indent on
 "filetype plugin on
 
+call plug#begin('~/.vim/plugged')
+  Plug 'bling/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+  Plug 'Yggdroot/indentLine'
+  Plug 'scrooloose/syntastic'
+  Plug 'Valloric/YouCompleteMe'
+"  Plug 'scrooloose/nerdtree'
+  Plug 'godlygeek/tabular'
+  Plug 'plasticboy/vim-markdown'
+  Plug 'vim-scripts/matchit.zip'
+  Plug 'ntpeters/vim-better-whitespace'
+  Plug 'majutsushi/tagbar'
+  Plug 'jiangmiao/auto-pairs'
+  Plug 'alvan/vim-closetag'
+  Plug 'chrisbra/Colorizer'
+call plug#end()
+
 let g:rehash256 = 0
-let g:molokai_original = 0
+let g:molokai_original = 1
 colorscheme molokai
 
 "highlight LiteralTabs ctermbg=darkgreen guibg=darkgreen
@@ -106,12 +101,14 @@ map <F7> mzgg=G`z<CR>
 let g:indentLine_color_term = 239
 let g:indentLine_char = '│'
 
+let g:indentLine_color_term = 239
+
 "vim-airline config
 let g:airline_powerline_fonts = 1
 let g:airline_theme='badwolf'
 let g:airline#extensions#tabline#enabled = 1
 
-let g:syntastic_python_chekers = ['flake8']
+let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_tex_checkers = ['chktex']
 "rainbow_parentheses
 "au VimEnter * RainbowParenthesesToggle
@@ -131,6 +128,8 @@ autocmd Filetype lua setlocal ts=4 sts=4 sw=4
 let &colorcolumn="80,".join(range(120,999),",")
 
 map <C-n> :NERDTreeToggle<CR>
+map <C-t> :TagbarToggle<CR>
+map <C-e> :Errors<CR>
 
 " gui options
 set guioptions-=m  "remove menu bar
