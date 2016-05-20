@@ -10,32 +10,36 @@ if (string.len(tmp) >= 1) then
 end
 
 --- Pack the widget in a box
-function boxwidget(w, b, c, color)
-    b:set_widget(c)
-    b:set_bg(color)
-    w:set_widget(b)
-    w:set_margins(4)
-    return w
+function boxwidget(w, color)
+    local background = wibox.widget.background()
+    local margin = wibox.layout.margin()
+    background:set_widget(w)
+    background:set_bg(color)
+    margin:set_widget(background)
+    margin:set_margins(4)
+    return margin
 end
+
+--- Systray
+-- create a systray with smaller icons
+
+systray = wibox.layout.margin()
+systray:set_widget(wibox.widget.systray())
+systray:set_margins(4)
 
 --- Load widget
 -- 1 minute avg sys load
-loadwidget = wibox.layout.margin()
-local u_background, u_content = wibox.widget.background(),
-                                wibox.widget.textbox()
-local u_content = wibox.widget.textbox()
-vicious.register(u_content, vicious.widgets.uptime,
+local load_content = wibox.widget.textbox()
+vicious.register(load_content, vicious.widgets.uptime,
                 "<span color='#080808'><span font='FontAwesome 9'>  </span>$4 </span>")
-loadwidget = boxwidget(loadwidget, u_background, u_content, '#94738c')
+loadwidget = boxwidget(load_content, '#94738c')
 
 
 --- Internet widget
 -- enable caching
 vicious.cache(vicious.widgets.net)
 
-netdownwidget = wibox.layout.margin()
-local ndown_background, ndown_content = wibox.widget.background(),
-                                        wibox.widget.textbox()
+local ndown_content = wibox.widget.textbox()
 -- laptop and PC have different interface names, plus wifi
 vicious.register(ndown_content, vicious.widgets.net,
     function (widget, args)
@@ -49,11 +53,9 @@ vicious.register(ndown_content, vicious.widgets.net,
                         .. "MB/s </span>"
             end
     end, 1)
-netdownwidget = boxwidget(netdownwidget, ndown_background, ndown_content, '#ce5666')
+netdownwidget = boxwidget(ndown_content, '#ce5666')
 
-netupwidget = wibox.layout.margin()
-local nup_background, nup_content = wibox.widget.background(),
-                                    wibox.widget.textbox()
+local nup_content = wibox.widget.textbox()
 -- like with the previous one, laptop and pc
 vicious.register(nup_content, vicious.widgets.net,
     function (widget, args)
@@ -67,23 +69,19 @@ vicious.register(nup_content, vicious.widgets.net,
                         .. "MB/s </span>"
             end
     end, 1)
-netupwidget = boxwidget(netupwidget, nup_background, nup_content, '#87af5f')
+netupwidget = boxwidget(nup_content, '#87af5f')
 
 --- RAM widget
 
-memwidget = wibox.layout.margin()
-local m_background, m_content = wibox.widget.background(),
-                                wibox.widget.textbox()
+local m_content = wibox.widget.textbox()
 vicious.register(m_content, vicious.widgets.mem,
                 "<span color='#080808'><span font='FontAwesome 9'> </span> $1% </span>")
-memwidget = boxwidget(memwidget, m_background, m_content, '#7788af')
+memwidget = boxwidget(m_content, '#7788af')
 
 --- Battery widget
 
 if isLAPTOP then
-    batwidget = wibox.layout.margin()
-    local b_background, b_content = wibox.widget.background(),
-                                    wibox.widget.textbox()
+    local b_content = wibox.widget.textbox()
     local cc = '#ce5666'
     vicious.register(b_content, vicious.widgets.bat,
         function (widget, x)
@@ -99,7 +97,7 @@ if isLAPTOP then
                 end
             end
         end, 10, "BAT0")
-    batwidget = boxwidget(batwidget, b_background, b_content, cc)
+    batwidget = boxwidget(b_content, cc)
 
     --{{ ugly hack for color background change, based on battery capacity
     local bat_aux = wibox.widget.textbox()
@@ -111,11 +109,11 @@ if isLAPTOP then
                     else
                         cc = '#5151ca'
                     end
-                    batwidget = boxwidget(batwidget, b_background, b_content, cc)
+                    batwidget = boxwidget(b_content, cc)
                     return ""
                 else
                     cc = '#6dd900'
-                    batwidget = boxwidget(batwidget, b_background, b_content, cc)
+                    batwidget = boxwidget(b_content, cc)
                     return ""
                 end
             end, 10, "BAT0")
@@ -124,9 +122,7 @@ end
 
 --- FS widget
 
-fswidget = wibox.layout.margin()
-local fs_background, fs_content = wibox.widget.background(),
-                                  wibox.widget.textbox()
+local fs_content = wibox.widget.textbox()
 -- different mounts on laptop and PC
 vicious.register(fs_content, vicious.widgets.fs,
     function (widget, args)
@@ -141,18 +137,16 @@ vicious.register(fs_content, vicious.widgets.fs,
                     .. args["{/media/storage-ext used_p}"] .. "% </span> "
         end
     end, 10)
-fswidget = boxwidget(fswidget, fs_background, fs_content, '#9c6523')
+fswidget = boxwidget(fs_content, '#9c6523')
 
 --- Clock widget
 
-clockwidget = wibox.layout.margin()
-local c_background, c_content = wibox.widget.background(),
-                                wibox.widget.textbox()
+local c_content = wibox.widget.textbox()
 vicious.register(c_content, vicious.widgets.date,
                 "<span color='#080808'><span font='FontAwesome 9'>  </span>%a %d/%m/%y %R </span>")
-clockwidget = boxwidget(clockwidget, c_background, c_content, '#9999aa')
+clockwidget = boxwidget(c_content, '#9999aa')
 
 -- clicking the clock toggles a calander
 clockwidget:connect_signal("button::press", function()
-       awful.util.spawn_with_shell("gsimplecal")
+       awful.spawn.with_shell("gsimplecal")
     end)

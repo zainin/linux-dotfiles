@@ -163,11 +163,6 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- Create a textclock widget
 --mytextclock = awful.widget.textclock()
 
--- create a systray with smaller icons
-local systray = wibox.widget.systray()
-local systray_margin = wibox.layout.margin()
-systray_margin:set_margins(5)
-systray_margin:set_widget(systray)
 
 -- Create a wibox for each screen and add it
 mywibox = {}
