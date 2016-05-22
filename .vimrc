@@ -14,6 +14,13 @@ set smartcase
 "search as you type
 set incsearch
 
+"mark wrapped lines
+let &showbreak='↳ '
+set cpoptions+=n
+
+"auto change working directory
+set autochdir
+
 "line numbers in column
 set number
 
@@ -27,9 +34,6 @@ set foldnestmax=10
 set foldmethod=indent
 "fold with space!
 nnoremap <space> za
-
-"get rid of those pesky trailing whitespaces
-nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 
 set autoindent
 set nocompatible
@@ -57,7 +61,7 @@ filetype plugin indent on
 "filetype plugin on
 
 call plug#begin('~/.vim/plugged')
-  Plug 'bling/vim-airline'
+  Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
   Plug 'Yggdroot/indentLine'
   Plug 'scrooloose/syntastic'
@@ -71,24 +75,14 @@ call plug#begin('~/.vim/plugged')
   Plug 'jiangmiao/auto-pairs'
   Plug 'alvan/vim-closetag'
   Plug 'chrisbra/Colorizer'
+  Plug 'luochen1990/rainbow'
+  Plug 'tpope/vim-fugitive'
 call plug#end()
 
-let g:rehash256 = 0
+"let g:rehash256 = 0
 let g:molokai_original = 1
 colorscheme molokai
-
-"highlight LiteralTabs ctermbg=darkgreen guibg=darkgreen
-"match LiteralTabs /\s\	/
-"highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
-"match ExtraWhitespace /\s\+$/
-"match ExtraWhitespace /\s\+\%#\@<!$/
-"au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-"au InsertLeave * match ExtraWhitespace /\s\+$/
-
-"highlight OverLength ctermfg=red
-"match OverLength /\%81v.\+/
-
-"highlight comment ctermfg=cyan
+hi Normal ctermbg=None
 
 set ruler
 set laststatus=2
@@ -101,37 +95,39 @@ map <F7> mzgg=G`z<CR>
 let g:indentLine_color_term = 239
 let g:indentLine_char = '│'
 
-let g:indentLine_color_term = 239
-
 "vim-airline config
 let g:airline_powerline_fonts = 1
-let g:airline_theme='badwolf'
+let g:airline_theme = 'badwolf'
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
 
+let g:syntastic_check_on_open = 1
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_tex_checkers = ['chktex']
-"rainbow_parentheses
-"au VimEnter * RainbowParenthesesToggle
+let g:syntastic_error_symbol = '✗'
 
-" Allow saving of files as sudo when I forgot to start vim using sudo.
+"enable rainbow_parentheses
+let g:rainbow_active = 1
+
+"Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
-autocmd Filetype lua setlocal ts=4 sts=4 sw=4
-
-"let g:indent_guides_auto_colors = 0
-":hi IndentGuidesOdd ctermbg=236
-":hi IndentGuidesEven ctermbg=240
-"let g:indent_guides_start_level=2
-"let g:indent_guides_guide_size=1
-"let g:rainbow_active = 1
+"autocmd Filetype lua setlocal ts=4 sts=4 sw=4
 
 " terminal width warning
-let &colorcolumn="80,".join(range(120,999),",")
+let &colorcolumn="80,80"
 
-map <C-n> :NERDTreeToggle<CR>
+"plugin specific keypams
+"toggle Tagbar
 map <C-t> :TagbarToggle<CR>
+"toggle Syntastic errors
 map <C-e> :Errors<CR>
+"get rid of those pesky trailing whitespaces with 'vim-better-whitespace'
+nnoremap <silent> <F5> :StripWhitespace<CR>
+"toggle Colorizer plugin
+nnoremap <leader>c :ColorToggle<CR>
 
-" gui options
+"gui options
 set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scroll bar
