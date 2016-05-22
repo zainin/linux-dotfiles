@@ -22,6 +22,7 @@ TO_BACKUP=(
   $HOME"/.config/tint2/tint2rc"
   $HOME"/.config/compton.conf"
   $HOME"/.config/termite/"
+  $HOME"/.fonts/binfont.ttf"
   $HOME"/.scripts/"
   $HOME"/.mpv/input.conf"
   $HOME"/.mpv/config"

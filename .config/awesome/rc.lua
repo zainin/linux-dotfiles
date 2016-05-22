@@ -13,9 +13,6 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 
--- dynamic tagging
-local eminent = require("eminent")
-
 -- scratchpad
 local scratch = require("scratch")
 
@@ -59,7 +56,7 @@ themes = confdir .. "/themes"
 dofile(confdir .. "/helpers.lua")
 
 -- Themes define colours, icons, and wallpapers
-active_theme = "rv1"
+active_theme = "rv2"
 beautiful.init(themes .. "/" .. active_theme .. "/theme.lua")
 beautiful.useless_gap = 5
 
@@ -119,7 +116,8 @@ end
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-        names   = { "一", "二", "三", "四", "五" },
+        --names   = { "一", "二", "三", "四", "五" },
+        names   = { "", "", "", "", "" },
         layout  = { awful.layout.layouts[3], awful.layout.layouts[2], awful.layout.layouts[2], awful.layout.layouts[2], awful.layout.layouts[1] }
 }
 --theme.taglist_font = "IPAPGothic 9"
@@ -224,7 +222,8 @@ awful.screen.connect_for_each_screen(function(s)
                            awful.button({ }, 4, function () awful.layout.inc( 1) end),
                            awful.button({ }, 5, function () awful.layout.inc(-1) end)))
     -- Create a taglist widget
-    mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
+    --mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
+    mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.noempty, mytaglist.buttons)
 
     -- Create a tasklist widget
     mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
@@ -246,7 +245,7 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
             --wibox.widget.systray(),
-            systray_margin,
+            systray(s),
             netdownwidget,
             netupwidget,
             loadwidget,
@@ -255,7 +254,8 @@ awful.screen.connect_for_each_screen(function(s)
             batwidget, -- it won't exist if laptop check in widgets.lua fails
             clockwidget,
             --mytextclock,
-            mylayoutbox[s],
+            --mylayoutbox[s],
+            underline_box(mylayoutbox[s]),
         },
     }
 end)
@@ -430,7 +430,7 @@ globalkeys = awful.util.table.join(
     -- [[ Screenshot
     awful.key({}, "Print", function () awful.spawn.with_shell(take_screenshot) end),
     --FIXME
-    awful.key({}, "F12", function () scratch.drop("termite -e 'vim -p /home/zainin/notes/*'", "top", "right", 0.6, 0.5) end)
+    awful.key({}, "F12", function () scratch.drop("notes", "top", "right", 0.6, 0.5) end)
 )
 
 clientkeys = awful.util.table.join(
