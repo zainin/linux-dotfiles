@@ -15,6 +15,7 @@ TO_BACKUP=(
   $HOME"/.config/awesome/widgets.lua"
   $HOME"/.config/awesome/helpers.lua"
   $HOME"/.config/awesome/themes/rv1/"
+  $HOME"/.config/awesome/themes/rv2/"
   $HOME"/.config/bspwm/bspwmrc"
   $HOME"/.config/sxhkd/sxhkdrc"
   $HOME"/.config/gtk-3.0/"
