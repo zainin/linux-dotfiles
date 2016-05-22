@@ -22,7 +22,7 @@ cursor_blink = system
 cursor_shape = ibeam
 
 # $BROWSER is used by default
-browser = firefox-dev
+browser = firefox-developer
 
 # set size hints for the window
 #size_hints = false
@@ -40,7 +40,7 @@ foreground_bold = #ffffff
 # if unset, will reverse foreground and background
 highlight = #2f2f2f
 
-color0   = #101010
+color0   = #17191a
 color1   = #960050
 color2   = #66aa11
 color3   = #c47f2c
