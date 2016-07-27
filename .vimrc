@@ -38,7 +38,6 @@ nnoremap <space> za
 set autoindent
 set nocompatible
 set title
-let &titleold='urxvt'
 
 "spaces instead of tabs
 set expandtab
@@ -77,6 +76,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'chrisbra/Colorizer'
   Plug 'luochen1990/rainbow'
   Plug 'tpope/vim-fugitive'
+  Plug 'Glench/Vim-Jinja2-Syntax'
 call plug#end()
 
 "let g:rehash256 = 0
@@ -105,6 +105,7 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:syntastic_check_on_open = 1
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_tex_checkers = ['chktex']
+let g:syntastic_javascript_checkers = ['jshint']
 let g:syntastic_error_symbol = '✗'
 
 "enable rainbow_parentheses
