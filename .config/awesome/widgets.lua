@@ -45,14 +45,20 @@ function underline(w, ucolor)
     bg:set_bg(theme.bg_normal)
     local margin = wibox.layout.margin()
     margin:set_widget(bg)
-    margin:set_bottom(2)
+    margin:set_bottom(1)
     local bg2 = wibox.widget.background()
     bg2:set_widget(margin)
     bg2:set_bg(ucolor)
+    local margin2 = wibox.layout.margin()
+    margin2:set_widget(bg2)
+    margin2:set_bottom(2)
 
-    return bg2
+    return margin2
 end
 
+--- seperator
+separator = wibox.widget.textbox()
+separator:set_text(" ")
 --- Systray
 -- create a systray with smaller icons
 

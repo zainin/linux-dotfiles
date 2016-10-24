@@ -7,7 +7,7 @@ theme.confdir = os.getenv("HOME") .. "/.config/awesome/themes/rv2"
 
 --== Fonts
 theme.font          = "Roboto Mono 9"
-theme.tasklist_font = "Cantarell 9"
+theme.tasklist_font = "Roboto 8.5"
 theme.taglist_font  = "binfont 13"
 
 --== Colors
