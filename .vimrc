@@ -10,6 +10,7 @@ nnoremap <leader><space> :nohlsearch<CR>
 "ignore search case
 set ignorecase
 "but not if you search for uppercase
+"
 set smartcase
 "search as you type
 set incsearch
@@ -69,7 +70,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'godlygeek/tabular'
   Plug 'plasticboy/vim-markdown'
   Plug 'vim-scripts/matchit.zip'
-  Plug 'ntpeters/vim-better-whitespace'
+"  Plug 'ntpeters/vim-better-whitespace'
   Plug 'majutsushi/tagbar'
   Plug 'jiangmiao/auto-pairs'
   Plug 'alvan/vim-closetag'
@@ -77,6 +78,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'luochen1990/rainbow'
   Plug 'tpope/vim-fugitive'
   Plug 'Glench/Vim-Jinja2-Syntax'
+  Plug 'zainin/vim-mikrotik'
+  Plug 'hashivim/vim-terraform'
 call plug#end()
 
 "let g:rehash256 = 0
@@ -93,7 +96,9 @@ map <F7> mzgg=G`z<CR>
 "indentLine config
 "︙ │ ┆
 let g:indentLine_color_term = 239
-let g:indentLine_char = '│'
+let g:indentLine_char = '┆'
+" fix json files
+autocmd Filetype json let g:indentLine_enabled = 0
 
 "vim-airline config
 let g:airline_powerline_fonts = 1
@@ -133,4 +138,9 @@ set guioptions-=m  "remove menu bar
 set guioptions-=T  "remove toolbar
 set guioptions-=r  "remove right-hand scroll bar
 set guioptions-=L  "remove left-hand scroll bar
-set guifont=Hermit\ 9
+set guifont=Hermit\ 11
+
+" remember last poisition
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
